@@ -1,0 +1,10 @@
+{% extends 'layouts/main.twig' %}
+{% block title %}Cart{% endblock %}
+{% block content %}
+    <cart-page ref="cartPage"></cart-page>
+{% endblock %}
+{% block script %}
+    <script>
+        window.countries = {{ countries|json_encode()|raw }};
+    </script>
+{% endblock %}

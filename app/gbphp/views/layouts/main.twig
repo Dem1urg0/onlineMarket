@@ -1,0 +1,144 @@
+{% block script %}
+{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="icon" type="image/png" href="/style/img/logo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/style/style.css">
+</head>
+<body>
+<div id="app">
+    <header class="header">
+        <div class="container header__content">
+            <div class="header__left">
+                <a href="/home" class="logo">
+                    <img class="logo__img" src="/style/img/logo.png" alt="logo"> <span
+                            class="logo__bran">BRAN</span><span
+                            class="logo__bran-d">D</span>
+                </a>
+                <filter-el ref="filter"></filter-el>
+            </div>
+            <div class="header__right">
+                <drop-cart ref="dropCart"></drop-cart>
+                <account ref="account" :current-user="{{ currentUser | json_encode }}"></account>
+            </div>
+        </div>
+    </header>
+    <nav>
+        <div class="container">
+            <drop-def ref="drop-def"
+                      :categories="{{ goodsCategories | json_encode }}"
+                      :brands="{{ goodsBrands | json_encode }}"
+                      :designers="{{ goodsDesigners | json_encode }}"></drop-def>
+        </div>
+    </nav>
+    {% block content %}
+    {% endblock %}
+    <div class="subscribe__block">
+        <div class="subscribe__content container">
+            <div class="quote">
+                <img src="/style/img/face.jpg" alt="face">
+                <div class="quote__content">
+                    <p class="quote__text">“Vestibulum quis porttitor dui! Quisque viverra nunc mi,
+                        a pulvinar purus condimentum a. Aliquam condimentum mattis neque sed pretium”</p>
+                    <p class="quote__name">Bin Burhan <br>
+                        <span>Dhaka, Bd</span></p>
+                </div>
+            </div>
+            <div class="subscribe">
+                <h1 class="subscribe__h1">Subscribe</h1>
+                <h2 class="subscribe__h2">FOR OUR NEWLETTER AND PROMOTION</h2>
+                <form>
+                    <input type="text" class="subscribe__input" placeholder="Enter Your Email">
+                    <button class="subscribe__button">Subscribe</button>
+                </form>
+            </div>
+            <div class="crl">
+            </div>
+        </div>
+    </div>
+    <div class="clr"></div>
+    <footer class="footer">
+        <div class="footer_content container">
+            <div class="description">
+                <a href="/home" class="logo">
+                    <img class="logo__img" src="/style/img/logo.png" alt="logo"> <span
+                            class="logo__bran">BRAN</span><span
+                            class="logo__bran-d">D</span>
+                </a>
+                <p class="description__text">
+                    Objectively transition extensive data rather than cross functional solutions.
+                    Monotonectally syndicate multidisciplinary materials before go forward benefits. Intrinsicly
+                    syndicate
+                    an
+                    expanded array of processes and cross-unit partnerships.<br>
+                    <br>
+                    Efficiently plagiarize 24/365 action items and focused infomediaries.
+                    Distinctively seize superior initiatives for wireless technologies. Dynamically optimize.
+            </div>
+            <div class="company">
+                <h3 class="company_h3">COMPANY</h3>
+                <lu class="footer_lu">
+                    <li><a href="/home">Home</a></li>
+                    <li><a href="/good/all">Shop</a></li>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">How it Works</a></li>
+                    <li><a href="#">Contact</a></li>
+                </lu>
+            </div>
+            <div class="information">
+                <h3 class="information_h3">INFORMATION</h3>
+                <lu class="footer_lu">
+                    <li><a href="#">Tearms & Condition</a></li>
+                    <li><a href="#">Privacy Police</a></li>
+                    <li><a href="#">How to Buy</a></li>
+                    <li><a href="#">How to Sell</a></li>
+                    <li><a href="#">Promotion</a></li>
+                </lu>
+            </div>
+            <div class="shop_category">
+                <h3 class="shop_category_h3">SHOP CATEGORY</h3>
+                <lu class="footer_lu">
+                    <li><a href="/good/all?gender=man">Men</a></li>
+                    <li><a href="/good/all?gender=woman">Women</a></li>
+                    <li><a href="/good/all?gender=unisex">unisex</a></li>
+                    <li><a href="/good/all?category=Accessories">Accessories</a></li>
+                    <li><a href="/good/all">Brows All</a></li>
+                </lu>
+            </div>
+        </div>
+        <div class="bottom">
+            <div class="bottom__content container">
+                <p class="copyright">&copy;&nbsp;2017 Brand All Rights Reserved.</p>
+                <div class="share">
+                    <a class="share__none" href="https://www.facebook.com"><img src="/style/img/facebook.png"
+                                                         alt="facebook"></a>
+                    <a class="share__confirm" href="https://www.x.com"><img src="/style/img/twitter.png" alt="twitter"></a>
+                    <a class="share__none" href="https://www.instagram.com"><img src="/style/img/in.png" alt="in"></a>
+                    <a class="share__none" href="https://www.pinterest.com"><img src="/style/img/pint.png" alt="pint"></a>
+                    <a class="share__none" href="https://www.google.com"><img src="/style/img/google.png" alt="google"></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>
+</body>
+</html>
+<script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+<script src="/scripts/utils/pathUtils.js"></script>
+<script src="/scripts/utils/cartUtils.js"></script>
+<script src="/scripts/DropComp.js"></script>
+<script src="/scripts/ProdComp.js"></script>
+<script src="/scripts/CartComp.js"></script>
+<script src="/scripts/BilingComp.js"></script>
+<script src="/scripts/OrderComp.js"></script>
+<script src="/scripts/AuthComp.js"></script>
+<script src="/scripts/UserComp.js"></script>
+<script src="/scripts/EditComp.js"></script>
+<script src="/scripts/main.js"></script>
+

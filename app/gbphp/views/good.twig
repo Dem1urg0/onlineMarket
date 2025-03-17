@@ -1,0 +1,9 @@
+{% extends 'layouts/main.twig' %}
+{% block title %}{{ good.name }}{% endblock %}
+{% block content %}
+    <one-good  ref="oneGood" :good="{{ good | json_encode }}" :types-in-storage="{{ storage|json_encode() }}"></one-good>
+    <div class="recomend container">
+        <h1>you may like also</h1>
+        <prod-recom ref="prodRecom"></prod-recom>
+    </div>
+{% endblock %}

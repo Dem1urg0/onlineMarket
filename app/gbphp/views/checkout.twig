@@ -1,0 +1,7 @@
+{% extends 'layouts/main.twig' %}
+{% block title %}Check Out{% endblock %}
+{% block content %}
+    <billing-page ref="billingPage"
+                  :current-user="{{ currentUser | json_encode }}"
+                  :countries="{{ countries | json_encode }}"></billing-page>
+{% endblock %}

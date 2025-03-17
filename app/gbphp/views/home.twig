@@ -1,0 +1,96 @@
+{% extends 'layouts/main.twig' %}
+{% block title %}Home{% endblock %}
+{% block content %}
+    <div class="promo">
+        <div class="container promo__content">
+            <div class="promo__text">
+                <p class="promo__text_big">THE BRAND</p>
+                <p class="promo__text_mini">OF LUXERIOUS <span>FASHION</span></p>
+            </div>
+        </div>
+    </div>
+    <section class="offer container">
+        <div class="offer__content">
+            <a href="/good/all?gender=man">
+                <div class="offer__content__big offer1">
+                    <div class="offer__text">
+                        <p class="offer__text1">hOT dEAL</p>
+                        <p class="offer__text2">FOR MEN</p>
+                    </div>
+                </div>
+            </a>
+            <a href="/good/all?category=Accessories">
+                <div class="offer__content__mini offer2">
+                    <div class="offer__text">
+                        <p class="offer__text1">LUXIROUS & trendy</p>
+                        <p class="offer__text2">ACCESORIES</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="offer__content">
+            <a href="/good/all?gender=woman">
+                <div class="offer__content__mini offer3">
+                    <div class="offer__text">
+                        <p class="offer__text1">hOT dEAL</p>
+                        <p class="offer__text2">women</p>
+                    </div>
+                </div>
+            </a>
+            <a href="/good/all?gender=man">
+                <div class="offer__content__big offer4">
+                    <div class="offer__text">
+                        <p class="offer__text1">hOT dEAL</p>
+                        <p class="offer__text2">FOR MEN</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </section>
+    <section class="fetured container">
+        <div class="fetured__header">
+            <h1>Fetured Items</h1>
+            <p>Shop for items based on what we featured in this week</p>
+        </div>
+        <product ref="product"></product>
+        <div class="browse__all"><a href="/good/all">Browse All Product <img src="style/img/line-arrow.png"
+                                                                                 alt="line-arrow"></a></div>
+    </section>
+    <div class="offer_sale container">
+        <div class="offer_sale_box">
+            <h1 class="offer_sale__h1"><span class="offer_sale_30">30% <span
+                            class="offer_sale__span">OFFER</span></span>
+                <br>
+                FOR WOMEN</h1>
+        </div>
+        <div class="offer_sale__info">
+            <figure>
+                <img src="style/img/cur.svg" alt="cur">
+                <div class="offer_sale__info__text">
+                    <h1>Free Delivery</h1>
+                    <p1>Worldwide delivery on all. Authorit tively morph next-generation innov tion with extensive
+                        models.
+                    </p1>
+                </div>
+            </figure>
+            <figure>
+                <img src="style/img/sale.svg" alt="sale">
+                <div class="offer_sale__info__text">
+                    <h1>Sales & discounts</h1>
+                    <p1>Worldwide delivery on all. Authorit tively morph next-generation innov tion with extensive
+                        models.
+                    </p1>
+                </div>
+            </figure>
+            <figure>
+                <img src="style/img/crown.svg" alt="crown">
+                <div class="offer_sale__info__text">
+                    <h1>Quality assurance</h1>
+                    <p1>Worldwide delivery on all. Authorit tively morph next-generation innov tion with extensive
+                        models.
+                    </p1>
+                </div>
+            </figure>
+        </div>
+    </div>
+{% endblock %}

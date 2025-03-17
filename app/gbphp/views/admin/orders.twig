@@ -1,0 +1,5 @@
+{% extends '/admin/layouts/main.twig' %}
+{% block content %}
+    <order-page :orders="{{ orders | json_encode }}" :current-user="{{ currentUser | json_encode }}"></order-page>
+{% endblock %}
+

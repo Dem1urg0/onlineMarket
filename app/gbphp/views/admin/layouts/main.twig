@@ -1,0 +1,50 @@
+{% block script %}
+{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/style/style.css">
+</head>
+<body>
+<div id="app">
+    <header class="header">
+        <div class="container header__content">
+            <div class="header__left">
+                <a href="/home" class="logo">
+                    <img class="logo__img" src="/style/img/logo.png" alt="logo"> <span
+                            class="logo__bran">BRAN</span><span
+                            class="logo__bran-d">D</span>
+                </a>
+            </div>
+            <div class="header__right">
+                <account ref="account" :current-user="{{ currentUser | json_encode }}"></account>
+            </div>
+        </div>
+    </header>
+    <nav>
+        <div class="container">
+            <ul class="menu">
+                <li class="menu__list"><a href="/home" class="menu__link">Home</a></li>
+                    <li class="menu__list"><a href="/admin/users" class="menu__link">All users</a>
+                <li class="menu__list"><a href="/admin/orders" class="menu__link">All orders</a>
+            </ul>
+        </div>
+    </nav>
+    {% block content %}
+    {% endblock %}
+</div>
+</body>
+</html>
+<script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+<script src="/scripts/utils/pathUtils.js"></script>
+<script src="/scripts/DropComp.js"></script>
+<script src="/scripts/AuthComp.js"></script>
+<script src="/scripts/UserComp.js"></script>
+<script src="/scripts/UsersComp.js"></script>
+<script src="/scripts/OrderComp.js"></script>
+<script src="/scripts/main.js"></script>

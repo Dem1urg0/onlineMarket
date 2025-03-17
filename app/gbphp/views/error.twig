@@ -1,0 +1,14 @@
+{% extends 'layouts/main.twig' %}
+{% block title %}Error{% endblock %}
+{% block content %}
+    <div class="error-container">
+        <div class="error-box">
+            <div class="error-code">{{ code }}</div>
+            <div class="error-message">
+                {{ message }}
+            </div>
+            <div class="error-time">{{ "now"|date("Y-m-d H:i:s") }} UTC</div>
+            <a href="/home/" class="home-button">Back to Home</a>
+        </div>
+    </div>
+{% endblock %}

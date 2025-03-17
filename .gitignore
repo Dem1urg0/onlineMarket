@@ -1,0 +1,12 @@
+/configs/
+/logs/
+/php/
+/php-fpm/
+/docker-compose.yml
+/databases/
+/databases/mariadb/mysql/
+/databases/mariadb/performance_schema/
+/composer.lock
+/composer.json
+/app/vendor/
+databases/

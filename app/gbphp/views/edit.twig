@@ -1,0 +1,6 @@
+{% extends 'layouts/main.twig' %}
+{% block title %}Edit User{% endblock %}
+{% block content %}
+    <edit-page ref="editPage" :current-user="{{ currentUser | json_encode }}"
+               :user-data="{{ userData | json_encode }}"></edit-page>
+{% endblock %}
