@@ -4,24 +4,49 @@ namespace App\main;
 
 use App\traits\TSingleton;
 
+/**
+ * Класс приложения
+ */
 class App
 {
+    // Используем трейт синглтон
     use TSingleton;
 
+    /**
+     * Массив конфигурации
+     * @var array $config
+     */
     public $config = [];
+    /**
+     * Массив компонентов
+     * @var array $components
+     */
     private $components = [];
 
+    /**
+     * Метод получения экземпляра приложения
+     */
     static public function call(): App
     {
         return static::getInstance();
     }
 
+    /**
+     * Метод запуска приложения и установки конфигурации
+     * @param array $config
+     * @return void
+     */
     public function run(array $config)
     {
         $this->config = $config;
         $this->runController();
     }
 
+    /**
+     * Метод запуска контроллера
+     * Роутинг, формирование пути контроллера и вызов экшена
+     * @return void
+     */
     protected function runController()
     {
         $request = new \App\services\Request();
@@ -65,6 +90,12 @@ class App
         }
     }
 
+    /**
+     * Магический метод получения компонента
+     * Если компонент не создан, создаем его и записываем в массив компонентов, а также возвращаем его
+     * @param string $name - имя компонента
+     * @return mixed|object|null
+     */
     public function __get($name)
     {
         if (array_key_exists($name, $this->components)) {

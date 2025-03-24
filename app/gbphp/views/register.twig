@@ -1,6 +1,16 @@
+{#
+    Шаблон страницы "Регистрации"
+    Выводит станицу регистрации пользователя
+    Компоненты:
+        auth-form - форма регистрации
+    параметры:
+        action - действие формы (могут быть значения: register, login)
+#}
 {% extends 'layouts/main.twig' %}
+{# Заголовок страницы #}
 {% block title %}Register{% endblock %}
 {% block content %}
+    {# Подключение формы регистрации пользователя #}
     <auth-form ref='authForm' action="register"></auth-form>
 {% endblock %}
 

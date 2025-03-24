@@ -1,9 +1,24 @@
+{#
+    Шаблон страницы "Продукт"
+    Выводит страницу продукта
+    Компоненты:
+        one-good - компонент одного товара
+        prod-recom - компонент рекомендаций
+    параметры:
+        good - товар
+        storage - хранилище
+#}
 {% extends 'layouts/main.twig' %}
+{# Заголовок #}
 {% block title %}{{ good.name }}{% endblock %}
 {% block content %}
-    <one-good  ref="oneGood" :good="{{ good | json_encode }}" :types-in-storage="{{ storage|json_encode() }}"></one-good>
+    {# Подключение компонента страницы продуктв #}
+    <one-good  ref="oneGood"
+               :good="{{ good | json_encode }}"
+               :types-in-storage="{{ storage|json_encode() }}"></one-good>
     <div class="recomend container">
         <h1>you may like also</h1>
+        {# Подключение компонента рекомендации товаров #}
         <prod-recom ref="prodRecom"></prod-recom>
     </div>
 {% endblock %}

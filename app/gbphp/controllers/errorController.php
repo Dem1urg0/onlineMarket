@@ -2,14 +2,40 @@
 
 namespace App\controllers;
 
-use App\main\App;
-
+/**
+ * Контроллер ошибок
+ *
+ * Контроллер для обработки ошибок приложения.
+ *
+ * @package App\controllers
+ */
 class errorController extends Controller
 {
-    protected $defaultAction = 'error';
-    public $code = '404';
-    public $message = 'Not Found';
+    /**
+     * Действие по умолчанию
+     * @var string
+     */
+    protected string $defaultAction = 'error';
 
+    /**
+     * Код ошибки
+     * @var string
+     */
+    public $code = '404';
+
+    /**
+     * Сообщение об ошибке
+     * @var string
+     */
+    public string $message = 'Not Found';
+
+    /**
+     * Обработка ошибок
+     *
+     * @param string $action - Действие
+     * @param \Exception|null $e - Объект ошибки
+     * @return mixed
+     */
     public function run($action, $e = null)
     {
         if (!empty($e)){
@@ -19,6 +45,10 @@ class errorController extends Controller
         return parent::run($action);
     }
 
+    /**
+     * Рендеринг страницы ошибки
+     * @return string
+     */
     public function errorAction()
     {
         return $this->render(

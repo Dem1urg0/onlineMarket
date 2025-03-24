@@ -68,21 +68,8 @@ return [
         'CodeRepository' => [
             'class' => \App\Repositories\CodeRepository::class
         ],
-        'CodeService' => [
-            'class' => \App\Services\CodeService::class
-        ],
         'CodeValidator' => [
             'class' => \App\validators\CodeValidator::class
-        ],
-        //API
-        'apiService' => [
-            'class' => \App\services\api\apiService::class
-        ],
-        'apiUserService' => [
-            'class' => \App\services\api\apiUserService::class
-        ],
-        'apiAdminService' => [
-            'class' => \App\services\api\apiAdminService::class
         ],
         //User
         'User' => [

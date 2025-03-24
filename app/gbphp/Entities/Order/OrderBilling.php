@@ -3,10 +3,29 @@
 namespace App\Entities\Order;
 use App\Entities\Entity;
 
+/**
+ * Класс сущности Данных получателя заказа
+ */
 class OrderBilling extends Entity
 {
-    public $order_id;
-    public $first;
-    public $second;
+    /**
+     * Id заказа
+     * @var int $order_id
+     */
+    public int $order_id;
+    /**
+     * Имя
+     * @var string $first
+     */
+    public string $first;
+    /**
+     * Фамилия
+     * @var string $second
+     */
+    public string $second;
+    /**
+     * Отчество
+     * @var string $sur
+     */
     public $sur = NULL;
 }

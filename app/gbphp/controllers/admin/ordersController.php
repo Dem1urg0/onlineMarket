@@ -4,20 +4,28 @@ namespace App\controllers\admin;
 
 use App\main\App;
 
+/**
+ * Контроллер для работы с заказами администрации
+ */
 class ordersController extends controller
 {
-    protected $defaultAction = 'all';
+    /**
+     * Действие по умолчанию
+     * @var string
+     */
+    protected string $defaultAction = 'all';
 
+    /**
+     * Вывод всех заказов пользователей
+     * @return string
+     */
     public function allAction()
     {
-        $orders = App::call()->OrderRepository->getAllOrders();
-        $sortOrders = App::call()->OrderService->sortProductsInOrders($orders);
-        foreach ($sortOrders as $key => $order) {
-            $sortOrders[$key]['info'] = App::call()->OrderRepository->getOrderInfo($key);
-        }
+        $order = App::call()->OrderService->getOrders([]);
+
         return $this->render('/admin/orders',
             [
-                'orders' => $sortOrders,
+                'orders' => $order,
             ]);
     }
 }

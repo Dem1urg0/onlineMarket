@@ -1,6 +1,17 @@
+{#
+    Шаблон страницы "Изменение данных текущего пользователя"
+    Выводит старницу для изменения данных текущего пользователя
+    Компоненты:
+        edit-page - компонент страницы изменения данных пользователя
+    параметры:
+        currentUser - данные текущего пользователя
+        userData - данные пользователя для изменения
+#}
 {% extends 'layouts/main.twig' %}
+{# Заголовок страницы #}
 {% block title %}Edit User{% endblock %}
 {% block content %}
+    {# Подключение страницы редактирование данных пользователя #}
     <edit-page ref="editPage" :current-user="{{ currentUser | json_encode }}"
                :user-data="{{ userData | json_encode }}"></edit-page>
 {% endblock %}

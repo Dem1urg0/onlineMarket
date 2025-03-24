@@ -1,10 +1,15 @@
+{#
+    Шаблон страницы "Корзина"
+    Выводит корзину пользователя
+    Компоненты:
+        cart-page - компонент корзины
+    параметры:
+        countries - список стран (глоабльная переменная)
+#}
 {% extends 'layouts/main.twig' %}
+{# Добавление заголовка #}
 {% block title %}Cart{% endblock %}
 {% block content %}
-    <cart-page ref="cartPage"></cart-page>
-{% endblock %}
-{% block script %}
-    <script>
-        window.countries = {{ countries|json_encode()|raw }};
-    </script>
+    {# Подключение вывод корзины #}
+    <cart-page ref="cartPage" :countries-server={{ countries | json_encode }}></cart-page>
 {% endblock %}

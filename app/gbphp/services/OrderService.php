@@ -3,17 +3,40 @@
 namespace App\services;
 
 use App\main\App;
+use App\validators\CodeValidator;
+use App\validators\CountryValidator;
+use App\validators\OrderValidator;
 
+/**
+ * Класс сервиса для работы с заказами
+ */
 class OrderService
 {
-    private $orderStatuses = [
+    /**
+     * @var array|string[] $orderStatuses массив статусов заказа
+     */
+    private array $orderStatuses = [
         'created', 'in delivery', 'delivered'
     ];
 
-    protected $orderValidator;
-    protected $countryValidator;
-    protected $codeValidator;
+    /**
+     * @var OrderValidator|mixed|object|null $orderValidator объект валидатора заказа
+     */
+    protected OrderValidator $orderValidator;
 
+    /**
+     * @var CountryValidator|mixed|object|null $countryValidator объект валидатора страны
+     */
+    protected CountryValidator $countryValidator;
+
+    /**
+     * @var CodeValidator|mixed|object|null $codeValidator объект валидатора кода
+     */
+    protected CodeValidator $codeValidator;
+
+    /**
+     * Конструктор сервиса
+     */
     public function __construct()
     {
         $this->orderValidator = App::call()->OrderValidator;
@@ -21,6 +44,12 @@ class OrderService
         $this->codeValidator = App::call()->CodeValidator;
     }
 
+    /**
+     * Отправка заказа
+     * @param $params - параметры заказа
+     * @return array - результат выполнения метода
+     * @throws \App\Exceptions\apiException
+     */
     public function orderFill($params)
     {
         $this->orderValidator->checkEmpty($params['cart'], true);
@@ -85,6 +114,11 @@ class OrderService
         ];
     }
 
+    /**
+     * Сортировка продуктов в заказы
+     * @param $orders - заказы
+     * @return array
+     */
     public function sortProductsInOrders($orders)
     {
         $this->orderValidator->checkEmpty($orders, true);
@@ -113,6 +147,42 @@ class OrderService
         return $orderSort;
     }
 
+    /**
+     * Получение заказа / заказов
+     * @param $params - параметры
+     * @param $isApi - флаг для API
+     * @return array
+     */
+    public function getOrders($params, $isApi = false)
+    {
+        if (empty($params['id'])) {
+            $this->checkAdmin();
+            $orders = App::call()->OrderRepository->getAllOrders();
+        } else {
+            $orders = App::call()->OrderRepository->getOrdersByUserId($params['id']);
+        }
+
+        $sortOrders = $this->sortProductsInOrders($orders);
+
+        foreach ($sortOrders as $key => $order) {
+            $sortOrders[$key]['info'] = App::call()->OrderRepository->getOrderInfo($key);
+        }
+
+        if ($isApi) {
+            return [
+                'data' => $sortOrders,
+                'code' => 200,
+                'success' => true,
+            ];
+        }
+        return $sortOrders;
+    }
+
+    /**
+     * Удаление заказа
+     * @param $params - параметры
+     * @return array
+     */
     public function deleteOrder($params)
     {
         $this->orderValidator->validateOrderAccess($params['user_id'], $params['order_id'], true);
@@ -129,6 +199,11 @@ class OrderService
 
     }
 
+    /**
+     * Изменение статуса заказа
+     * @param $params - параметры
+     * @return array
+     */
     public function changeOrderStatus($params)
     {
         $this->orderValidator->checkEmpty($params['order_id'], true);
@@ -157,76 +232,156 @@ class OrderService
         ];
     }
 
+    /**
+     * Проверка на админа
+     */
+    protected function checkAdmin()
+    {
+        App::call()->RoleMiddleware->checkAdmin();
+    }
+
+    /**
+     * Получение заказа по id
+     * @param $id - id заказа
+     * @return mixed
+     */
     protected function getOrderById($id)
     {
         return App::call()->OrderRepository->getOne($id);
     }
 
+    /**
+     * Получение объекта сущности заказа
+     * @return mixed|object|null - объект заказа
+     */
     protected function getOrderObj()
     {
         return App::call()->Order;
     }
 
+    /**
+     * Получение объекта сущности продукта в заказе
+     * @return mixed|object|null - объект продукта в заказе
+     */
     protected function getOrderItemObj()
     {
         return App::call()->OrderItem;
     }
 
+    /**
+     * Получение объекта сущности информации о заказе
+     * @return mixed|object|null - объект сущности информации о заказе
+     */
     protected function getOrderInfoObj()
     {
         return App::call()->OrderInfo;
     }
 
+    /**
+     * Получение объекта сущности биллинга
+     * @return mixed|object|null - объект сущности биллинга
+     */
     protected function getOrderBillingObj()
     {
         return App::call()->OrderBilling;
     }
 
+    /**
+     * Получение объекта сущности адреса
+     * @return mixed|object|null - объект сущности адреса
+     */
     protected function getOrderAddressObj()
     {
         return App::call()->OrderAddress;
     }
 
+    /**
+     * Сохранение заказа в таблицу заказов
+     * @param $order - заказ
+     * @return mixed
+     */
     protected function saveOrder($order)
     {
         return App::call()->OrderRepository->save($order);
     }
 
+    /**
+     * Сохранение продукта в заказе в таблицу товаров в заказе
+     * @param $orderItem - продукт в заказе
+     * @return mixed
+     */
     protected function saveOrderItem($orderItem)
     {
         return App::call()->OrderItemRepository->save($orderItem);
     }
 
+    /**
+     * Сохранение биллинга в таблицу биллинга
+     * @param $orderBilling - биллинг
+     * @return mixed
+     */
     protected function saveOrderBilling($orderBilling)
     {
         return App::call()->OrderBillingRepository->save($orderBilling);
     }
 
+    /**
+     * Сохранение адреса в таблицу адресов
+     * @param $orderAddress - адрес
+     * @return mixed
+     */
     protected function saveOrderAddress($orderAddress)
     {
         return App::call()->OrderAddressRepository->save($orderAddress);
     }
 
+    /**
+     * Сохранение информации о заказе в таблицу информации о заказе
+     * @param $orderInfo - информация о заказе
+     * @return mixed
+     */
     protected function saveOrderInfo($orderInfo)
     {
         return App::call()->OrderInfoRepository->save($orderInfo);
     }
 
+    /**
+     * Установка параметра в сессию
+     * @param $name - имя параметра
+     * @param $value - значение параметра
+     * @return mixed
+     */
     protected function sessionSet($name, $value)
     {
         return App::call()->Request->sessionSet($name, $value);
     }
 
+    /**
+     * Получение параметра из сессии
+     * @param $name - имя параметра
+     * @return mixed
+     */
     protected function sessionGet($name)
     {
         return App::call()->Request->sessionGet($name);
     }
 
+    /**
+     * Удаление заказа из таблицы заказов
+     * @param $id - id заказа
+     * @return mixed
+     */
     protected function deleteOrderFromDB($id)
     {
         return App::call()->OrderRepository->deleteOrder($id);
     }
 
+    /**
+     * Изменение статуса заказа
+     * @param $id - id заказа
+     * @param $status - статус
+     * @return mixed
+     */
     protected function changeOrderStatusInDB($id, $status)
     {
         return App::call()->OrderRepository->changeOrderStatus($id, $status);

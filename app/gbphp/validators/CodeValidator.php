@@ -4,10 +4,20 @@ namespace App\validators;
 
 use App\Exceptions\apiException;
 use App\main\App;
-use App\validators\Validator;
 
+/**
+ * Валидатор промокода
+ */
 class CodeValidator extends Validator
 {
+    /**
+     * Проверка промокода
+     * @param $code - код
+     * @param $country - страна
+     * @param $isApi - флаг API
+     * @return mixed
+     * @throws apiException
+     */
     public function validateCode($code,$country, $isApi = false)
     {
         $this->checkEmpty($code, $isApi);

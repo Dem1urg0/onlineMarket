@@ -9,10 +9,20 @@ use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
 use Twig\Loader\FilesystemLoader;
 
+/**
+ * Класс рендера шаблонов Twig
+ */
 class TwigRender implements IRender
 {
+    /**
+     * Экземпляр Twig
+     * @var Environment Twig
+     */
     protected $twig;
 
+    /**
+     * Конструктор
+     */
     public function __construct()
     {
         $loader = new FilesystemLoader([
@@ -24,25 +34,47 @@ class TwigRender implements IRender
         $this->initGlobal();
     }
 
+    /**
+     * Метод рендера шаблона
+     * @param $template - имя шаблона
+     * @param $params - параметры для шаблона
+     * @return string
+     */
     public function render($template, $params = [])
     {
         $template .= '.twig';
         try {
             return $this->twig->render($template, $params);
         } catch (LoaderError $e) {
+            // Handle template not found
+            error_log("Template loading error: " . $e->getMessage());
+            return "Error: Template '$template' not found.";
         } catch (RuntimeError $e) {
+            // Handle runtime errors
+            error_log("Template runtime error: " . $e->getMessage());
+            return "Error rendering template: " . $e->getMessage();
         } catch (SyntaxError $e) {
+            // Handle syntax errors in template
+            error_log("Template syntax error: " . $e->getMessage());
+            return "Error in template syntax: " . $e->getMessage();
         }
     }
 
+    /**
+     * Инициализация глобальных переменных
+     */
     protected function initGlobal()
     {
         $this->addUserToGlobal();
         $this->addGoodCategoriesToGlobal();
         $this->addGoodDesignersToGlobal();
         $this->addGoodBrandsToGlobal();
+        $this->addCountriesToGlobal();
     }
 
+    /**
+     * Добавление текущего пользователя в глобальные переменные
+     */
     protected function addUserToGlobal()
     {
         $currentUser = App::call()->Request->sessionGet('user');
@@ -54,6 +86,9 @@ class TwigRender implements IRender
         $this->twig->addGlobal('currentUser', $currentUser);
     }
 
+    /**
+     * Добавление категорий товаров в глобальные переменные
+     */
     protected function addGoodCategoriesToGlobal()
     {
         $categories = App::call()->GoodCategoryRepository->getAll();
@@ -61,6 +96,9 @@ class TwigRender implements IRender
         $this->twig->addGlobal('goodsCategories', $categories);
     }
 
+    /**
+     * Добавление дизайнеров товаров в глобальные переменные
+     */
     protected function addGoodDesignersToGlobal()
     {
         $designers = App::call()->GoodDesignerRepository->getAll();
@@ -68,10 +106,23 @@ class TwigRender implements IRender
         $this->twig->addGlobal('goodsDesigners', $designers);
     }
 
+    /**
+     * Добавление брендов товаров в глобальные переменные
+     */
     protected function addGoodBrandsToGlobal()
     {
         $brands = App::call()->GoodBrandRepository->getAll();
 
         $this->twig->addGlobal('goodsBrands', $brands);
+    }
+
+    /**
+     * Добавление стран в глобальные переменные
+     */
+    protected function addCountriesToGlobal()
+    {
+        $countries = App::call()->CountryRepository->getAll();
+
+        $this->twig->addGlobal('countries', $countries);
     }
 }

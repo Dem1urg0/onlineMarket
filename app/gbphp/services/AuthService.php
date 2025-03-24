@@ -3,16 +3,32 @@
 namespace App\services;
 
 use App\main\App;
+use App\validators\UserValidator;
 
+/**
+ * Класс сервиса авторизации
+ */
 class AuthService
 {
-    protected $userValidator;
+    /**
+     * Экземпляр валидатора пользователя
+     * @var UserValidator|mixed|object|null $userValidator
+     */
+    protected UserValidator $userValidator;
 
+    /**
+     * Конструктор класса
+     */
     public function __construct()
     {
         $this->userValidator = App::call()->UserValidator;
     }
 
+    /**
+     * Метод авторизации
+     * @param array $params - массив с данными пользователя
+     * @return array
+     */
     public function auth($params)
     {
 
@@ -45,6 +61,11 @@ class AuthService
         ];
     }
 
+    /**
+     * Метод прослойка для установки переменной в сессию
+     * @param $name - имя переменной
+     * @param $value - значение
+     */
     protected function sessionSet($name, $value)
     {
         return App::call()->Request->sessionSet($name, $value);

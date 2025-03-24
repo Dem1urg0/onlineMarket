@@ -3,7 +3,7 @@
 namespace App\Entities;
 
 /**
- * Class Model (сущность)
+ * Базовый абстрактный класс сущности
  */
 abstract class Entity
 {

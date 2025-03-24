@@ -4,24 +4,48 @@ namespace App\Repositories;
 
 use App\Entities\Entity;
 use App\main\App;
+use App\services\db;
 
+/**
+ * Основной абстрактный класс репозитория
+ */
 abstract class Repository
 {
-    protected $db;
+    /**
+     * Экземпляр класса для работы с БД
+     * @var db
+     */
+    protected db $db;
 
+    /**
+     * Конструктор класса
+     */
     public function __construct()
     {
         $this->db = App::call()->db;
     }
 
+    /**
+     * Получение имени таблицы в БД
+     * @return string
+     */
     public function getTableName()
     {
     }
 
+    /**
+     * Получение имени сущности
+     * @return string
+     */
     public function getEntityClass()
     {
     }
 
+    /**
+     * Получение одной записи по id
+     * @param int $id
+     * @return object
+     */
     public function getOne($id)
     {
         $tableName = $this->getTableName();
@@ -29,6 +53,10 @@ abstract class Repository
         return $this->db->queryObject($sql, $this->getEntityClass(), [':id' => $id]);
     }
 
+    /**
+     * Получение всех записей
+     * @return array
+     */
     public function getAll()
     {
         $tableName = $this->getTableName();
@@ -36,6 +64,10 @@ abstract class Repository
         return $this->db->queryObjects($sql, $this->getEntityClass());
     }
 
+    /**
+     * Получение количества всех записей
+     * @return int
+     */
     public function getCountOfAll()
     {
         $tableName = $this->getTableName();
@@ -48,6 +80,11 @@ abstract class Repository
         }
     }
 
+    /**
+     * Получение записи по имени
+     * @param $name
+     * @return mixed
+     */
     public function getByName($name)
     {
         $tableName = $this->getTableName();
@@ -55,6 +92,10 @@ abstract class Repository
         return $this->db->queryObject($sql, $this->getEntityClass(), [':name' => $name]);
     }
 
+    /**
+     * Удаление записи
+     * @param Entity $entity - сущность
+     */
     public function delete(Entity $entity)
     {
         $tableName = $this->getTableName();
@@ -62,6 +103,12 @@ abstract class Repository
         $this->db->exec($sql, [':id' => $entity->id]);
     }
 
+    /**
+     * Маршрутизатор сохранения записи.
+     * Сохраняет или изменяет запись в зависимости от наличия id
+     * @param Entity $entity - сущность
+     * @return int
+     */
     public function save(Entity $entity)
     {
         if (!empty($entity->id)) {
@@ -73,8 +120,16 @@ abstract class Repository
         } else {
             return $this->insert($entity);
         }
+        return $entity->id;
     }
 
+    /**
+     * Преобразование массива для PDO.
+     * Например, массив брендов преобразуется в строку 'brand1, brand2, ...'
+     * @param array $arr - массив для преобразования
+     * @param string $name - имя (например, 'brand', выйдет brand1, brand2, ...)
+     * @return array
+     */
     public function arrayToPDO($arr, $name)
     {
         $string = '';
@@ -92,6 +147,11 @@ abstract class Repository
         ];
     }
 
+    /**
+     * Вставка записи
+     * @param Entity $entity - сущность
+     * @return int
+     */
     private function insert(Entity $entity): int
     {
         $tableName = $this->getTableName();
@@ -103,6 +163,11 @@ abstract class Repository
         return (int)$this->db->lastInsertId();
     }
 
+    /**
+     * Обновление записи
+     * @param Entity $entity - сущность
+     * @return bool
+     */
     private function update(Entity $entity)
     {
         if (!$this->getParams('equality', $entity, ['id'])) {
@@ -112,8 +177,17 @@ abstract class Repository
         $tableName = $this->getTableName();
         $sql = "UPDATE {$tableName} SET {$this->getParams('equality',$entity, ['id'])} WHERE id = :id";
         $this->db->exec($sql, $this->getParams('params', $entity));
+        return true;
     }
 
+    /**
+     * Получение параметров для запроса.
+     * В зависимости от переданного параметра формирует строку с именами, значениями или параметрами
+     * @param string $name - тип параметра
+     * @param Entity $entity - сущность
+     * @param array $filter - массив параметров, которые необходимо исключить
+     * @return mixed
+     */
     private function getParams($name, Entity $entity, $filter = [])
     {
         $paramsReq = [];
@@ -139,15 +213,10 @@ abstract class Repository
                     break;
             }
         }
-        switch ($name) {
-            case 'names':
-            case 'values':
-            case 'equality':
-                return implode(', ', $paramsReq);
-            case 'params':
-                return $paramsReq;
-            default:
-                return null;
-        }
+        return match ($name) {
+            'names', 'values', 'equality' => implode(', ', $paramsReq),
+            'params' => $paramsReq,
+            default => null,
+        };
     }
 }

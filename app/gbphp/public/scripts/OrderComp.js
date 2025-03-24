@@ -1,19 +1,44 @@
+/**
+ * Компоненты для страницы заказов
+ */
 Vue.component('order-page', {
+    /**
+     * Пропсы компонента
+     */
     props: ['orders', 'currentUser'],
+
+    /**
+     * Реактивные данные компонента
+     * @returns {{renderOrders: string}}
+     */
     data() {
         return {
             renderOrders: '',
         }
     },
+    /**
+     * Код, который выполняется при монтировании компонента
+     */
     mounted() {
         this.renderOrders = this.orders;
     },
+
+    /**
+     * Методы компонента
+     */
     methods: {
+        /**
+         * Эмит события удаления заказа
+         * @param orderKey
+         */
         emitDeleteOrder(orderKey) {
             this.$delete(this.renderOrders, orderKey);
             console.log(this.renderOrders);
         }
     },
+    /**
+     * Шаблон компонента
+     */
     template: `
     <div class="orders">
         <p v-if="Object.keys(renderOrders).length === 0">Orders not found</p>
@@ -31,8 +56,20 @@ Vue.component('order-page', {
     </div>
     `
 });
+
+/**
+ * Компонент заказа на странице заказов
+ */
 Vue.component('order', {
+    /**
+     * Пропсы компонента
+     */
     props: ['orderKey', 'currentUser', 'products', 'orderInfo'],
+
+    /**
+     * Реактивные данные компонента
+     * @returns {{totalPrice: number, totalPriceWithSale: number, setStatus: string, status: string}}
+     */
     data() {
         return {
             status: '',
@@ -41,6 +78,11 @@ Vue.component('order', {
             setStatus: '',
         }
     },
+
+    /**
+     * Код, который выполняется при монтировании компонента.
+     * Вычисляет общую стоимость заказа и стоимость заказа со скидкой и устанавливает статус заказа.
+     */
     mounted() {
         this.getTotalPrice();
         if (this.orderInfo.sale) {
@@ -48,13 +90,30 @@ Vue.component('order', {
         }
         this.setStatus = this.orderInfo.status;
     },
+
+    /**
+     * Методы компонента
+     */
     methods: {
+        /**
+         * Вычисляет общую стоимость заказа
+         */
         getTotalPrice() {
             this.totalPrice = total(this.products);
         },
+
+        /**
+         * Вычисляет общую стоимость заказа со скидкой
+         */
         getTotalPriceWithSale() {
             this.totalPriceWithSale = this.totalPrice - (this.totalPrice * this.orderInfo.sale / 100);
         },
+
+        /**
+         * Меняет статус заказа
+         * @param orderKey
+         * @returns {Promise<void>}
+         */
         async changeOrderStatus(orderKey) {
 
             if (this.currentUser.role !== 1) {
@@ -95,6 +154,12 @@ Vue.component('order', {
                 this.codeRes = 400;
             }
         },
+
+        /**
+         * Удаляет заказ
+         * @param orderKey
+         * @returns {Promise<void>}
+         */
         async deleteOrder(orderKey) {
             if (this.currentUser.role !== 1 && this.setStatus !== 'created') {
                 return;
@@ -126,6 +191,10 @@ Vue.component('order', {
             }
         }
     },
+
+    /**
+     * Шаблон компонента
+     */
     template: `
         <div class="order-container">
             <div class="order-container__header">Order Details</div>

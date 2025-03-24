@@ -1,5 +1,16 @@
+/**
+ * Компонент для редактирования данных пользователя
+ */
 Vue.component('edit-page', {
+    /**
+     * Пропсы компонента
+     */
     props: ['currentUser', 'userData'],
+
+    /**
+     * Реактивные данные компонента
+     * @returns {{password: string, name: string, login: string, errors: {password: boolean, login: boolean}}}
+     */
     data() {
         return {
             'login': '',
@@ -12,11 +23,23 @@ Vue.component('edit-page', {
 
         }
     },
+
+    /**
+     * Код вызываемый при монтировании компонента
+     */
     mounted() {
         this.login = this.userData['login']
         this.name = this.userData['name']
     },
+
+    /**
+     * Методы компонента
+     */
     methods: {
+        /**
+         * Смена данных пользователя на сервере
+         * @returns {Promise<void>}
+         */
         async change() {
 
             if (this.login === this.userData['login'] && this.password === '' || this.password === '' && this.login === '') {
@@ -61,8 +84,11 @@ Vue.component('edit-page', {
                 console.error('Ошибка при изменении:', error);
                 this.codeRes = 400;
             }
-        }
-        ,
+        },
+
+        /**
+         * Валидация логина
+         */
         validateLogin() {
             this.errors.login = false;
             const login = this.login;
@@ -84,8 +110,12 @@ Vue.component('edit-page', {
             if (!loginRegex.test(login)) {
                 this.errors.login = 'Font';
             }
-        }
-        ,
+        },
+
+        /**
+         * Валидация пароля
+         * @returns {string}
+         */
         validatePassword() {
             this.errors.password = false;
             const password = this.password;
@@ -110,12 +140,22 @@ Vue.component('edit-page', {
                 return this.errors.password = 'Password must contain at least one special character (!@#$%^&*()).';
             }
 
-        }
-        ,
+        },
+
+        /**
+         * Переход на страницу пользователя
+         */
         back() {
-            location.href = '/user/one?id=' + this.currentUser['id'];
-        }
+            location.href = getHrefUser(this.currentUser['id']);
+        },
+        /**
+         * Получить путь к странице пользователя (pathUtils.js)
+         */
+        getHrefUser
     },
+    /**
+     * Шаблон компонента
+     */
     template: `
     template: \`
 <div class="user-page__center">

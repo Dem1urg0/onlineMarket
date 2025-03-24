@@ -1,6 +1,17 @@
+{#
+    Шаблон страницы "Заказы" для пользователя
+    Выводит список заказов
+    Компоненты:
+        order-page - компонент заказов
+    параметры:
+        orders - список заказов
+        currentUser - текущий пользователь
+#}
 {% extends 'layouts/main.twig' %}
+{# Заголовок страницы #}
 {% block title %}Orders{% endblock %}
 {% block content %}
+    {# Подключение страницы заказов #}
     <order-page :orders="{{ orders | json_encode }}"
                 :current-user="{{ currentUser | json_encode }}"
                 ></order-page>

@@ -1,38 +1,47 @@
-function getHrefGood(id) {
-    return '/good/one?id=' + id;
-}
 
-Vue.component('drop-filter', {
-    data: {
-        show: false,
-    },
-    methods: {
-        getHrefGood,
-    },
-    props: ['filteredWoman', 'filteredMan'],
-    template: `
-      <div class="drop drop__browse">
-        <div class="drop__browse__flex" v-if="filteredWoman.length != 0">
-          <h3 class="drop__h3 drop__browse__h3">Women</h3>
-          <ul class="drop__menu">
-            <li v-for="item of filteredWoman" :key="filteredWoman.indexOf('item')">
-              <a :href="getHrefGood(item.id)" class="drop__link">{{ item }}</a> 
-            </li>
-          </ul>
-        </div>
-        <div class="drop__browse__flex" v-if="filteredMan.length != 0">
-          <h3 class="drop__h3 drop__browse__h3">Men</h3>
-          <ul class="drop__menu">
-            <li v-for="item of filteredMan" :key="filteredMan.indexOf('item')">
-              <a :href="getHrefGood(item.id)" class="drop__link">{{ item }}</a></li>
-          </ul>
-        </div>
-        <img style="width: 236px" v-if="filteredWoman.length === 0" src="html/img/no_product_found.png" alt="no_product_img">
-      </div>
-    `
-})
+// Vue.component('drop-filter', {
+//     data: {
+//         show: false,
+//     },
+//     methods: {
+//         getHrefGood,
+//     },
+//     props: ['filteredWoman', 'filteredMan'],
+//     template: `
+//       <div class="drop drop__browse">
+//         <div class="drop__browse__flex" v-if="filteredWoman.length != 0">
+//           <h3 class="drop__h3 drop__browse__h3">Women</h3>
+//           <ul class="drop__menu">
+//             <li v-for="item of filteredWoman" :key="filteredWoman.indexOf('item')">
+//               <a :href="getHrefGood(item.id)" class="drop__link">{{ item }}</a>
+//             </li>
+//           </ul>
+//         </div>
+//         <div class="drop__browse__flex" v-if="filteredMan.length != 0">
+//           <h3 class="drop__h3 drop__browse__h3">Men</h3>
+//           <ul class="drop__menu">
+//             <li v-for="item of filteredMan" :key="filteredMan.indexOf('item')">
+//               <a :href="getHrefGood(item.id)" class="drop__link">{{ item }}</a></li>
+//           </ul>
+//         </div>
+//         <img style="width: 236px" v-if="filteredWoman.length === 0" src="html/img/no_product_found.png" alt="no_product_img">
+//       </div>
+//     `
+// })
+
+/**
+ * Компонент для отображения выпадающего меню с фильтрами для товаров
+ */
 Vue.component('drop-def', {
+    /**
+     * Пропсы компонента
+     */
     props: ['categories', 'brands', 'designers'],
+
+    /**
+     * Реактивные данные компонента
+     * @returns {{designersNames: *[], show: boolean, brandsNames: *[], categoriesNames: *[], genders: string[], titles: string[]}}
+     */
     data() {
         return {
             show: false,
@@ -54,18 +63,41 @@ Vue.component('drop-def', {
             designersNames: [],
         }
     },
+
+    /**
+     * Код, который выполняется при монтировании компонента
+     * Инициализация данных
+     */
     mounted() {
         this.initData();
     },
+
+    /**
+     * Методы компонента
+     */
     methods: {
+
+        /**
+         * Инициализация данных из пропсов
+         */
         initData() {
             this.brandsNames = this.brands;
             this.categoriesNames = this.categories;
             this.designersNames = this.designers;
         },
+
+        /**
+         * Показать/скрыть выпадающее меню
+         */
         showDrop() {
             this.show = !this.show;
         },
+
+        /**
+         * Получить ссылку для заголовка
+         * @param title - название заголовка
+         * @returns {string} - ссылка
+         */
         getLinkForTitle(title) {
             let link = '';
             if (!title || !this.titles.includes(title)) {
@@ -77,6 +109,13 @@ Vue.component('drop-def', {
             }
 
         },
+
+        /**
+         * Получить ссылку для фильтра
+         * @param title - название заголовка
+         * @param name - название фильтра
+         * @returns {string} - ссылка
+         */
         getLinkForFilter(title, name) {
             let link = '';
             if (!title || !name || !this.titles.includes(title)) {
@@ -97,6 +136,9 @@ Vue.component('drop-def', {
             }
         }
     },
+    /**
+     * Шаблон компонента
+     */
     template: `
       <ul class="menu">
         <li class="menu__list"><a href="/home" class="menu__link">Home</a></li>
@@ -117,23 +159,42 @@ Vue.component('drop-def', {
       </ul>
     `
 })
+/**
+ * Компонент для отображения выпадающего меню с аккаунтом пользователя
+ */
 Vue.component('account', {
+    /**
+     * Пропсы компонента
+     */
     props: ['currentUser'],
+
+    /**
+     * Реактивные данные компонента
+     * @returns {{show: boolean}}
+     */
     data() {
         return {
             show: false,
         };
     },
+
+    /**
+     * Методы компонента
+     */
     methods: {
-        getUserHref(id) {
-            return '/user/one?id=' + id;
-        }
+        /**
+         * Получить ссылку на страницу пользователя (pathUtils.js)
+         */
+        getHrefUser,
     },
+    /**
+     * Шаблон компонента
+     */
     template: `
       <button @click="show = !show" class="button Account">
         My Account
         <div class="drop_acc" v-if="show && (currentUser.id !== 0)">
-            <li><a :href="getUserHref(currentUser.id)">MY ACCOUNT</a></li>
+            <li><a :href="getHrefUser(currentUser.id)">MY ACCOUNT</a></li>
             <li><a href="/order/all">MY ORDERS</a></li>
             <li><a href="/auth/logout">LOG-OUT</a></li>
         </div>

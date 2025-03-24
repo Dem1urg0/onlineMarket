@@ -2,21 +2,45 @@
 
 namespace App\services;
 use App\main\App;
+use App\validators\GoodValidator;
+use App\validators\PaginationValidator;
 
+/**
+ * Класс сервиса для работы с товарами
+ */
 class GoodService
 {
-    protected $goodValidator;
-    protected $paginationValidator;
+    /**
+     * Экземпляр класса валидатора товаров
+     * @var GoodValidator|mixed|object|null
+     */
+    protected GoodValidator $goodValidator;
 
+    /**
+     * Экземпляр класса валидатора пагинации
+     * @var PaginationValidator|mixed|object|null
+     */
+    protected PaginationValidator $paginationValidator;
+
+    /**
+     * Конструктор класса
+     */
     public function __construct()
     {
         $this->goodValidator = App::call()->GoodValidator;
         $this->paginationValidator = App::call()->PaginationValidator;
     }
 
-    public function checkGood($id)
+    /**
+     * Метод для получения товара и экземпляров в хранилище по id
+     * @param $id - id товара
+     * @return array
+     */
+    public function getGoodAndStorage($id)
     {
         $this->goodValidator->checkEmpty($id);
+
+        $this->goodValidator->checkNumeric($id);
 
         $item = $this->goodValidator->validateGood($id);
 
@@ -34,7 +58,13 @@ class GoodService
         ];
     }
 
-    public function addStorageToGoods($goods, $isApi = false)
+    /**
+     * Метод для получения хранилища товаров
+     * @param $goods - массив товаров
+     * @param $isApi - флаг для проверки, является ли запрос из API
+     * @return array
+     */
+    public function getStorageForGoods($goods, $isApi = false)
     {
         $data = [];
 
@@ -55,6 +85,11 @@ class GoodService
 
     }
 
+    /**
+     * Метод для получения товаров с фильтром
+     * @param $params - параметры запроса
+     * @return array
+     */
     public function getFilterGoods($params)
     {
         $this->goodValidator->checkEmpty($params, true); //проверка данных
@@ -134,7 +169,7 @@ class GoodService
 
         $countOfGoods = $this->getCountOfFilter($data);
 
-        $storage = $this->addStorageToGoods($goods);
+        $storage = $this->getStorageForGoods($goods);
 
         return [
             'msg' => 'Товары найдены',
@@ -146,16 +181,32 @@ class GoodService
         ];
     }
 
+    /**
+     * Метод прослойка для получения информации о товаре из хранилища из репозитория по id
+     * @param $id - id товара
+     * @return mixed
+     */
     protected function getInfoFromStorage($id)
     {
         return App::call()->StorageRepository->getInfoFromStorage($id);
     }
 
+    /**
+     * Метод прослойка для получения товаров с фильтром из репозитория по параметрам
+     * @param $params - параметры запроса
+     * @param $data - данные для фильтрации
+     * @return mixed
+     */
     protected function getWithFilter($params, $data)
     {
         return App::call()->GoodRepository->getWithFilter($params, $data);
     }
 
+    /**
+     * Метод прослойка для получения количества товаров с фильтром из репозитория по данным
+     * @param $data - данные для фильтрации
+     * @return mixed
+     */
     protected function getCountOfFilter($data)
     {
         return App::call()->GoodRepository->getCountOfFilter($data);

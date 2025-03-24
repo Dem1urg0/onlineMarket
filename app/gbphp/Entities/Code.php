@@ -2,7 +2,14 @@
 
 namespace App\Entities;
 
+/**
+ * Класс сущности промокода
+ */
 class Code extends Entity
 {
-    public $sale;
+    /**
+     * Процентная скидки
+     * @var int $sale
+     */
+    public int $sale;
 }

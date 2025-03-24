@@ -1,23 +1,25 @@
 <?php
 
 namespace App\Middleware;
-
-use App\Exceptions\apiException;
 use App\main\App;
 
-class RoleMiddleware
+/**
+ * Класс Middleware роли проверяет роль пользователя
+ */
+class RoleMiddleware extends Middleware
 {
-    public function checkAdmin()
+    /**
+     * Проверка роли пользователя
+     * Если роль пользователя не администратор, то выбрасывается исключение
+     * @param bool $isApi - флаг API
+     */
+    public function checkAdmin($isApi = false)
     {
         if ($user = App::call()->Request->sessionGet('user')) {
-            if ($user['role'] === 'admin') {
-                return false;
+            if ($user['role'] === 1) {
+                return;
             }
-        } else return true;
-    }
-    public function checkApiAdmin(){
-        if ($this->checkAdmin()){
-            throw new ApiException('Доступ запрещен', 403);
         }
+        $this->throwException('Нет доступа', 403, $isApi);
     }
 }

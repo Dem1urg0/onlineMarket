@@ -1,4 +1,8 @@
-//One product page
+/**
+ * Сортировка хранилища товара
+ * @param storage - хранилище товара
+ * @returns result - отсортированное хранилище
+ */
 function sortStorage(storage) {
     let result = {};
     for (let i = 0; i < storage.length; i++) {
@@ -14,6 +18,11 @@ function sortStorage(storage) {
     return result;
 }
 
+/**
+ * Сортировка хранилища товара для всех товаров
+ * @param storages
+ * @returns result
+ */
 function sortStorageForGoods(storages) {
     return Object.entries(storages).reduce((result, [key, value]) => {
         result[key] = this.sortStorage(value);
@@ -21,6 +30,12 @@ function sortStorageForGoods(storages) {
     }, {});
 }
 
+/**
+ * Добавление хранилища к товарам
+ * @param goods - товары
+ * @param storages - хранилища
+ * @returns goods - товары с хранилищами
+ */
 function addStoragesToGoods(goods, storages) {
     goods.forEach(good => {
         if (storages[good.id]) {
@@ -30,7 +45,13 @@ function addStoragesToGoods(goods, storages) {
     return goods;
 }
 
+/**
+ * Компонент страницы товара
+ */
 Vue.component('one-good', {
+    /**
+     * Пропсы компонента
+     */
     props: ['good', 'typesInStorage'],
     data() {
         return {
@@ -41,12 +62,33 @@ Vue.component('one-good', {
             error: false,
         }
     },
+
+    /**
+     * Код выполняемый при монтировании компонента
+     */
     mounted() {
         this.item = this.good
         this.storage = this.sortStorage(this.typesInStorage)
     },
+
+    /**
+     * Методы компонента
+     */
     methods: {
+        /**
+         * Сортировка хранилища товара (метод из глобального контекста)
+         */
         sortStorage,
+        /**
+         * Добавление хранилища к товарам (метод из cartUtils.js)
+         */
+        addProduct,
+        /**
+         * Добавление товара в корзину
+         * @param item - товар
+         * @param color - цвет
+         * @param size - размер
+         */
         addToCart(item, color, size) {
             this.error = false;
             if (!color || !size || !item.count || item.count < 1) {
@@ -63,6 +105,9 @@ Vue.component('one-good', {
             item.count = 1;
         },
     },
+    /**
+     * Шаблон компонента
+     */
     template: `
       <div class="prod_slider">
         <div class="prod_slider__left"><a href="#"><i class="prod_slider__left__arrow fa-solid fa-angle-left"></i></a>
@@ -118,86 +163,56 @@ Vue.component('one-good', {
         </div>
       </div>`
 })
-//Products of recommendation block in One product page //todo
-Vue.component('prod-recom', {
-    data() {
-        return {
-            items: {
-                prod1: {
-                    id: 981,
-                    img: 1,
-                    name: 'Mango People T-shirt',
-                    price: 52
-                },
-                prod2: {
-                    id: 982,
-                    img: 2,
-                    name: 'Mango People T-shirt',
-                    price: 52
-                },
-                prod3: {
-                    id: 983,
-                    img: 3,
-                    name: 'Mango People T-shirt',
-                    price: 52
-                },
-                prod4: {
-                    id: 984,
-                    img: 4,
-                    name: 'Mango People T-shirt',
-                    price: 52
-                }
-            }
 
-        }
-    },
-    methods: {
-        getHrefGood,
-    },
-    template: `
-      <div class="recomend_items">
-        <div class="fetured__list__product" v-for="item of items">
-          <div class="fetured__list__product__flex">
-            <img class="fetured__list__product_img" :src="'/style/img/prod_items' + item.img + '.png' "
-                 style="width: auto">
-          </div>
-          <div class="fetured__list__product__text">
-            <a :href="getHrefGood(item.id)" class="fetured__list__product__text__name">{{ item.name }}</a>
-            <a :href="getHrefGood(item.id)" class="fetured__list__product__text__price">$ {{ item.price }} <img
-                src="/style/img/star.png"
-                alt="stars"></a>
-          </div>
-          <button class="fetured__list__product__add" @click="addProduct(item)">Add to Cart</button>
-        </div>
-      </div>
-    `
-})
-//Products in home page
+/**
+ * Компонент товаров на главной странице
+ */
 Vue.component('product', {
+    /**
+     * Реактивные данные компонента
+     * @returns {{goods: *[], storage: *[]}}
+     */
     data() {
         return {
             goods: [],
             storage: []
         }
     },
+    /**
+     * Код выполняемый при монтировании компонента
+     * Получение товаров и хранилища и инициализация товаров
+     */
     mounted() {
         this.getGoods()
             .then(() => this.getStorage())
             .then(() => this.initializeGoods())
             .catch(error => console.error(error));
     },
+    /**
+     * Методы компонента
+     */
     methods: {
-        getImgSrc,
+        /**
+         * Глобальные методы
+         */
+        hrefImg,
         getHrefGood,
         sortStorage,
         sortStorageForGoods,
         addStoragesToGoods,
 
+        /**
+         * Инициализация товаров и хранилища
+         */
         initializeGoods() {
             this.storage = this.sortStorageForGoods(this.storage);
             this.goods = this.addStoragesToGoods(this.goods, this.storage);
         },
 
+        /**
+         * Получение товаров с сервера
+         * @returns {Promise<void>}
+         */
         async getGoods() {
             const params = {
                 page: {
@@ -225,6 +240,10 @@ Vue.component('product', {
             }
         },
 
+        /**
+         * Получение хранилища товаров с сервера
+         * @returns {Promise<void>}
+         */
         async getStorage() {
             try {
                 const response = await this.$parent.postJson('/api/good/getStorage', this.goods)
@@ -245,21 +264,34 @@ Vue.component('product', {
                 this.codeRes = 400;
             }
         },
-
     },
+    /**
+     * Шаблон компонента
+     */
     template: `
       <div class="fetured__list">
               <products-page-item ref="productsPageItem" v-for="item in goods" :good="item"></products-page-item>
       </div>
     `
 })
-//Products page
+
+/**
+ * Компонент страницы товаров
+ */
 Vue.component('products-page', {
+    /**
+     * Пропсы компонента
+     */
     props: ['goods', 'categories', 'brands',
         'designers', 'topDesigners', 'sizes',
         'storage', 'maxPrice', 'maxPages',
         'renderType', 'gender', 'category',
         'brand', 'designer'],
+
+    /**
+     * Реактивные данные компонента
+     * @returns {{gendersList: [{name: string},{name: string},{name: string}], designersList: *[], renderGoods: *[], goodsByCategory: *[], goodsByPrice: *[], goodsByGender: *[], goodsByBrands: *[], filter: {designers: *[], brands: *[], size: *[], gender: string, inputMax: number, sortType: string, inputMin: number, minPrice: number, maxPrice: number, category: string}, goodsBySort: *[], topDesignersList: *[], sizesList: *[], goodsBySize: *[], categoriesList: *[], goodsByDesigners: *[], brandsList: *[], render: {maxPages: number, renderCount: number, page: number, renderType: string, renderPages: *[]}}}
+     */
     data() {
         return {
             renderGoods: [],
@@ -306,6 +338,11 @@ Vue.component('products-page', {
             }
         }
     },
+
+    /**
+     * Код выполняемый при монтировании компонента
+     * Инициализация данных: товаров, типа рендера, фильтров
+     */
     mounted() {
         this.render.renderType = this.renderType;
         this.initializeData();
@@ -316,15 +353,15 @@ Vue.component('products-page', {
         // БАЗОВЫЕ МЕТОДЫ И ИНИЦИАЛИЗАЦИЯ
         /**
          * Проверка на тип рендера
-         * @returns {boolean}
+         * @returns {boolean} - true, если много товаров
          */
         isMany() {
             return this.render.renderType === 'many';
         },
         /**
          * Инициализация товаров
-         * @param goods
-         * @param pagesCount
+         * @param goods - товары
+         * @param pagesCount - количество страниц
          */
         initializeGoods(goods, pagesCount) {
             this.storage = this.sortStorageForGoods(this.storage);
@@ -344,6 +381,7 @@ Vue.component('products-page', {
             this.render.maxPages = pagesCount || 1;
             this.getPageRender();
         },
+
         /**
          * Инициализация списков
          */
@@ -357,6 +395,10 @@ Vue.component('products-page', {
             this.filter.inputMax = this.maxPrice;
             this.filter.maxPrice = this.maxPrice;
         },
+
+        /**
+         * Инициализация фильтров по GET-параметрам
+         */
         initializeGETFilter() {
             this.filter.gender = this.gender || '';
             this.searchByGender();
@@ -370,8 +412,8 @@ Vue.component('products-page', {
                 this.filter.designers = [this.designer];
                 this.searchByDesigners();
             }
-
         },
+
         // МЕТОДЫ ФИЛЬТРАЦИИ
         /**
          * Сортировка товаров по имени или цене
@@ -386,6 +428,7 @@ Vue.component('products-page', {
             }
             this.updateRender();
         },
+
         /**
          * Установка минимальной и максимальной цены
          */
@@ -395,6 +438,7 @@ Vue.component('products-page', {
             this.filter.inputMin = min;
             this.filter.inputMax = max;
         },
+
         /**
          * Фильтрация по цене
          */
@@ -406,6 +450,7 @@ Vue.component('products-page', {
                 && good.price <= this.filter.inputMax);
             this.updateRender();
         },
+
         /**
          * Фильтрация по категории
          */
@@ -421,6 +466,7 @@ Vue.component('products-page', {
 
             this.updateRender();
         },
+
         /**
          * Фильтрация по дизайнерам
          */
@@ -444,6 +490,7 @@ Vue.component('products-page', {
             }
             this.updateRender();
         },
+
         /**
          * Фильтрация по бренду
          */
@@ -517,6 +564,10 @@ Vue.component('products-page', {
             this.getPageRender();
         },
 
+        /**
+         * Поиск товаров по параметрам и пагинации по api
+         * @returns {Promise<void>}
+         */
         async search() {
             if (this.isMany()) return;
             const params = {
@@ -577,6 +628,7 @@ Vue.component('products-page', {
                 this.search();
             }
         },
+
         /**
          * Подсчет количества страниц
          */
@@ -597,6 +649,9 @@ Vue.component('products-page', {
             this.getRenderGoods();
         },
 
+        /**
+         * Первая страница для поиска
+         */
         firstPageForSearch() {
             if (this.isMany()) return;
             this.render.page = 1;
@@ -618,6 +673,9 @@ Vue.component('products-page', {
             this.renderGoods = this.goodsBySort.slice((this.render.page - 1) * this.render.renderCount, this.render.page * this.render.renderCount);
         },
 
+        /**
+         * Заполнения массива рендера страниц
+         */
         getPageRender() {
             let p = this.render.page;
             let max = this.render.maxPages;
@@ -630,14 +688,17 @@ Vue.component('products-page', {
             }
         },
 
+        /**
+         * Переход на верх страницы
+         */
         pageUp() {
             window.scrollTo(0, 200);
         },
 
         // ВСПОМОГАТЕЛЬНЫЕ МЕТОДЫ ДЛЯ ИНТЕРФЕЙСА
         /**
-         * Показать блок с категориями
-         * @param event
+         * Показать блок с категориями по клику
+         * @param event - событие
          */
         showBlock(event) {
             let block = event.target.nextElementSibling;
@@ -648,7 +709,7 @@ Vue.component('products-page', {
 
         /**
          * Установить активный статус и Заполнить фильтр по бренду или дизайнеру
-         * @param event
+         * @param event - событие
          */
         setActiveStatus(event) {
             let block = event.target;
@@ -670,7 +731,7 @@ Vue.component('products-page', {
 
         /**
          * Установить активный статус и Заполнить фильтр по категории
-         * @param event
+         * @param event - событие
          */
         setActiveStatusCategory(event) {
             const block = event.target;
@@ -689,7 +750,7 @@ Vue.component('products-page', {
 
         /**
          * Заполнить фильтр по цене
-         * @param event
+         * @param event - событие
          */
         changeSizeArr(event) {
             let block = event.target;
@@ -708,10 +769,19 @@ Vue.component('products-page', {
          */
         sortStorage,
 
+        /**
+         * Сортировка хранилища товара для всех товаров
+         */
         sortStorageForGoods,
 
+        /**
+         * Добавление хранилища к товарам
+         */
         addStoragesToGoods,
     },
+    /**
+     * Шаблон компонента
+     */
     template:
         `
 <div class="products" style="display: flex; justify-content: center"> 
@@ -835,19 +905,41 @@ Vue.component('products-page', {
     `
 })
 
-//Items for products page
+/**
+ * Компонент товара на странице товаров
+ */
 Vue.component('products-page-item', {
+    /**
+     * Пропсы компонента
+     */
     props: ['good'],
+
+    /**
+     * Реактивные данные компонента
+     * @returns {{chosenSize: string, chosenColor: string}}
+     */
     data() {
         return {
             chosenSize: '',
             chosenColor: ''
         }
     },
+
+    /**
+     * Методы компонента
+     */
     methods: {
-        getImgSrc,
+        /**
+         * Глобальные методы
+         */
+        hrefImg,
         getHrefGood,
         addProduct,
+
+        /**
+         * Добавление товара в корзину с параметрами
+         * @param good - товар
+         */
         addToCartWithParams(good) {
             if (!this.chosenColor || !this.chosenSize) {
                 return;
@@ -858,9 +950,12 @@ Vue.component('products-page-item', {
             addProduct(good);
         }
     },
+    /**
+     * Шаблон компонента
+     */
     template: `
     <div class="fetured__list__product products-page__list__product">
-        <img class="fetured__list__product_img" :src="getImgSrc(good.img)">
+        <img class="fetured__list__product_img" :src="hrefImg(good.img)">
               <div class="fetured__list__product__text">
                 <a :href="getHrefGood(good.id)" class="fetured__list__product__text__name">{{ good.name }}</a>
                 <a :href="getHrefGood(good.id)" class="fetured__list__product__text__price">$ {{ good.price }}<img
@@ -892,5 +987,75 @@ Vue.component('products-page-item', {
               <button style="margin-top: 13px;" @click="addToCartWithParams(good); $root.$refs.dropCart.updateCart()">Add to Cart</button>
               </div>
           </div>
+    `
+})
+
+/**
+ * Компонент рекомендуемых товаров на странице товара
+ */
+Vue.component('prod-recom', {
+    /**
+     * Реактивные данные компонента
+     * @returns {{items: {prod4: {img: number, price: number, name: string, id: number}, prod3: {img: number, price: number, name: string, id: number}, prod2: {img: number, price: number, name: string, id: number}, prod1: {img: number, price: number, name: string, id: number}}}}
+     */
+    data() {
+        return {
+            items: {
+                prod1: {
+                    id: 981,
+                    img: 1,
+                    name: 'Mango People T-shirt',
+                    price: 52
+                },
+                prod2: {
+                    id: 982,
+                    img: 2,
+                    name: 'Mango People T-shirt',
+                    price: 52
+                },
+                prod3: {
+                    id: 983,
+                    img: 3,
+                    name: 'Mango People T-shirt',
+                    price: 52
+                },
+                prod4: {
+                    id: 984,
+                    img: 4,
+                    name: 'Mango People T-shirt',
+                    price: 52
+                }
+            }
+
+        }
+    },
+    /**
+     * Методы компонента
+     */
+    methods: {
+        /**
+         * Получение ссылки на товар (метод из глобального контекста)
+         */
+        getHrefGood,
+    },
+    /**
+     * Шаблон компонента
+     */
+    template: `
+      <div class="recomend_items">
+        <div class="fetured__list__product" v-for="item of items">
+          <div class="fetured__list__product__flex">
+            <img class="fetured__list__product_img" :src="'/style/img/prod_items' + item.img + '.png' "
+                 style="width: auto">
+          </div>
+          <div class="fetured__list__product__text">
+            <a :href="getHrefGood(item.id)" class="fetured__list__product__text__name">{{ item.name }}</a>
+            <a :href="getHrefGood(item.id)" class="fetured__list__product__text__price">$ {{ item.price }} <img
+                src="/style/img/star.png"
+                alt="stars"></a>
+          </div>
+          <button class="fetured__list__product__add" @click="addProduct(item)">Add to Cart</button>
+        </div>
+      </div>
     `
 })

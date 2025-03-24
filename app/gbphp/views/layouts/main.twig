@@ -1,9 +1,24 @@
+{#
+    Освной добавочный шаблон для всех пользовательских страниц сайта
+    Компоненты:
+        drop-cart - дроп элемент меню корзина
+        account - дроп элемент меню аккаунт
+        drop-def - выпадающее меню
+        filter-el - фильтр (не используется)
+    параметры:
+        currentUser - текущий пользователь
+        goodsCategories - категории товаров
+        goodsBrands - бренды товаров
+        goodsDesigners - дизайнеры товаров
+        title - заголовок страницы
+#}
 {% block script %}
 {% endblock %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    {# Подстановка заголовка #}
     <title>{% block title %}{% endblock %}</title>
     <link rel="icon" type="image/png" href="/style/img/logo.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,6 +28,7 @@
 </head>
 <body>
 <div id="app">
+    {# Шапка #}
     <header class="header">
         <div class="container header__content">
             <div class="header__left">
@@ -21,24 +37,30 @@
                             class="logo__bran">BRAN</span><span
                             class="logo__bran-d">D</span>
                 </a>
+                {# Фильтр (не активен) #}
                 <filter-el ref="filter"></filter-el>
             </div>
             <div class="header__right">
+                {# Меню корзины #}
                 <drop-cart ref="dropCart"></drop-cart>
+                {# Меню аккаунта #}
                 <account ref="account" :current-user="{{ currentUser | json_encode }}"></account>
             </div>
         </div>
     </header>
     <nav>
         <div class="container">
+            {# Меню быстрого доступа к товарам по фильтрам #}
             <drop-def ref="drop-def"
                       :categories="{{ goodsCategories | json_encode }}"
                       :brands="{{ goodsBrands | json_encode }}"
                       :designers="{{ goodsDesigners | json_encode }}"></drop-def>
         </div>
     </nav>
+    {# Подстановка контента #}
     {% block content %}
     {% endblock %}
+    {# Блок подписки на рассылку #}
     <div class="subscribe__block">
         <div class="subscribe__content container">
             <div class="quote">
@@ -54,7 +76,9 @@
                 <h1 class="subscribe__h1">Subscribe</h1>
                 <h2 class="subscribe__h2">FOR OUR NEWLETTER AND PROMOTION</h2>
                 <form>
-                    <input type="text" class="subscribe__input" placeholder="Enter Your Email">
+                    <label>
+                        <input type="text" class="subscribe__input" placeholder="Enter Your Email">
+                    </label>
                     <button class="subscribe__button">Subscribe</button>
                 </form>
             </div>
@@ -62,6 +86,7 @@
             </div>
         </div>
     </div>
+    {# Подвал #}
     <div class="clr"></div>
     <footer class="footer">
         <div class="footer_content container">
@@ -129,6 +154,7 @@
 </div>
 </body>
 </html>
+{# Подключение скриптов #}
 <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
 <script src="/scripts/utils/pathUtils.js"></script>
 <script src="/scripts/utils/cartUtils.js"></script>

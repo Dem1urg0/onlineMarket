@@ -2,8 +2,19 @@
 
 namespace App\Entities;
 
+/**
+ * Класс сущности Страна
+ */
 class Country extends Entity
 {
-    public $id;
-    public $country;
+    /**
+     * id страны
+     * @var int $id
+     */
+    public int $id;
+    /**
+     * Название страны
+     * @var string $country
+     */
+    public string $country;
 }

@@ -3,18 +3,73 @@
 namespace App\controllers;
 
 use App\main\App;
+use App\Repositories\Good\GoodBrandRepository;
+use App\Repositories\Good\GoodCategoryRepository;
+use App\Repositories\Good\GoodDesignerRepository;
+use App\Repositories\Good\GoodRepository;
+use App\Repositories\Good\GoodSizeRepository;
+use App\Repositories\Good\StorageRepository;
+use App\services\GoodService;
+use App\validators\GoodValidator;
 
 
+/**
+ * Контроллер для работы с товарами
+ *
+ * Class goodController
+ * @package App\controllers
+ */
 class goodController extends Controller
 {
-    protected $goodRepository;
-    protected $goodService;
-    protected $storageRepository;
-    protected $goodBrandRepository;
-    protected $goodDesignerRepository;
-    protected $goodCategoryRepository;
-    protected $goodSizeRepository;
+    /**
+     * Репозиторий товаров
+     * @var GoodRepository|mixed|null $goodRepository
+     */
+    protected GoodRepository $goodRepository;
+    /**
+     * Сервис товаров
+     * @var GoodService|mixed|null $goodService
+     */
+    protected GoodService $goodService;
+    /**
+     * Репозиторий склада
+     * @var StorageRepository|mixed|null $storageRepository
+     */
+    protected StorageRepository $storageRepository;
+    /**
+     * Репозиторий брендов
+     * @var GoodBrandRepository|mixed|null $goodBrandRepository
+     */
+    protected GoodBrandRepository $goodBrandRepository;
+    /**
+     * Репозиторий дизайнеров
+     * @var GoodDesignerRepository|mixed|null $goodDesignerRepository
+     */
+    protected GoodDesignerRepository $goodDesignerRepository;
+    /**
+     * Репозиторий категорий
+     * @var GoodCategoryRepository|mixed|null $goodCategoryRepository
+     */
+    protected GoodCategoryRepository $goodCategoryRepository;
+    /**
+     * Репозиторий размеров
+     * @var GoodSizeRepository|mixed|null $goodSizeRepository
+     */
+    protected GoodSizeRepository $goodSizeRepository;
 
+    /**
+     * Валидатор товаров
+     * @var GoodValidator|mixed|null $goodValidator
+     */
+    protected GoodValidator $goodValidator ;
+
+    /**
+     * Конструктор контроллера
+     *
+     * @param $render - Экземпляр класса render
+     * @param $request - Экземпляр класса request
+
+     */
     public function __construct($render, $request)
     {
         parent::__construct($render, $request);
@@ -27,8 +82,16 @@ class goodController extends Controller
         $this->goodDesignerRepository = App::call()->GoodDesignerRepository;
         $this->goodCategoryRepository = App::call()->GoodCategoryRepository;
         $this->goodSizeRepository = App::call()->GoodSizeRepository;
+
+        $this->goodValidator = App::call()->GoodValidator;
     }
 
+    /**
+     * Выводит страницу с товарами
+     * Рендерит либо все товары, либо первую страницу товаров, в зависимости от количества товаров в таблице
+     *
+     * @return mixed
+     */
     public function allAction()
     {
         $renderCount = 6;
@@ -86,33 +149,27 @@ class goodController extends Controller
         $goods = $this->goodRepository->getWithFilter($params, $data);
 
 
-        $storage = $this->goodService->addStorageToGoods($goods);
+        $storage = $this->goodService->getStorageForGoods($goods);
 
-        $categories = $this->goodCategoryRepository->getAll();
-        $brands = $this->goodBrandRepository->getAll();
         $sizes = $this->goodSizeRepository->getAll();
-        $designers = $this->goodDesignerRepository->getAll();
         $topDesigners = $this->goodDesignerRepository->getTopDesigners();
 
         $countOfFilter = count($goods);
         if ($renderType === 'default') {
             $countOfFilter = $this->goodRepository->getCountOfFilter($data);
         }
-        $maxPages = ceil($countOfFilter / $renderCount);
+        $maxPages = $countOfFilter > 0 ? ceil($countOfFilter / $renderCount) : 1;
 
         return $this->render(
             'goods', [
             'goods' => $goods,
             'storage' => $storage,
 
-            'categories' => $categories,
-            'brands' => $brands,
-            'designers' => $designers,
             'topDesigners' => $topDesigners,
             'sizes' => $sizes,
 
             'maxPrice' => $maxPrice,
-            'maxPages' => $maxPages ?? null,
+            'maxPages' => $maxPages,
 
             'renderType' => $renderType,
 
@@ -123,15 +180,16 @@ class goodController extends Controller
         ]);
     }
 
+    /**
+     * Выводит страницу с одним товаром
+     *
+     * @return mixed
+     */
     public function oneAction()
     {
-        if (empty($id = $this->getRequest('id'))) {
-            throw new \Exception("Не передан id товара", 400);
-        }
+        $this->goodValidator->validateGet();
 
-        if (($response = $this->goodService->checkGood($id))['success'] === false) {
-            throw new \Exception("Товар не найден", 404);
-        }
+        $response = $this->goodService->getGoodAndStorage($this->getRequest('id') ?? '');
 
         return $this->render('good', [
             'good' => $response['params']['good'],

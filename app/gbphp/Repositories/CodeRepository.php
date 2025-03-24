@@ -4,16 +4,35 @@ namespace App\Repositories;
 
 use App\main\App;
 
+/**
+ * Репозиторий промокодов
+ */
 class CodeRepository extends Repository
 {
+    /**
+     * Получение имени таблицы в БД
+     * @return string
+     */
     public function getTableName()
     {
         return 'codes';
     }
+
+    /**
+     * Получение имени класса сущности
+     * @return string
+     */
     public function getEntityClass()
     {
         return get_class(App::call()->Code);
     }
+
+    /**
+     * Получение скидки по промокоду и стране
+     * @param string $code - промокод
+     * @param string $country - страна
+     * @return int|bool
+     */
     public function getSale($code, $country)
     {
         $sql = "SELECT sale FROM codes
