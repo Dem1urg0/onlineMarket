@@ -4,14 +4,27 @@ namespace App\validators;
 
 use App\main\App;
 
+/**
+ * Валидатор для пользователей
+ */
 class UserValidator extends Validator
 {
-    protected $types = [
+    /**
+     * @var array|string[] $types - массив типов данных
+     */
+    protected array $types = [
         'id',
         'login',
         'role',
     ];
 
+    /**
+     * Проверка пользователя по логину
+     * @param $login - логин
+     * @param $isApi - флаг API
+     * @return mixed
+     * @throws \App\Exceptions\apiException
+     */
     public function checkUserByLogin($login, $isApi = false)
     {
         if (empty($user = App::call()->UserRepository->getByLogin($login))) {
@@ -19,6 +32,14 @@ class UserValidator extends Validator
         }
         return $user;
     }
+
+    /**
+     * Проверка пользователя по id
+     * @param $id - id пользователя
+     * @param $isApi - флаг API
+     * @return mixed
+     * @throws \App\Exceptions\apiException
+     */
     public function checkUserById($id, $isApi = false)
     {
         if (empty($user = App::call()->UserRepository->getOne($id))){
@@ -26,6 +47,14 @@ class UserValidator extends Validator
         }
         return $user;
     }
+
+    /**
+     * Проверка логина
+     * @param $login - логин
+     * @param $isApi - флаг API
+     * @return true
+     * @throws \App\Exceptions\apiException
+     */
     public function validateLogin($login, $isApi = false)
     {
         if (empty($login)) {
@@ -41,6 +70,13 @@ class UserValidator extends Validator
         return true;
     }
 
+    /**
+     * Проверка пароля
+     * @param $password - пароль
+     * @param $isApi - флаг API
+     * @return true
+     * @throws \App\Exceptions\apiException
+     */
     public function validatePass($password, $isApi = false)
     {
         if (empty($password)) {
@@ -56,6 +92,14 @@ class UserValidator extends Validator
         }
         return true;
     }
+
+    /**
+     * Проверка данных для обновления
+     * @param $params - параметры
+     * @param $isApi - флаг API
+     * @return true
+     * @throws \App\Exceptions\apiException
+     */
     public function checkUpdateDataEmpty($params, $isApi = false)
     {
         if (empty($params['login']) && empty($params['password']) || empty($params['id'])) {
@@ -63,6 +107,15 @@ class UserValidator extends Validator
         }
         return true;
     }
+
+    /**
+     * Проверка количества пользователей
+     * @param $min - минимальное количество
+     * @param $max - максимальное количество
+     * @param $isApi - флаг API
+     * @return true
+     * @throws \App\Exceptions\apiException
+     */
     public function validateUsersCount($min, $max, $isApi = false)
     {
         if (!is_numeric($min) || !is_numeric($max) || $min < 0 || $max < 0 || $min > $max) {
@@ -70,6 +123,15 @@ class UserValidator extends Validator
         }
         return true;
     }
+
+    /**
+     * Проверка данных пользователя
+     * @param $type - тип данных
+     * @param $value - значение
+     * @param $isApi - флаг API
+     * @return void
+     * @throws \App\Exceptions\apiException
+     */
     public function validateInfoData($type, $value, $isApi)
     {
         if (!in_array($type, $this->types) ||

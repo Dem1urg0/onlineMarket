@@ -7,13 +7,31 @@ use App\Exceptions\ApiException;
 use App\main\App;
 use App\services\renders\IRender;
 use App\services\Request;
+use App\services\Response;
+use App\validators\Validator;
 use Exception;
 
+/**
+ * Базовый абстрактный контроллер API
+ */
 abstract class Controller extends mainController
 {
-    protected  $validator;
-    protected $response;
+    /**
+     * Валидатор
+     * @var Validator
+     */
+    protected Validator $validator;
+    /**
+     * Класс для работы с ответом
+     * @var Response|mixed|null $response
+     */
+    protected Response $response;
 
+    /**
+     * Конструктор контроллера
+     * @param IRender $render - Экземпляр класса для render
+     * @param Request $request - Экземпляр класса для request
+     */
     public function __construct(IRender $render, Request $request)
     {
         parent::__construct($render, $request);
@@ -21,6 +39,13 @@ abstract class Controller extends mainController
         $this->validator = App::call()->Validator;
     }
 
+    /**
+     * Предварительная проверка прав доступа, а также запуск действия
+     * Так же обработка исключений
+     * @param $action - действие
+     * @return mixed
+     * @throws \Exception
+     */
     public function run($action)
     {
         try {
@@ -39,6 +64,10 @@ abstract class Controller extends mainController
             return true;
         }
     }
+    /**
+     * Отправка ответа в формате JSON
+     * @param $data - данные
+     */
     public function sendJson($data)
     {
         $this->response->sendJson($data);

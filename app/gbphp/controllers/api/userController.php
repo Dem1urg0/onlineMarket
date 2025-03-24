@@ -5,24 +5,52 @@ namespace App\controllers\api;
 use App\main\App;
 use App\services\renders\IRender;
 use App\services\Request;
+use App\services\UserService;
 
+/**
+ * Класс контроллера api для работы с пользователями
+ * @package App\controllers\api
+ */
 class userController extends Controller
 {
-    protected $user_id;
-    protected $userService;
+    /**
+     * Id пользователя
+     * @var int $user_id
+     */
+    protected int $user_id;
 
+    /**
+     * Сервис работы с пользователями
+     * @var UserService $userService
+     */
+    protected UserService $userService;
+
+    /**
+     * Предварительная проверка авторизации, а также запуск действия
+     * @param $action - действие
+     * @return mixed
+     * @throws \Exception
+     */
     public function run($action)
     {
-        $this->user_id = App::call()->AuthMiddleware->checkApiAuth();
+        $this->user_id = App::call()->AuthMiddleware->checkAuth(true);
         return parent::run($action);
     }
 
+    /**
+     * Конструктор контроллера
+     * @param IRender $render - экземпляр класса render
+     * @param Request $request - экземпляр класса request
+     */
     public function __construct(IRender $render, Request $request)
     {
         parent::__construct($render, $request);
         $this->userService = App::call()->UserService;
     }
 
+    /**
+     * Метод изменения данных пользователя
+     */
     public function UserEditAction()
     {
         $request = $this->validator->validateJsonData(true);
@@ -42,6 +70,9 @@ class userController extends Controller
         $this->sendJson($response);
     }
 
+    /**
+     * Метод получения данных пользователя
+     */
     public function userDataAction()
     {
         $request = $this->validator->validateJsonData(true);

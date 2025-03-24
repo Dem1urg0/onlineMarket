@@ -1,6 +1,17 @@
+{#
+    Шаблон страницы "Создания заказа"
+    Выводит страницу создания заказа
+    Компоненты:
+        billing-page - компонент страницы создания заказа
+    параметры:
+        currentUser - текущий пользователь
+        countries - список стран (глобальная переменная)
+#}
 {% extends 'layouts/main.twig' %}
+{# Подстановка заголовка #}
 {% block title %}Check Out{% endblock %}
 {% block content %}
+    {# Подключение компонента страницы создания заказа #}
     <billing-page ref="billingPage"
                   :current-user="{{ currentUser | json_encode }}"
                   :countries="{{ countries | json_encode }}"></billing-page>

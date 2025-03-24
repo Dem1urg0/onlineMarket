@@ -3,23 +3,52 @@
 namespace App\controllers\api;
 
 use App\main\App;
+use App\services\OrderService;
 
+/**
+ * Класс контроллера api для работы с заказами
+ * @package App\controllers\api
+ */
 class orderController extends controller
 {
-    protected $user_id;
-    protected $orderService;
+    /**
+     * Id текущего пользователя
+     * @var int $user_id
+     */
+    protected int $user_id;
 
+    /**
+     * Сервис для работы с заказами
+     * @var OrderService
+     */
+    protected OrderService $orderService;
+
+    /**
+     * Предварительная проверка авторизации, а также запуск действия
+     * @param $action - действие
+     * @return mixed|true
+     * @throws \Exception
+     */
     public function run($action)
     {
-        $this->user_id = App::call()->AuthMiddleware->checkApiAuth();
+        $this->user_id = App::call()->AuthMiddleware->checkAuth(true);
         return parent::run($action);
     }
+
+    /**
+     * Конструктор контроллера
+     * @param $render - экземпляр класса Render
+     * @param $request - экземпляр класса Request
+     */
     public function __construct($render, $request)
     {
         parent::__construct($render, $request);
         $this->orderService = App::call()->OrderService;
     }
 
+    /**
+     * Получение всех заказов текущего пользователя
+     */
     public function setAction()
     {
         $request = $this->validator->validateJsonData(true);
@@ -30,11 +59,14 @@ class orderController extends controller
             'cart' => $request['cart'] ?? [],
         ];
 
-        $response = $this->orderService->orderFill($params, true);
+        $response = $this->orderService->orderFill($params);
 
         $this->sendJson($response);
     }
 
+    /**
+     * Удаление заказа
+     */
     public function deleteAction()
     {
         $request = $this->validator->validateJsonData(true);
@@ -49,6 +81,9 @@ class orderController extends controller
         $this->sendJson($response);
     }
 
+    /**
+     * Изменение статуса заказа
+     */
     public function changeStatusAction()
     {
         $request = $this->validator->validateJsonData(true);

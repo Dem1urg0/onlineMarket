@@ -3,13 +3,33 @@
 namespace App\services;
 
 use App\main\App;
+use App\validators\OrderValidator;
+use App\validators\PaginationValidator;
+use App\validators\UserValidator;
 
+/**
+ * Класс сервиса для работы с пользователями
+ */
 class UserService
 {
-    protected $userValidator;
-    protected $paginationValidator;
-    protected $orderValidator;
+    /**
+     * @var UserValidator|mixed|object|null $userValidator - объект валидатора пользователей
+     */
+    protected UserValidator $userValidator;
 
+    /**
+     * @var PaginationValidator|mixed|object|null $paginationValidator - объект валидатора пагинации
+     */
+    protected PaginationValidator $paginationValidator;
+
+    /**
+     * @var OrderValidator|mixed|object|null $orderValidator - объект валидатора заказов
+     */
+    protected OrderValidator $orderValidator;
+
+    /**
+     * Конструктор сервиса
+     */
     public function __construct()
     {
         $this->userValidator = App::call()->UserValidator;
@@ -17,6 +37,11 @@ class UserService
         $this->orderValidator = App::call()->OrderValidator;
     }
 
+    /**
+     * Метод добавления пользователя
+     * @param $params - параметры пользователя
+     * @return array
+     */
     public function addUser($params)
     {
         $this->userValidator->checkEmpty($params['login'], true);
@@ -43,6 +68,11 @@ class UserService
         ];
     }
 
+    /**
+     * Метод обновления данных пользователя
+     * @param $params - параметры пользователя
+     * @return array
+     */
     public function updateUser($params)
     {
         $this->userValidator->checkUpdateDataEmpty($params, true);
@@ -75,6 +105,11 @@ class UserService
         ];
     }
 
+    /**
+     * Получение пользователей с фильтром и пагинацией
+     * @param $params - параметры фильтрации и пагинации
+     * @return array
+     */
     public function getFilter($params)
     {
         $this->userValidator->checkEmpty($params, true);
@@ -101,7 +136,7 @@ class UserService
         ];
 
         if (!empty($type)) {
-            $data['value'] = '%' . $value . '%';
+            $data['value'] = !empty($value) ? '%' . $value . '%' : null;
         }
 
         $paramsForDB = [
@@ -130,21 +165,42 @@ class UserService
         ];
     }
 
+    /**
+     * Метод прослойка для получения количества пользователей с фильтром из репозитория
+     * @param $params - параметры фильтрации
+     * @param $data - данные для фильтрации
+     * @return mixed
+     */
     protected function getCountOfFilterUsers($params, $data)
     {
         return App::call()->UserRepository->getCountOfFilter($params, $data);
     }
 
+    /**
+     * Метод прослойка для получения пользователей с фильтром из репозитория
+     * @param $params - параметры фильтрации
+     * @param $data - данные для фильтрации
+     * @return mixed
+     */
     protected function getUsersWithFilter($params, $data)
     {
         return App::call()->UserRepository->getWithFilter($params, $data);
     }
 
+    /**
+     * Метод сохранения пользователя
+     * @param $user - объект пользователя
+     * @return void
+     */
     protected function userSave($user)
     {
         App::call()->UserRepository->save($user);
     }
 
+    /**
+     * Метод получения объекта пользователя
+     * @return mixed|object|null - объект пользователя
+     */
     protected function getUserObj()
     {
         return App::call()->User;

@@ -4,10 +4,29 @@ namespace App\Entities\Order;
 
 use App\Entities\Entity;
 
+/**
+ * Класс сущности Заказ
+ */
 class Order extends Entity
 {
-    public $id;
-    public $status = 'created';
+    /**
+     * ID заказа
+     * @var int $id
+     */
+    public int $id;
+    /**
+     * Статус заказа
+     * @var string $status
+     */
+    public string $status = 'created';
+    /**
+     * Дата создания заказа
+     * @var string $date
+     */
     public $date;
-    public $user_id;
+    /**
+     * ID пользователя
+     * @var int $user_id
+     */
+    public int $user_id;
 }

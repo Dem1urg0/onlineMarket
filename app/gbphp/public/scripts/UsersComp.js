@@ -1,5 +1,16 @@
+/**
+ * Компонент для отображения пользователей
+ */
 Vue.component('users-page', {
+    /**
+     * Пропсы компонента
+     */
     props: ['users', 'maxOrdersCount', 'pagesCount', 'renderPageType'],
+
+    /**
+     * Реактивные данные компонента
+     * @returns {{userSort: *[], usersSearchByOrder: *[], usersSearchByType: *[], usersRender: *[], sort: {ordersNumber: {inputs: {first: number, second: number}, minCount: number, maxCount: number}, param: {type: string, value: string}, maxPages: number, renderCount: number, page: number, renderPages: *[]}, renderType: string}}
+     */
     data() {
         return {
             usersRender: [],
@@ -27,17 +38,36 @@ Vue.component('users-page', {
             renderType: '',
         }
     },
+
+    /**
+     * Код, который выполнится после монтирования компонента
+     * Инициализация пропсов и компонента
+     */
     mounted() {
         this.sort.ordersNumber.maxCount = this.maxOrdersCount;
         this.sort.ordersNumber.inputs.second = this.maxOrdersCount;
         this.renderType = this.renderPageType;
-        console.log(this.renderType);
         this.initializeComponent(this.users, this.pagesCount);
     },
+
+    /**
+     * Методы компонента
+     */
     methods: {
+
+        /**
+         * Проверка на метод отображения
+         * @returns {boolean}
+         */
         isMany() {
             return this.renderType === 'many';
         },
+
+        /**
+         * Инициализация пользователей
+         * @param users - пользователи
+         * @param pagesCount - количество страниц
+         */
         initializeComponent(users, pagesCount) {
             if (this.isMany()) {
                 this.usersRender = users.slice(0, this.sort.renderCount)
@@ -51,12 +81,20 @@ Vue.component('users-page', {
             this.getPagesCount(); //?
             this.getPageRender()
         },
+
+        /**
+         * Установка минимального и максимального значения
+         */
         setMinMax() {
             const min = Math.min(this.sort.ordersNumber.inputs.first, this.sort.ordersNumber.inputs.second);
             const max = Math.max(this.sort.ordersNumber.inputs.first, this.sort.ordersNumber.inputs.second);
             this.sort.ordersNumber.inputs.first = min;
             this.sort.ordersNumber.inputs.second = max;
         },
+
+        /**
+         * Поиск по поисковой строке с разными параметрами на выбор
+         */
         searchByType() {
             if (!this.isMany()) return;
 
@@ -64,6 +102,10 @@ Vue.component('users-page', {
             this.usersSearchByType = this.users.filter(user => regexp.test(user[this.sort.param.type]));
             this.updateRender();
         },
+
+        /**
+         * Поиск по количеству заказов
+         */
         searchByOrders() {
             this.setMinMax();
             if (!this.isMany()) return;
@@ -73,11 +115,20 @@ Vue.component('users-page', {
             this.updateRender();
 
         },
+
+        /**
+         * Ререндер пользователей
+         */
         getRenderUsers() {
             if (!this.isMany()) return;
             this.usersSort = this.usersSearchByOrder.filter(user => this.usersSearchByType.includes(user)); // many
             this.usersRender = this.usersSort.slice((this.sort.page - 1) * this.sort.renderCount, this.sort.page * this.sort.renderCount);
         },
+
+        /**
+         * Смена страницы
+         * @param number - новый номер страницы
+         */
         changePage(number) {
             if (this.isMany()) {
                 if (number < 1 || number > this.sort.maxPages) return; // many
@@ -89,15 +140,25 @@ Vue.component('users-page', {
             }
         },
 
+        /**
+         * Смена страницы на первую
+         */
         firstPage() {
             if (!this.isMany()) return;
             this.sort.page = 1;
         },
+
+        /**
+         * Смена страницы на первую для поиска
+         */
         firstPageForSearch() {
             if (this.isMany()) return;
             this.sort.page = 1;
         },
 
+        /**
+         * Получение количества страниц при 'many' типе рендера
+         */
         getPagesCount() {
             if (!this.isMany()) return;
 
@@ -105,6 +166,10 @@ Vue.component('users-page', {
                 this.sort.maxPages = Math.ceil(this.usersSort.length / this.sort.renderCount);
             }
         },
+
+        /**
+         * Обновление рендера данных
+         */
         updateRender() {
             this.firstPage();
             this.getRenderUsers();
@@ -112,6 +177,9 @@ Vue.component('users-page', {
             this.getPageRender()
         },
 
+        /**
+         * Заполнение массива страниц для рендера
+         */
         getPageRender() {
             let p = this.sort.page;
             let max = this.sort.maxPages;
@@ -123,6 +191,11 @@ Vue.component('users-page', {
                 this.sort.renderPages.push(i);
             }
         },
+
+        /**
+         * Поиск пользователей через сервер api
+         * @returns {Promise<void>}
+         */
         async search() {
             if (this.isMany()) return;
             const params = {
@@ -158,6 +231,9 @@ Vue.component('users-page', {
 
         }
     },
+    /**
+     * Шаблон компонента
+     */
     template:
         `
     <div class="users">

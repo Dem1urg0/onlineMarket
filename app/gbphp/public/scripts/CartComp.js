@@ -1,4 +1,11 @@
+/**
+ * Компонент выбрасывающегося меню корзины
+ */
 Vue.component('drop-cart', {
+    /**
+     * Реактивные данные компонента
+     * @returns {{totalPrice: number, showCart: boolean, cartItems: *[]}}
+     */
     data() {
         return {
             cartItems: [],
@@ -6,22 +13,45 @@ Vue.component('drop-cart', {
             totalPrice: 0,
         }
     },
+
+    /**
+     * Код выполняемый после монтирования компонента.
+     * Получает данные корзины и общую стоимость
+     */
     mounted() {
         this.cartItems = getCart();
         this.totalPrice = total(this.cartItems);
         this.$root.$on('cart-updated', this.updateCart);
     },
+    /**
+     * Методы компонента
+     */
     methods: {
+        /**
+         * Удаление товара из корзины (утилита cartUtils.js)
+         */
+        removeProduct,
+        /**
+         * Обновляет данные корзины и общую стоимость
+         */
         updateCart() {
             this.cartItems = getCart();
             this.totalPrice = total(this.cartItems);
         },
+
+        /**
+         * Удаляет товар из корзины
+         * @param product
+         */
         removeFromCart(product) {
             removeProduct(product);
             this.cartItems = getCart();
             this.totalPrice = total(this.cartItems);
         }
     },
+    /**
+     * Шаблон компонента
+     */
     template: `
       <div class="cart_menu">
         <img class="cart" src="/style/img/cart.svg" alt="cart" @click="showCart= !showCart">
@@ -47,13 +77,27 @@ Vue.component('drop-cart', {
     `
 });
 
+/**
+ * Компонент товара в выпадающем меню корзины
+ */
 Vue.component('cart-item', {
+    /**
+     * Пропсы компонента
+     */
     props: ['cartItem', 'img'],
+
+    /**
+     * Методы компонента
+     */
     methods: {
-        getHrefGood() {
-            return `/good/one?id=${this.cartItem.id}`
-        }
+        /**
+         * Получение ссылки на изображение товара (утилита pathUtils.js)
+         */
+        getHrefGood,
     },
+    /**
+     * Шаблон компонента
+     */
     template: `
       <li class="drop__cart__items">
         <div class="drop__cart__items__info">
@@ -70,43 +114,87 @@ Vue.component('cart-item', {
     `
 });
 
+/**
+ * Компонент товаров страницы корзины
+ */
 Vue.component('cart-page-items', {
+    /**
+     * Реактивные данные компонента
+     * @returns {{totalPrice: number, cartItems: *[]}}
+     */
     data() {
         return {
             cartItems: [],
             totalPrice: 0,
         }
     },
+
+    /**
+     * Код выполняемый после монтирования компонента.
+     * Получает данные корзины и общую стоимость
+     */
     mounted() {
         this.cartItems = getCart();
         this.emitTotal();
     },
+
+    /**
+     * Методы компонента
+     */
     methods: {
+        /**
+         * Добавление товара в корзину (утилита cartUtils.js)
+         * @param product
+         */
+        addProduct,
         addToCart(product) {
             addProduct(product);
             this.cartItems = getCart();
             this.totalPrice = total(this.cartItems);
         },
+        /**
+         * Уменьшение количества товара в корзине на 1 (утилита cartUtils.js)
+         * @param product
+         */
+        decProduct,
         decCart(product) {
             decProduct(product);
             this.cartItems = getCart();
             this.totalPrice = total(this.cartItems);
         },
+
+        /**
+         * Удаление товара из корзины (утилита cartUtils.js)
+         * @param product
+         */
+        removeProduct,
         removeFromCart(product) {
             removeProduct(product);
             this.cartItems = getCart();
             this.totalPrice = total(this.cartItems);
         },
+
+        /**
+         * Эмит события изменения общей стоимости корзины
+         */
         emitTotal() {
             this.totalPrice = total(this.cartItems);
             this.$emit('total-changed', this.totalPrice);
         },
+
+        /**
+         * Очистка корзины (утилита cartUtils.js)
+         */
+        clearCart,
         clearAllCart() {
             clearCart();
             this.cartItems = getCart();
             this.emitTotal();
         }
     },
+    /**
+     * Шаблон компонента
+     */
     template: `
       <div>
       <h2 v-if="cartItems.length == 0">Cart is empty</h2>
@@ -138,7 +226,19 @@ Vue.component('cart-page-items', {
       </div>
     `
 })
+
+/**
+ * Компонент страницы корзины
+ */
 Vue.component('cart-page', {
+    /**
+     * Пропсы компонента
+     */
+    props: ['countriesServer'],
+    /**
+     * Реактивные данные компонента
+     * @returns {{codeRes: boolean, totalWithSale: number, total: number, deliveryInfo: {zip: {valid: string, error: boolean, value: string}, country: {valid: string, error: boolean, value: string}, city: {valid: string, error: boolean, value: string}}, sale: number, code: string, countries: *[]}}
+     */
     data() {
         return {
             totalWithSale: 0,
@@ -166,30 +266,52 @@ Vue.component('cart-page', {
             sale: 0,
         }
     },
+    /**
+     * Код выполняемый после монтирования компонента.
+     * Получает список стран
+     */
     mounted() {
-        this.countries = window.countries;
+        this.countries = this.countriesServer
     },
+
+    /**
+     * Методы компонента
+     */
     methods: {
+        /**
+         * Обработчик изменения общей стоимости корзины
+         * @param value - новая стоимость
+         */
         totalChanged(value) {
             this.total = value;
             this.fillTotal()
         },
+
+        /**
+         * Подсчет общей стоимости с учетом скидки
+         */
         fillTotal() {
             this.totalWithSale = this.total - this.total * this.sale / 100;
         },
-        validTest() {
-            let letters = /^[A-Za-z]+$/;
-            let numbers = /^[0-9]+$/;
 
-            Object.entries(this.deliveryInfo).forEach(([key, item]) => {
-                if ((item.valid === 'letters' && letters.test(item.value) && item.value !== '') ||
-                    (item.valid === 'numbers' && numbers.test(item.value) && item.value !== '')) {
-                    item.error = false;
-                } else {
-                    item.error = true;
-                }
+        /**
+         * Проверка валидности данных доставки
+         */
+        validTest() {
+            const validators = {
+                letters: value => /^[A-Za-z]+$/.test(value) && value !== '',
+                numbers: value => /^[0-9]+$/.test(value) && value !== ''
+            };
+
+            Object.values(this.deliveryInfo).forEach(item => {
+                item.error = !validators[item.valid](item.value);
             });
         },
+
+        /**
+         * Переход к оформлению заказа
+         * @returns {Promise<void>}
+         */
         async checkOut() {
             this.validTest();
             if (this.code !== '') {
@@ -224,6 +346,10 @@ Vue.component('cart-page', {
             }
         },
 
+        /**
+         * Проверка промокода на сервере
+         * @returns {Promise<void>}
+         */
         async checkCode() {
             if (!this.deliveryInfo.country.value || !this.code) {
                 this.codeRes = 400;
@@ -268,6 +394,9 @@ Vue.component('cart-page', {
             }
         },
     },
+    /**
+     * Шаблон компонента
+     */
     template: `
       <div>
         <section class="products container">

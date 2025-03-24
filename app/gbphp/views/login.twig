@@ -1,5 +1,15 @@
+{#
+    Шаблон страницы "Логин"
+    Выводит станицу входа пользователя в систему
+    Компоненты:
+        auth-form - форма авторизации
+    параметры:
+        action - действие формы (может быть login или register)
+#}
 {% extends 'layouts/main.twig' %}
+{# Заголовок #}
 {% block title %}Login{% endblock %}
 {% block content %}
+    {# Подключение формы авторизации #}
     <auth-form ref='authForm' action="login"></auth-form>
 {% endblock %}

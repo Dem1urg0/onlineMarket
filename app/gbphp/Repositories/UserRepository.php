@@ -2,21 +2,36 @@
 
 namespace App\Repositories;
 
-use App\Entities\User;
 use App\main\App;
 
+/**
+ * Класс репозиторий для работы с пользователями
+ */
 class UserRepository extends Repository
 {
+    /**
+     * Метод возвращает имя таблицы в БД
+     * @return string
+     */
     public function getTableName(): string
     {
         return 'users';
     }
 
+    /**
+     * Метод возвращает имя класса сущности
+     * @return string
+     */
     public function getEntityClass()
     {
         return get_class(App::call()->User);
     }
 
+    /**
+     * Метод возвращает пользователя по логину
+     * @param string $login - логин пользователя
+     * @return object
+     */
     public function getByLogin($login)
     {
         $tableName = $this->getTableName();
@@ -24,6 +39,10 @@ class UserRepository extends Repository
         return $this->db->queryObject($sql, $this->getEntityClass(), [':login' => $login]);
     }
 
+    /**
+     * Метод возвращает всех пользователей
+     * @return mixed
+     */
     public function getAllUsersInfo()
     {
         $sql = "SELECT users.id, users.login, users.name, users.role, COUNT(orders.id) as count_orders 
@@ -33,6 +52,12 @@ class UserRepository extends Repository
         return $this->db->findAll($sql);
     }
 
+    /**
+     * Метод возвращает всех пользователей с фильтром и пагинацией
+     * @param array $params - параметры фильтрации и пагинации
+     * @param array $data - данные для фильтрации
+     * @return mixed
+     */
     public function getWithFilter($params, $data)
     {
 
@@ -56,6 +81,12 @@ class UserRepository extends Repository
         }
     }
 
+    /**
+     * Метод возвращает количество пользователей с фильтром
+     * @param $data - данные для фильтрации
+     * @param $type - тип фильтрации
+     * @return false
+     */
     public function getCountOfFilter($data, $type)
     {
         $sql = "SELECT COUNT(*) AS total_filtered

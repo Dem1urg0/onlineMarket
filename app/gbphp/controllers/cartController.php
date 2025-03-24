@@ -3,25 +3,47 @@
 namespace App\controllers;
 
 use App\main\App;
+use App\Repositories\CountryRepository;
 use App\services\renders\IRender;
 use App\services\Request;
-use function PHPUnit\Framework\throwException;
 
+/**
+ * Контроллер корзины
+ *
+ * Отвечает за отображение страницы корзины
+ *
+ * @package App\controllers
+ */
 class cartController extends Controller
 {
-    protected $defaultAction = 'all';
-    protected $countryRepository;
+    /**
+     * Действие по умолчанию
+     * @var string
+     */
+    protected string $defaultAction = 'index';
+    /**
+     * Репозиторий стран
+     * @var CountryRepository
+     */
+    protected CountryRepository $countryRepository;
 
+    /**
+     * Конструктор контроллера
+     * @param IRender $render - Экземпляр класса render
+     * @param Request $request - Экземпляр класса request
+     */
     public function __construct(IRender $render, Request $request)
     {
         parent::__construct($render, $request);
         $this->countryRepository = App::call()->CountryRepository;
     }
 
-    public function allAction()
+    /**
+     * Получение корзины
+     * @return string
+     */
+    public function indexAction()
     {
-        return $this->render('cart', [
-            'countries' => $this->countryRepository->getAll(),
-        ]);
+        return $this->render('cart', []);
     }
 }

@@ -1,5 +1,19 @@
+/**
+ * Компонент авторизации
+ *
+ * @component auth-form
+ */
 Vue.component('auth-form', {
+
+    /**
+     * Ожидаемые передаваемые свойства в компонент
+     */
     props: ['action'],
+
+    /**
+     * Регистрация данных компонента
+     * @returns {{password: {error: null, value: string}, login: {error: null, value: string}}}
+     */
     data() {
         return {
             login: {
@@ -12,10 +26,23 @@ Vue.component('auth-form', {
             }
         };
     },
+
+    /**
+     * Методы компонента
+     */
     methods: {
+        /**
+         * Получить название действия с заглавной буквы
+         * @returns {string} - Название действия с заглавной буквы
+         */
         getUpCaseAction() {
             return this.action.charAt(0).toUpperCase() + this.action.slice(1);
         },
+
+        /**
+         * Валидация логина
+         * @returns {string} - возвращает ошибку, если она есть
+         */
         validateLogin() {
             const login = this.login.value;
 
@@ -34,6 +61,11 @@ Vue.component('auth-form', {
 
             this.login.error = null;
         },
+
+        /**
+         * Валидация пароля
+         * @returns {string} - возвращает ошибку, если она есть
+         */
         validatePassword() {
             const password = this.password.value;
 
@@ -63,6 +95,11 @@ Vue.component('auth-form', {
 
             this.password.error = null;
         },
+
+        /**
+         * Выполнить действие - вход или регистрация (в зависимости от переданного action)
+         * @returns {Promise<void>}
+         */
         doAction: async function () {
 
             if (this.action === 'register') {
@@ -117,6 +154,9 @@ Vue.component('auth-form', {
             }
         }
     },
+    /**
+     * Шаблон компонента
+     */
     template: `
     <div class="form__block">
         <div class="container">

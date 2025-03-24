@@ -1,6 +1,20 @@
+/**
+ * Компонент страницы пользователя
+ */
 Vue.component('user-page', {
+    /**
+     * Пропсы компонента
+     */
     props: ['currentUser', 'userData'],
+
+    /**
+     * Реактивные данные компонента
+     */
     methods: {
+        /**
+         * Метод выхода из учетной записи
+         * @returns {Promise<void>}
+         */
         async logout() {
             await this.$root.postJson('/auth/logout')
             location.href = '/auth/'
@@ -9,6 +23,9 @@ Vue.component('user-page', {
             location.href = '/user/edit'
         },
     },
+    /**
+     * Шаблон компонента
+     */
     template: `
 <div class="user-page__center">
         <div class="user-page">
@@ -25,7 +42,6 @@ Vue.component('user-page', {
                     <button id="change-data" class="btn" @click="change">Change Data</button>
                     <button id="logout" class="btn btn-logout" @click="logout">Log Out</button>
                 </div>
-<!--                todo заказы пользователя-->
             </div>
     </div>
 </div>

@@ -3,13 +3,37 @@
 namespace App\controllers\api;
 
 use App\main\App;
+use App\Repositories\Good\StorageRepository;
+use App\services\GoodService;
+use App\validators\GoodValidator;
 
+/**
+ * Класс контроллера api для работы с товарами
+ * @package App\controllers\api
+ */
 class goodController extends Controller
 {
-    protected $goodService;
-    protected $storageRepository;
-    protected $GoodValidator;
+    /**
+     * Сервис для работы с товарами
+     * @var GoodService
+     */
+    protected GoodService $goodService;
+    /**
+     * Репозиторий для работы с хранилищем
+     * @var StorageRepository
+     */
+    protected StorageRepository $storageRepository;
+    /**
+     * Валидатор для товаров
+     * @var GoodValidator
+     */
+    protected GoodValidator $GoodValidator;
 
+    /**
+     * Конструктор контроллера
+     * @param $render - Экземпляр класса для render
+     * @param $request - Экземпляр класса для request
+     */
     public function __construct($render, $request)
     {
         parent::__construct($render, $request);
@@ -18,6 +42,9 @@ class goodController extends Controller
         $this->GoodValidator = App::call()->GoodValidator;
     }
 
+    /**
+     * Получение всех товаров по фильтрам и пагинации
+     */
     public function getFilteredGoodsAction()
     {
         $request = $this->validator->validateJsonData(true);
@@ -45,11 +72,14 @@ class goodController extends Controller
         $this->sendJson($response);
     }
 
+    /**
+     * Получение хранилища для товаров
+     */
     public function getStorageAction()
     {
         $goods = $this->validator->validateJsonData(true);
 
-        $response = $this->goodService->addStorageToGoods($goods, true);
+        $response = $this->goodService->getStorageForGoods($goods, true);
 
         $this->sendJson($response);
     }

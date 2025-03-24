@@ -4,14 +4,27 @@ namespace App\validators;
 
 use App\main\App;
 
+/**
+ * Валидатор для товаров
+ */
 class GoodValidator extends Validator
 {
-    protected $genders = [
+    /**
+     * @var array|string[] $genders - массив возможных гендеров
+     */
+    protected array $genders = [
         'man',
         'woman',
         'unisex'
     ];
 
+    /**
+     * Валидация гендера товара (пола)
+     * @param $gender - гендер
+     * @param $isApi - флаг API
+     * @return void
+     * @throws \App\Exceptions\apiException
+     */
     public function validateGender($gender, $isApi = false)
     {
         if (!in_array($gender, $this->genders)) {
@@ -19,6 +32,13 @@ class GoodValidator extends Validator
         }
     }
 
+    /**
+     * Валидация категории товара
+     * @param $category - категория
+     * @param $isApi - флаг API
+     * @return mixed
+     * @throws \App\Exceptions\apiException
+     */
     public function validateCategory($category, $isApi = false)
     {
         if (empty($data = App::call()->GoodCategoryRepository->getByName($category))) {
@@ -27,6 +47,13 @@ class GoodValidator extends Validator
         return $data->id;
     }
 
+    /**
+     * Валидация бренда товара
+     * @param $brand - бренд
+     * @param $isApi - флаг API
+     * @return mixed
+     * @throws \App\Exceptions\apiException
+     */
     public function validateBrands($brand, $isApi = false)
     {
         if (empty($data = App::call()->GoodBrandRepository->getByName($brand))) {
@@ -35,6 +62,13 @@ class GoodValidator extends Validator
         return $data->id;
     }
 
+    /**
+     * Валидация дизайнера товара
+     * @param $designer - дизайнер
+     * @param $isApi - флаг API
+     * @return mixed
+     * @throws \App\Exceptions\apiException
+     */
     public function validateDesigners($designer, $isApi = false)
     {
         if (empty($data = App::call()->GoodDesignerRepository->getByName($designer))) {
@@ -43,6 +77,13 @@ class GoodValidator extends Validator
         return $data->id;
     }
 
+    /**
+     * Валидация id товара
+     * @param $goodId - id товара
+     * @param $isApi - флаг API
+     * @return mixed
+     * @throws \App\Exceptions\apiException
+     */
     public function validateGood($goodId, $isApi = false)
     {
         if (empty($good = App::call()->GoodRepository->getOne($goodId))) {
@@ -51,6 +92,13 @@ class GoodValidator extends Validator
         return $good;
     }
 
+    /**
+     * Проверка наличия товара на складе
+     * @param $goodId - id товара
+     * @param $isApi - флаг API
+     * @return mixed
+     * @throws \App\Exceptions\apiException
+     */
     public function checkGoodInStorage($goodId, $isApi = false)
     {
         if (empty($storage = App::call()->StorageRepository->getInfoFromStorage($goodId))) {
@@ -59,6 +107,13 @@ class GoodValidator extends Validator
         return $storage;
     }
 
+    /**
+     * Проверка цены
+     * @param $params - параметры
+     * @param $isApi - флаг API
+     * @return void
+     * @throws \App\Exceptions\apiException
+     */
     public function checkPrice($params, $isApi = false)
     {
         if ($params['max'] == 'max') {
@@ -76,6 +131,13 @@ class GoodValidator extends Validator
         }
     }
 
+    /**
+     * Проверка дизайнеров
+     * @param $designers - дизайнеры
+     * @param $isApi - флаг API
+     * @return mixed
+     * @throws \App\Exceptions\apiException
+     */
     public function checkDesigners($designers, $isApi = false)
     {
         if (!empty($designers)) {
@@ -88,6 +150,14 @@ class GoodValidator extends Validator
         }
         return $designers;
     }
+
+    /**
+     * Проверка брендов
+     * @param $brands - бренды
+     * @param $isApi - флаг API
+     * @return mixed
+     * @throws \App\Exceptions\apiException
+     */
     public function checkBrands($brands, $isApi = false)
     {
         if (!empty($brands)) {
@@ -100,6 +170,14 @@ class GoodValidator extends Validator
         }
         return $brands;
     }
+
+    /**
+     * Проверка категории
+     * @param $category - категория
+     * @param $isApi - флаг API
+     * @return null
+     * @throws \App\Exceptions\apiException
+     */
     public function checkCategory($category, $isApi = false)
     {
         if (!empty($category)) {
@@ -107,8 +185,16 @@ class GoodValidator extends Validator
                 $this->throwException('Категория не найдена', 404, $isApi);
             }
         }
-        return $category_id;
+        return $category_id ?? null;
     }
+
+    /**
+     * Проверка размеров
+     * @param $sizes - размеры
+     * @param $isApi - флаг API
+     * @return mixed
+     * @throws \App\Exceptions\apiException
+     */
     public function checkSizes($sizes, $isApi = false)
     {
         if (!empty($sizes)) {
@@ -121,6 +207,13 @@ class GoodValidator extends Validator
         }
         return $sizes;
     }
+
+    /**
+     * Нормализация цены
+     * @param $min - минимальная цена
+     * @param $max - максимальная цена
+     * @return array
+     */
     public function normalizePrice($min, $max)
     {
         $maxPrice = App::call()->GoodRepository->getMaxPrice();

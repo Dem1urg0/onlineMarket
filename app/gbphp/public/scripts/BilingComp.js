@@ -1,5 +1,17 @@
-Vue.component('billing-page', { //todo Cannot read properties of null (reading 'deliveryInfo')
-    props: ['currentUser', 'countries'],
+/**
+ * Компонент страницы оформления заказа
+ * @component billing-page
+ */
+Vue.component('billing-page', {
+        /**
+         * Ожидает получить данные о пользователе и странах
+         */
+        props: ['currentUser', 'countries'],
+
+        /**
+         * Реактивные данные компонента
+         * @returns {{blocksError: {address: {zip: boolean, country: boolean, address: boolean, city: boolean}, shipping: {method: boolean}, billing: {sur: boolean, first: boolean, second: boolean}}, total: {totalPrice: number, totalSale: number}, userData: {address: {zip: {valid: string, value: string}, country: {valid: string, value: string}, address: {valid: string, value: string}, city: {valid: string, value: string}}, shipping: {method: {valid: string, value: string}}, billing: {sur: {valid: string, value: string}, first: {valid: string, value: string}, second: {valid: string, value: string}}}, code: {codeRes: boolean, sale: number, value: string}, blocksShow: {address: boolean, shipping: boolean, review: boolean, billing: boolean}}}
+         */
         data() {
             return {
                 userData: {
@@ -51,43 +63,55 @@ Vue.component('billing-page', { //todo Cannot read properties of null (reading '
                 },
             }
         },
+        /**
+         * Код выполняется после монтирования компонента.
+         * Подгружает данные о доставке из сессии
+         */
         mounted() {
             const sessionDeliveryInfo = JSON.parse(sessionStorage.getItem('deliveryInfo'));
             if (!sessionDeliveryInfo) {
                 return;
             }
             this.code.value = sessionDeliveryInfo.code;
+            const deliveryInfo = sessionDeliveryInfo.deliveryInfo;
             this.userData.address.country.value = deliveryInfo.country.value;
             this.userData.address.city.value = deliveryInfo.city.value;
             this.userData.address.zip.value = deliveryInfo.zip.value;
-
-
         },
+
+        /**
+         * Методы компонента
+         */
         methods: {
+            /**
+             * Проверка валидности данных
+             * @param name - имя блока данных для проверки
+             * @constructor
+             */
             ValidTest(name) {
                 if (!name) {
                     return;
                 }
-                let letters = /^[A-Za-z]+$/;
-                let numbers = /^[0-9]+$/;
 
-                Object.entries(this.userData[name]).forEach((item, index) => {
-                    let value = item[1].value
-                    let valid = item[1].valid
-                    if (valid !== 'numbers') {
-                        if (letters.test(value) && value !== '') {
-                            this.blocksError[name][item[0]] = false;
-                        } else {
-                            this.blocksError[name][item[0]] = true;
-                        }
-                    } else if (numbers.test(value) && value !== '') {
-                        this.blocksError[name][item[0]] = false;
-                    } else {
-                        this.blocksError[name][item[0]] = true;
-                    }
+                Object.entries(this.userData[name]).forEach(([key, {value, valid}]) => {
+                    const validationPatterns = {
+                        letters: /^[A-Za-z]+$/,
+                        numbers: /^[0-9]+$/
+                    };
+
+                    const pattern = validationPatterns[valid];
+                    const isValid = pattern && pattern.test(value) && value !== '';
+
+                    this.blocksError[name][key] = !isValid;
                 })
                 this.CheckBlock(name);
             },
+
+            /**
+             * Проверка блока данных на наличие ошибки. Если ошибка есть, то блок ошибки для блока отображается
+             * @param name - имя блока данных
+             * @constructor
+             */
             CheckBlock(name) {
                 const hasError = Object.values(this.blocksError[name]).some(value => value);
 
@@ -102,11 +126,23 @@ Vue.component('billing-page', { //todo Cannot read properties of null (reading '
                     }
                 }
             },
+
+            /**
+             * Проверка всех блоков на наличие ошибок
+             * @returns {boolean} - true, если ошибок нет, иначе false
+             * @constructor
+             */
             CheckAllBlocks() {
-                return !Object.entries(this.blocksError).some(([key, value]) => {
+                return !Object.entries(this.blocksError).some(([_, value]) => {
                     return Object.values(value).some(bool => bool);
                 });
             },
+
+            /**
+             * Формирование объекта заказа
+             * @returns {{address: {zip: string, country: string, address: string, city: string}, code: {value}, shipping: {method: string}, billing: {sur: string, first: string, second: string}}}
+             * @constructor
+             */
             Order() {
                 return {
                     address: {
@@ -128,9 +164,15 @@ Vue.component('billing-page', { //todo Cannot read properties of null (reading '
                     }
                 }
             },
+
+            /**
+             * Отправка заказа на сервер
+             * @returns {Promise<void>}
+             * @constructor
+             */
             async SendOrder() {
                 if (this.currentUser.id === 0) {
-                    location.href='/auth/';
+                    location.href = '/auth/';
                     return;
                 }
                 if (this.code.value !== '') {
@@ -139,13 +181,14 @@ Vue.component('billing-page', { //todo Cannot read properties of null (reading '
                         return;
                     }
                 }
-                Object.keys(this.userData).forEach((key, index) => {
+                Object.keys(this.userData).forEach((key) => {
                     this.ValidTest(key)
                 })
                 if (sessionStorage.getItem('cart') === null || JSON.parse(sessionStorage.getItem('cart')).length === 0) {
                     alert('Cart is empty');
                     return;
                 }
+
                 if (this.CheckAllBlocks()) {
                     this.$root.postJson('/api/order/set', {
                         order: this.Order(),
@@ -172,13 +215,26 @@ Vue.component('billing-page', { //todo Cannot read properties of null (reading '
                 }
             },
 
+            /**
+             * Обработчик события изменения общей стоимости товаров в корзине
+             * @param value - новая общая стоимость товаров в корзине
+             */
             totalChanged(value) {
                 this.total.totalPrice = value;
                 this.fillTotal()
             },
+
+            /**
+             * Заполнение общей стоимости заказа
+             */
             fillTotal() {
                 this.total.totalSale = this.total.totalPrice - this.total.totalPrice * this.code.sale / 100;
             },
+
+            /**
+             * Проверка кода на скидку на сервере
+             * @returns {Promise<void>}
+             */
             async checkCode() {
                 if (this.userData.address.country.value === '' || this.code.value === '') {
                     this.codeRes = 400;
@@ -218,6 +274,10 @@ Vue.component('billing-page', { //todo Cannot read properties of null (reading '
                 }
             }
         },
+
+        /**
+         * Шаблон компонента
+         */
         template: `
 <section class="arrivals__info container">
     <div class="order_info address">

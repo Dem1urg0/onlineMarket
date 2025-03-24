@@ -2,6 +2,9 @@
 
 namespace App\traits;
 
+/**
+ * Синглтон
+ */
 trait TSingleton
 {
     protected function __construct() {}

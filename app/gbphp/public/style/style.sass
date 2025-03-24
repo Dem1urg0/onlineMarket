@@ -10,9 +10,6 @@ html, body
 body
   font-family: 'Lato', sans-serif
 
-.nonwrap
-  flex-wrap: unset !important
-
 .juctcont
   display: flex
   justify-content: space-between
@@ -404,10 +401,10 @@ body
   border: solid 1px #e6e6e6
   border-top-right-radius: 3px
   border-bottom-right-radius: 3px
-  border-left-width: 0px
+  border-left-width: 0
 
 .form__search:hover
-  box-shadow: inset 0px 1px 8px 0 rgba(0, 0, 0, 0.16)
+  box-shadow: inset 0 1px 8px 0 rgba(0, 0, 0, 0.16)
 
 .form__browse
   width: 87px
@@ -417,7 +414,7 @@ body
   background-image: linear-gradient(to top, #f9f9f9, #f5f5f5)
   border-bottom-left-radius: 3px
   border-top-left-radius: 3px
-  border-right-width: 0px
+  border-right-width: 0
   position: relative
 
 .form__browse ul
@@ -481,7 +478,6 @@ details[open] > summary::after
   font-weight: normal
   font-stretch: normal
   font-style: normal
-  line-height: 2.13
   letter-spacing: 0.38px
   text-align: center
   color: #fff
@@ -537,7 +533,7 @@ details[open] > summary::after
         filter: brightness(50%)
 
       &:hover
-        box-shadow: 0px 5px 8px 0 rgba(0, 0, 0, 0.16)
+        box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.16)
         height: 364px
 
       &:hover &__add
@@ -673,7 +669,7 @@ img[alt="stars"]
         color: #fbfbfb
         margin-bottom: 17px
 
-      p1
+      p
         width: 220px
         height: 58px
         display: block
@@ -699,10 +695,9 @@ img[alt="cur"]
   background-image: url("img/sub_back.jpg")
   max-width: $site-width
   height: 438px
-  margin: 0 auto
   background-color: #f7f7f8
   background-blend-mode: color-burn
-  margin-bottom: 109px
+  margin: 0 auto 109px
 
 .subscribe__content
   display: flex
@@ -739,26 +734,6 @@ img[alt="cur"]
       color: #222224
       line-height: 1.63
 
-.quote_slider
-  margin-top: 30px
-  display: flex
-
-.slider_button
-  width: 38px
-  height: 4px
-  background-color: #d6d6d6
-  border: none
-  margin-right: 7px
-
-  &:hover
-    background-color: #9f9f9f
-
-  &_active
-    background-color: $color-pink
-
-    &:hover
-      background-color: $color-pink
-
 .subscribe
   margin-left: 165px
   margin-top: 37px
@@ -766,7 +741,7 @@ img[alt="cur"]
   &__h1, &__h2
     font-size: 24px
     line-height: 1.71
-      letter-spacing: 0.35px
+    letter-spacing: 0.35px
     text-align: center
     color: #222224
     text-transform: uppercase
@@ -790,7 +765,7 @@ img[alt="cur"]
 
 
     &:hover
-      box-shadow: inset 0px 1px 8px 0 rgba(0, 0, 0, 0.16)
+      box-shadow: inset 0 1px 8px 0 rgba(0, 0, 0, 0.16)
 
   &__input
     border-top-left-radius: 46px
@@ -925,37 +900,6 @@ img[alt="cur"]
     top: 9px
     position: absolute
 
-.active_list
-  border-bottom: solid 3px #ef5b70
-
-.checkout_content
-  height: 148px
-  min-width: $site-width
-  background-color: #f8f3f4
-
-.second_nav
-  display: flex
-  justify-content: space-between
-  padding-top: 65px
-
-  p
-    font-size: 14px
-    font-weight: 300
-    line-height: 1.43
-    color: #636363
-    text-transform: uppercase
-
-  span
-    color: $color-pink
-    font-weight: 600
-
-  h1
-    font-size: 24px
-    font-weight: 900
-    line-height: 0.83
-    color: $color-pink
-    text-transform: uppercase
-
 .order_info
   margin-top: 31px
 
@@ -966,62 +910,9 @@ img[alt="cur"]
     color: #222
     margin-bottom: 31px
 
-.register
-  margin-left: 35px
-
-  h3
-    color: #222
-    font-size: 13px
-    text-transform: uppercase
-    margin-top: 8px
-
-  p
-    font-size: 13px
-    text-align: left
-    color: #b3b2b2
-    margin-top: 15px
-
-.check
-  margin-top: 34px
-  display: flex
-
-.reg
-  display: flex
-  margin-top: 20px
-  margin-bottom: 33px
-
-  &_text
-    display: flex
-    margin-bottom: 15px
-
-    p
-      margin-top: -2px
-
-    &_reg
-      margin-bottom: 33px
-
-.input_text
-  font-size: 12px !important
-  color: #222 !important
-  text-transform: uppercase
-  margin-left: 14px
-  box-sizing: border-box
-  font-weight: 600
-
 .fa-solid
   color: #9f9f9f
   font-size: 13px
-
-.continue
-  width: 180px
-  height: 50px
-  object-fit: contain
-  border: solid 1px #eaeaea
-  background-color: #fff
-  font-size: 14px
-  text-transform: uppercase
-  font-weight: 600
-  margin-top: 23px
 
 .address
   margin-top: 89px
@@ -1079,13 +970,6 @@ img[alt="cur"]
 .required
   color: #ff0d0d !important
   margin-bottom: 32px !important
-
-.forgot
-  font-size: 14px
-  color: #222
-  text-decoration: none
-  font-weight: bold
-  margin-left: 32px
 
 .line
   width: 1140px
@@ -1288,7 +1172,7 @@ img[alt="cur"]
 img[alt="prod_item1"], img[alt="prod_item2"], img[alt="prod_item3"]
   width: auto
   background-color: #f7f7f7
-  padding: 0px 86px 0px 82px
+  padding: 0 86px 0 82px
 
 .products
   display: flex
@@ -1299,7 +1183,6 @@ img[alt="prod_item1"], img[alt="prod_item2"], img[alt="prod_item3"]
     margin-top: 90px
 
     p
-      font-family: Lato
       font-size: 14px
       color: #222
       text-transform: uppercase
@@ -1325,7 +1208,7 @@ img[alt="prod_item1"], img[alt="prod_item2"], img[alt="prod_item3"]
     display: flex
 
     &__line
-      margin: 20px 0px
+      margin: 20px 0
 
     &__button
       &__box
@@ -1436,7 +1319,6 @@ img[alt="prod_item1"], img[alt="prod_item2"], img[alt="prod_item3"]
       font-size: 14px
       font-weight: bold
       color: #4a4a4a
-      font-family: Lato
 
 .info
   margin-top: 63px
@@ -1480,7 +1362,6 @@ img[alt="prod_item1"], img[alt="prod_item2"], img[alt="prod_item3"]
       font-weight: bold
       background-color: white
       border: solid 1px #eaeaea
-      font-family: lato
       margin-top: 22px
 
   &__discount
@@ -1513,7 +1394,6 @@ img[alt="prod_item1"], img[alt="prod_item2"], img[alt="prod_item3"]
       font-weight: bold
       background-color: white
       border: solid 1px #eaeaea
-      font-family: lato
 
     &__button-block
       display: flex
@@ -1577,7 +1457,6 @@ img[alt="prod_item1"], img[alt="prod_item2"], img[alt="prod_item3"]
       font-weight: bold
       color: #fff
       text-transform: uppercase
-      font-family: "Lato"
       margin-left: 44px
 
 
@@ -1594,7 +1473,6 @@ img[alt="prod_item1"], img[alt="prod_item2"], img[alt="prod_item3"]
         border-left: $color-pink 5px solid
         padding-left: 11px
         line-height: 38px
-        font-weight: bold
 
       &__list
         width: 232px
@@ -1763,7 +1641,7 @@ img[alt="prod_item1"], img[alt="prod_item2"], img[alt="prod_item3"]
           background-color: #ffff
           margin-right: 10px
           border: #f3f3f3 3px solid
-          padding: 0px 10px
+          padding: 0 10px
 
         &__sittings
           display: flex

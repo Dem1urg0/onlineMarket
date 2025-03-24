@@ -3,49 +3,78 @@
 namespace App\controllers;
 
 use App\main\App;
+use App\Repositories\CountryRepository;
+use App\Repositories\Order\OrderRepository;
+use App\services\OrderService;
 use App\services\renders\IRender;
 use App\services\Request;
 
+/**
+ * Контроллер заказов
+ *
+ * Определяет методы для работы с заказами в системе.
+ *
+ * @package App\controllers
+ */
 class orderController extends Controller
 {
-    protected $defaultAction = 'all';
-    protected $orderService;
-    protected $orderRepository;
-    protected $countryRepository;
+    /**
+     * Действие по умолчанию
+     * @var string
+     */
+    protected string $defaultAction = 'all';
+    /**
+     * Сервис заказов
+     * @var OrderService
+     */
+    protected OrderService $orderService;
+    /**
+     * Репозиторий заказов
+     * @var OrderRepository
+     */
+    protected OrderRepository $orderRepository;
+    /**
+     * Репозиторий стран
+     * @var CountryRepository
+     */
 
+    /**
+     * Конструктор контроллера
+     *
+     * @param IRender $render - Экземпляр класса Render
+     * @param Request $request - Экземпляр класса Request
+     */
     public function __construct(IRender $render, Request $request)
     {
         parent::__construct($render, $request);
         $this->orderService = App::call()->OrderService;
         $this->orderRepository = App::call()->OrderRepository;
-        $this->countryRepository = App::call()->CountryRepository;
     }
 
+    /**
+     * Рендер страницы checkOut
+     * @return string
+     */
     public function checkoutAction()
     {
-        $countries = $this->countryRepository->getAll();
-        return $this->render('checkout', ['countries' => $countries]);
+        return $this->render('checkout', []);
     }
 
+    /**
+     * Рендер страницы заказов пользователя в системе
+     * @return string
+     */
     public function allAction()
     {
-        if ($user = $this->getSession('user')) {
-
-            $user_id = $user['id'];
-
-            $orders = $this->orderRepository->getOrdersByUserId($user_id);
-            $sortOrders = $this->orderService->sortProductsInOrders($orders);
-
-             foreach ($sortOrders as $key => $order) {
-                 $sortOrders[$key]['info'] = $this->orderRepository->getOrderInfo($key);
-             }
-            return $this->render('orders',
-                [
-                    'orders' => $sortOrders,
-                ]);
-        } else {
-             header('Location: /auth/');
+        if (empty($id = App::call()->AuthMiddleware->isAuth())) {
+            header('Location: /auth/');
         }
-    }
 
+        $orders = $this->orderService->getOrders(['id' => $id]);
+
+        return $this->render('orders',
+            [
+                'orders' => $orders,
+            ]);
+    }
 }

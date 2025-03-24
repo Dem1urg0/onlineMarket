@@ -1,6 +1,20 @@
+{#
+    Шаблон страницы "Пользователи" для администратора
+    Выводит список пользователей с паганицей и фильрацией
+    Компоненты:
+        users-page - компонент страницы "Пользователи"
+    параметры:
+        users - список пользователей
+        maxOrdersCount - максимальное количество заказов
+        pagesCount - количество страниц
+        renderPageType - тип отображения страницы
+#}
 {% extends '/admin/layouts/main.twig' %}
 {% block content %}
-    <users-page href="usersPage" :users="{{ users | json_encode }}" :max-orders-count="{{ maxOrdersCount | json_encode }}"
-                :pages-count="{{ pagesCount | json_encode }}" :render-page-type="{{ renderPageType | json_encode }}"></users-page>
+    {# Подключение компонента пользователей #}
+    <users-page href="usersPage" :users="{{ users | json_encode }}"
+                :max-orders-count="{{ maxOrdersCount | json_encode }}"
+                :pages-count="{{ pagesCount | json_encode }}"
+                :render-page-type="{{ renderPageType | json_encode }}"></users-page>
 {% endblock %}
 

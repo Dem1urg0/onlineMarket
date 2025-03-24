@@ -1,10 +1,20 @@
+{#
+    Шаблон страницы "Ошибки"
+    Выводит ошибку с кодом и сообщением
+    параметры:
+        code - код ошибки
+        message - сообщение об ошибке
+#}
 {% extends 'layouts/main.twig' %}
+{# Заголовок #}
 {% block title %}Error{% endblock %}
 {% block content %}
     <div class="error-container">
         <div class="error-box">
+            {# Код ошибки #}
             <div class="error-code">{{ code }}</div>
             <div class="error-message">
+                {# Сообщение ошибки #}
                 {{ message }}
             </div>
             <div class="error-time">{{ "now"|date("Y-m-d H:i:s") }} UTC</div>

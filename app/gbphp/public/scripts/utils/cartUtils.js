@@ -1,7 +1,21 @@
+/**
+ * Утилиты для работы с корзиной
+ */
+
+/**
+ * Получение корзины из сессии
+ * @returns {any|*[]} - корзина
+ */
 function getCart() {
     return sessionStorage.getItem('cart') ? JSON.parse(sessionStorage.getItem('cart')) : [];
 }
 
+/**
+ * Поиск товара в корзине
+ * @param product - товар для поиска
+ * @param cart - корзина
+ * @returns {*} - ссылка на товар в корзине или undefined
+ */
 function findItem(product, cart) {
     return cart.find(el =>
         el.id === product.id &&
@@ -10,10 +24,18 @@ function findItem(product, cart) {
     );
 }
 
+/**
+ * Сохранение корзины в сессию
+ * @param cart - корзина
+ */
 function saveCart(cart) {
     sessionStorage.setItem('cart', JSON.stringify(cart));
 }
 
+/**
+ * Добавление товара в корзину
+ * @param product - товар для добавления
+ */
 function addProduct(product) {
     let cart = getCart();
     const findLink = findItem(product, cart);
@@ -32,6 +54,10 @@ function addProduct(product) {
     saveCart(cart);
 }
 
+/**
+ * Уменьшение количества товара в корзине на 1
+ * @param product - товар для уменьшения
+ */
 function decProduct(product) {
     let cart = getCart();
     const findLink = findItem(product, cart);
@@ -50,6 +76,10 @@ function decProduct(product) {
     saveCart(cart);
 }
 
+/**
+ * Удаление товара из корзины
+ * @param product - товар для удаления
+ */
 function removeProduct(product) {
     let cart = getCart();
 
@@ -65,10 +95,18 @@ function removeProduct(product) {
     saveCart(cart);
 }
 
+/**
+ * Подсчет общей цены корзины
+ * @param cart - корзина
+ * @returns {*} - общая цена
+ */
 function total(cart) {
     return cart.reduce((acc, item) => acc + item.price * item.count, 0);
 }
 
+/**
+ * Очистка корзины
+ */
 function clearCart() {
     sessionStorage.removeItem('cart');
 }

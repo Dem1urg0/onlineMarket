@@ -1,13 +1,32 @@
+{#
+    Шаблон страницы "Товары"
+    Выводит список товаров с фильтрацикей по категориям, брендам, дизайнерам и размерам с пагинацией
+    Компоненты:
+        products-page - компонент для отображения списка товаров
+    параметры:
+        goods - список товаров
+        storage - данные о корзине
+        goodsCategories - список категорий (глобальные переменные)
+        goodsBrands - список брендов (глобальные переменные)
+        goodsDesigners - список дизайнеров (глобальные переменные)
+        topDesigners - список популярных дизайнеров
+        sizes - список размеров
+        maxPrice - максимальная цена товара
+        maxPages - максимальное количество страниц
+        renderType - тип отображения товар
+#}
 {% extends 'layouts/main.twig' %}
+{# Заголовок #}
 {% block title %}Goods{% endblock %}
 {% block content %}
+    {# Подключение компонента страницы товаров #}
     <products-page ref="productsPage"
                    :goods="{{ goods | json_encode }}"
                    :storage="{{ storage | json_encode }}"
 
-                   :categories="{{ categories |json_encode }}"
-                   :brands="{{ brands | json_encode }}"
-                   :designers="{{ designers | json_encode }}"
+                   :categories="{{ goodsCategories |json_encode }}"
+                   :brands="{{ goodsBrands | json_encode }}"
+                   :designers="{{ goodsDesigners | json_encode }}"
                    :top-designers="{{ topDesigners | json_encode }}"
                    :sizes="{{ sizes | json_encode }}"
 

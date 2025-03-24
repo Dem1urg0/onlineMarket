@@ -2,11 +2,18 @@
 
 namespace App\Middleware;
 
-use App\Exceptions\apiException;
 use App\main\App;
 
-class AuthMiddleware
+/**
+ * Класс middleware авторизованности
+ */
+class AuthMiddleware extends Middleware
 {
+
+    /**
+     * Проверка авторизации
+     * @return bool
+     */
     public function isAuth()
     {
         $user = App::call()->Request->sessionGet('user');
@@ -17,18 +24,29 @@ class AuthMiddleware
         return false;
     }
 
-    public function checkApiAuth()
+    /**
+     * Проверка авторизации
+     * Если пользователь не авторизован, то выбрасывает исключение
+     * @param bool $isApi - флаг API
+     * @return bool
+     */
+    public function checkAuth($isApi = false)
     {
         if (!($id = $this->isAuth())) {
-            throw new ApiException('Пользователь не авторизован', 401);
+            $this->throwException('Пользователь не авторизован', 401, $isApi);
         }
         return $id;
     }
 
-    public function checkApiLogin()
+    /**
+     * Проверка не авторизации
+     * Если пользователь авторизован, то выбрасывает исключение
+     * @param bool $isApi - флаг API
+     */
+    public function checkLogin($isApi = false)
     {
         if ($this->isAuth()) {
-            throw new ApiException('Пользователь уже авторизован', 400);
+            $this->throwException('Пользователь уже авторизован', 400, $isApi);
         }
     }
 

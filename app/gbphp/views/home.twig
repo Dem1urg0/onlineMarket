@@ -1,6 +1,21 @@
+{#
+    Шаблон страницы "Домашняя страница"
+    Выводит домашнюю страницу сайта
+    Компоненты:
+        product - компонент продукта
+        promo - промо-блок
+        offer - блок с предложениями
+        fetured - блок с фичеред продуктами
+        offer_sale - блок с предложениями
+    параметры:
+        title - заголовок страницы
+        content - содержимое страницы
+#}
 {% extends 'layouts/main.twig' %}
+{# Заголовок страницы #}
 {% block title %}Home{% endblock %}
 {% block content %}
+    {# Промо баннеры #}
     <div class="promo">
         <div class="container promo__content">
             <div class="promo__text">
@@ -47,15 +62,18 @@
             </a>
         </div>
     </section>
+    {# Товары под банерами #}
     <section class="fetured container">
         <div class="fetured__header">
             <h1>Fetured Items</h1>
             <p>Shop for items based on what we featured in this week</p>
         </div>
+        {# Подключение компонента продуктов #}
         <product ref="product"></product>
         <div class="browse__all"><a href="/good/all">Browse All Product <img src="style/img/line-arrow.png"
                                                                                  alt="line-arrow"></a></div>
     </section>
+    {# Баннеры #}
     <div class="offer_sale container">
         <div class="offer_sale_box">
             <h1 class="offer_sale__h1"><span class="offer_sale_30">30% <span

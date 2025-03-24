@@ -2,10 +2,23 @@
 
 namespace App\validators;
 
+/**
+ * Валидатор для пагинации
+ */
 class PaginationValidator extends Validator
 {
-    protected $sortTypes = ['price', 'name'];
+    /**
+     * @var array|string[] $sortTypes - возможные типы сортировки
+     */
+    protected array $sortTypes = ['price', 'name'];
 
+    /**
+     * Валидация параметров пагинации
+     * @param $pageParams - параметры пагинации
+     * @param $isApi - флаг API
+     * @return true
+     * @throws \App\Exceptions\apiException
+     */
     public function validatePagination($pageParams, $isApi = false)
     {
         if (!is_numeric($pageParams['count']) || !is_numeric($pageParams['page'])) {
@@ -23,6 +36,13 @@ class PaginationValidator extends Validator
         return true;
     }
 
+    /**
+     * Проверка сортировки
+     * @param $sort - тип сортировки
+     * @param $isApi - флаг API
+     * @return void
+     * @throws \App\Exceptions\apiException
+     */
     public function checkSort($sort, $isApi = false)
     {
         if (!empty($sort)) {

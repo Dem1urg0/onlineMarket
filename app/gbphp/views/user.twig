@@ -1,6 +1,17 @@
+{#
+    Шаблон страницы "Пользователь"
+    Выводит страницу пользователя
+    Компоненты:
+        user-page - страница пользователя
+    параметры:
+        currentUser - данные текущего пользователя
+        userData - данные пользователя
+#}
 {% extends 'layouts/main.twig' %}
+{# Заголовок страницы #}
 {% block title %}User {{ userData.login }}{% endblock %}
 {% block content %}
+    {# Подключение страницы пользователя #}
     <user-page :current-user="{{ currentUser | json_encode }}"
                :user-data="{{ userData | json_encode }}"></user-page>
 {% endblock %}
