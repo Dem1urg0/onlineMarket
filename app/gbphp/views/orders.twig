@@ -12,7 +12,7 @@
 {% block title %}Orders{% endblock %}
 {% block content %}
     {# Подключение страницы заказов #}
-    <order-page :orders="{{ orders | json_encode }}"
+    <order-page ref="orderPage" :orders="{{ orders | json_encode }}"
                 :current-user="{{ currentUser | json_encode }}"
                 ></order-page>
 {% endblock %}

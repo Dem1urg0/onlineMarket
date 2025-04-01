@@ -95,7 +95,7 @@ class goodController extends Controller
     public function allAction()
     {
         $renderCount = 6;
-        $manyItemsThreshold = 1;
+        $manyItemsThreshold = 400;
 
         $maxPrice = $this->goodRepository->getMaxPrice();
         $goodsCount = $this->goodRepository->getCountOfAll();

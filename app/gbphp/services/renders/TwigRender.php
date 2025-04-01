@@ -60,6 +60,29 @@ class TwigRender implements IRender
         }
     }
 
+    protected function addAssetPathsToGlobal()
+    {
+        $environment = getenv('APP_ENV') ?: 'production';
+        $assets = [];
+        if ($environment === 'development') {
+            $devServerBaseUrl = 'http://localhost:8081/dist/';
+            $assets['index.js'] = $devServerBaseUrl . 'index.js';
+            $assets['admin.js'] = $devServerBaseUrl . 'admin.js';
+            $assets['index.css'] = $devServerBaseUrl . 'index.css';
+        } else {
+            try {
+                $manifest = App::call()->ManifestService->getManifest();
+                $assets = $manifest;
+            } catch (\Exception $e) {
+                error_log("Asset Manifest Error: " . $e->getMessage());
+                $assets['index.js'] = '';
+                $assets['admin.js'] = '';
+                $assets['index.css'] = '';
+            }
+        }
+        $this->twig->addGlobal('assets', $assets);
+    }
+
     /**
      * Инициализация глобальных переменных
      */
@@ -70,6 +93,7 @@ class TwigRender implements IRender
         $this->addGoodDesignersToGlobal();
         $this->addGoodBrandsToGlobal();
         $this->addCountriesToGlobal();
+        $this->addAssetPathsToGlobal();
     }
 
     /**

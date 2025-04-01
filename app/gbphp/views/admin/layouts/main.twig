@@ -1,11 +1,11 @@
 {#
-    Основной добавочный шаблон страницы админки
-    Компоненты:
-        account - компонент аккаунта
-    параметры:
-        currentUser - текущий пользователь
-        content - содержимое страницы
-        script - скрипты страницы
+Основной добавочный шаблон страницы админки
+Компоненты:
+    account - компонент аккаунта
+параметры:
+    currentUser - текущий пользователь
+    content - содержимое страницы
+    script - скрипты страницы
 #}
 {% block script %}
 {% endblock %}
@@ -17,7 +17,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/style/style.css">
+    {% if assets['index.css'] is defined and assets['index.css'] %}
+        <link rel="stylesheet" href="{{ assets['index.css'] }}">
+    {% endif %}
 </head>
 <body>
 <div id="app">
@@ -33,7 +35,7 @@
             </div>
             <div class="header__right">
                 {# Подключение компонента аккаунта для вывода меню аккаунта #}
-                <account ref="account" :current-user="{{ currentUser | json_encode }}"></account>
+                <drop-account ref="dropAccount" :current-user="{{ currentUser | json_encode }}"></drop-account>
             </div>
         </div>
     </header>
@@ -42,7 +44,7 @@
             {# Меню админки #}
             <ul class="menu">
                 <li class="menu__list"><a href="/home" class="menu__link">Home</a></li>
-                    <li class="menu__list"><a href="/admin/users" class="menu__link">All users</a>
+                <li class="menu__list"><a href="/admin/users" class="menu__link">All users</a>
                 <li class="menu__list"><a href="/admin/orders" class="menu__link">All orders</a>
             </ul>
         </div>
@@ -54,11 +56,21 @@
 </body>
 </html>
 {# Подключение скриптов #}
-<script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
-<script src="/scripts/utils/pathUtils.js"></script>
-<script src="/scripts/DropComp.js"></script>
-<script src="/scripts/AuthComp.js"></script>
-<script src="/scripts/UserComp.js"></script>
-<script src="/scripts/UsersComp.js"></script>
-<script src="/scripts/OrderComp.js"></script>
-<script src="/scripts/main.js"></script>
+    {% if currentUser.role == 1 %}
+        <script src="{{ envLink }}/dist/admin.js"></script>
+    {% endif %}
+{% endif %}
+
+{% if manifest is defined %}
+
+{% endif %}
+
+{# Подключаем основной JS #}
+{% if assets['index.js'] is defined and assets['index.js'] %}
+    <script src="{{ assets['index.js'] }}" defer></script>
+{% endif %}
+
+{# Подключаем админский JS #}
+{% if currentUser.role == 1 and assets['admin.js'] is defined and assets['admin.js'] %}
+    <script src="{{ assets['admin.js'] }}" defer></script>
+{% endif %}

@@ -20,7 +20,7 @@
 {% block title %}Goods{% endblock %}
 {% block content %}
     {# Подключение компонента страницы товаров #}
-    <products-page ref="productsPage"
+    <prods-page ref="prodsPage"
                    :goods="{{ goods | json_encode }}"
                    :storage="{{ storage | json_encode }}"
 
@@ -38,7 +38,7 @@
                    :gender = "{{ gender | json_encode }}"
                    :category="{{ category | json_encode }}"
                    :brand="{{ brand | json_encode }}"
-                   :designer="{{ designer | json_encode }}"></products-page>
+                   :designer="{{ designer | json_encode }}"></prods-page>
     <section class="goods">
         <div class="goods__offer">
             <figure>

@@ -35,6 +35,9 @@ return [
             'class' => \App\validators\CountryValidator::class
         ],
         //Services
+        'ManifestService' => [
+            'class' => \App\services\webpack\ManifestService::class,
+        ],
         'render' => [
             'class' => \App\services\renders\TwigRender::class,
         ],

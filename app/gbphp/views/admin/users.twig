@@ -12,7 +12,7 @@
 {% extends '/admin/layouts/main.twig' %}
 {% block content %}
     {# Подключение компонента пользователей #}
-    <users-page href="usersPage" :users="{{ users | json_encode }}"
+    <users-page ref="usersPage" :users="{{ users | json_encode }}"
                 :max-orders-count="{{ maxOrdersCount | json_encode }}"
                 :pages-count="{{ pagesCount | json_encode }}"
                 :render-page-type="{{ renderPageType | json_encode }}"></users-page>

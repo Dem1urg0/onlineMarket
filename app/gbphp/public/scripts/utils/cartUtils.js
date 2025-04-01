@@ -6,7 +6,7 @@
  * Получение корзины из сессии
  * @returns {any|*[]} - корзина
  */
-function getCart() {
+export function getCart() {
     return sessionStorage.getItem('cart') ? JSON.parse(sessionStorage.getItem('cart')) : [];
 }
 
@@ -36,7 +36,7 @@ function saveCart(cart) {
  * Добавление товара в корзину
  * @param product - товар для добавления
  */
-function addProduct(product) {
+export function addProduct(product) {
     let cart = getCart();
     const findLink = findItem(product, cart);
 
@@ -58,7 +58,7 @@ function addProduct(product) {
  * Уменьшение количества товара в корзине на 1
  * @param product - товар для уменьшения
  */
-function decProduct(product) {
+export function decProduct(product) {
     let cart = getCart();
     const findLink = findItem(product, cart);
 
@@ -80,7 +80,7 @@ function decProduct(product) {
  * Удаление товара из корзины
  * @param product - товар для удаления
  */
-function removeProduct(product) {
+export function removeProduct(product) {
     let cart = getCart();
 
     const index = cart.findIndex(el =>
@@ -100,13 +100,13 @@ function removeProduct(product) {
  * @param cart - корзина
  * @returns {*} - общая цена
  */
-function total(cart) {
+export function total(cart) {
     return cart.reduce((acc, item) => acc + item.price * item.count, 0);
 }
 
 /**
  * Очистка корзины
  */
-function clearCart() {
+export function clearCart() {
     sessionStorage.removeItem('cart');
 }

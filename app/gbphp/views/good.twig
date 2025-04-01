@@ -13,12 +13,12 @@
 {% block title %}{{ good.name }}{% endblock %}
 {% block content %}
     {# Подключение компонента страницы продуктв #}
-    <one-good  ref="oneGood"
+    <prod-page  ref="prodPage"
                :good="{{ good | json_encode }}"
-               :types-in-storage="{{ storage|json_encode() }}"></one-good>
+               :types-in-storage="{{ storage|json_encode() }}"></prod-page>
     <div class="recomend container">
         <h1>you may like also</h1>
         {# Подключение компонента рекомендации товаров #}
-        <prod-recom ref="prodRecom"></prod-recom>
+        <prod-page-recommend ref="prodPageRecommend"></prod-page-recommend>
     </div>
 {% endblock %}
