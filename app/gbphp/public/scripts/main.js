@@ -1,8 +1,6 @@
 /**
  * Инициализация Vue
- * @type {Vue}
  */
-import {createApp} from 'vue';
 
 import mitt from 'mitt'
 const emitter = mitt()
