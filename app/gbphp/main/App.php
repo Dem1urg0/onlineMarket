@@ -71,6 +71,10 @@ class App
 
         $controllerClass = 'App\\controllers\\' . $fullControllerName . 'Controller';
 
+        if ($controllerClass === 'App\\controllers\\Controller'){
+            $controllerClass = 'App\\controllers\\homeController';
+        }
+
         try {
             if (!class_exists($controllerClass)) {
                 throw new \Exception("$controllerClass not found", 404);
