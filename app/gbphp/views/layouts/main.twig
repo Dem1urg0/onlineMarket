@@ -160,10 +160,6 @@
     <script src="{{ assets['index.js'] }}" defer></script>
 {% endif %}
 
-{# Подключаем админский JS #}
-{% if currentUser.role == 1 and assets['admin.js'] is defined and assets['admin.js'] %}
-    <script src="{{ assets['admin.js'] }}" defer></script>
-{% endif %}
 
 
 

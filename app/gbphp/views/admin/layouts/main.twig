@@ -55,16 +55,6 @@
 </div>
 </body>
 </html>
-{# Подключение скриптов #}
-    {% if currentUser.role == 1 %}
-        <script src="{{ envLink }}/dist/admin.js"></script>
-    {% endif %}
-{% endif %}
-
-{% if manifest is defined %}
-
-{% endif %}
-
 {# Подключаем основной JS #}
 {% if assets['index.js'] is defined and assets['index.js'] %}
     <script src="{{ assets['index.js'] }}" defer></script>
