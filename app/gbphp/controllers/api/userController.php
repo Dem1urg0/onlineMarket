@@ -1,17 +1,17 @@
 <?php
 
-namespace App\controllers\api;
+namespace App\Controllers\api;
 
 use App\main\App;
-use App\services\renders\IRender;
-use App\services\Request;
-use App\services\UserService;
+use App\Services\renders\IRender;
+use App\Services\Request;
+use App\Services\UserService;
 
 /**
  * Класс контроллера api для работы с пользователями
  * @package App\controllers\api
  */
-class userController extends Controller
+class userController extends controller
 {
     /**
      * Id пользователя

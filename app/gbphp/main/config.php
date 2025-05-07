@@ -5,7 +5,7 @@ return [
 
     'components' => [
         'db' => [
-            'class' => \App\services\db::class,
+            'class' => \App\Services\db::class,
             'config' => [
                 'driver' => 'mysql',
                 'host' => 'mariadb',
@@ -36,16 +36,16 @@ return [
         ],
         //Services
         'ManifestService' => [
-            'class' => \App\services\webpack\ManifestService::class,
+            'class' => \App\Services\webpack\ManifestService::class,
         ],
         'render' => [
-            'class' => \App\services\renders\TwigRender::class,
+            'class' => \App\Services\renders\TwigRender::class,
         ],
         'Response' => [
-            'class' => \App\services\Response::class
+            'class' => \App\Services\Response::class
         ],
         'Request' => [
-            'class' => \App\services\Request::class,
+            'class' => \App\Services\Request::class,
         ],
         'AuthService' => [
             'class' => \App\Services\AuthService::class
@@ -82,7 +82,7 @@ return [
             'class' => \App\repositories\UserRepository::class,
         ],
         'UserService' => [
-            'class' => \App\services\UserService::class,
+            'class' => \App\Services\UserService::class,
         ],
         //OrderEntity
         'Order' => [
@@ -128,7 +128,7 @@ return [
             'class' => \App\Entities\Good\GoodCategory::class,
         ],
         'GoodBrand' => [
-            'class' => \App\Entities\Good\Goodbrand::class,
+            'class' => \App\Entities\Good\GoodBrand::class,
         ],
         'GoodDesigner' => [
             'class' => \App\Entities\Good\GoodDesigner::class,

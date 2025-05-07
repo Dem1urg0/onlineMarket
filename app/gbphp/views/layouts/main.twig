@@ -20,13 +20,11 @@
     <meta charset="UTF-8">
     {# Подстановка заголовка #}
     <title>{% block title %}{% endblock %}</title>
-    <link rel="icon" type="image/png" href="/style/img/logo.png">
+    <link rel="icon" type="image/png" href="/dist/static/logo.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700&display=swap" rel="stylesheet">
-    {% if assets['index.css'] is defined and assets['index.css'] %}
-        <link rel="stylesheet" href="{{ assets['index.css'] }}">
-    {% endif %}
+    <link rel="stylesheet" href="{{ asset('index.css') }}">
 </head>
 <body>
 <div id="app">
@@ -35,8 +33,8 @@
         <div class="container header__content">
             <div class="header__left">
                 <a href="/home" class="logo">
-                    <img class="logo__img" src="/style/img/logo.png" alt="logo"> <span
-                            class="logo__bran">BRAN</span><span
+                    <img class="logo__img" src="/dist/static/logo.png" alt="logo">
+                    <span class="logo__bran">BRAN</span><span
                             class="logo__bran-d">D</span>
                 </a>
             </div>
@@ -64,7 +62,7 @@
     <div class="subscribe__block">
         <div class="subscribe__content container">
             <div class="quote">
-                <img src="/style/img/face.jpg" alt="face">
+                <img src="/dist/static/face.jpg" alt="face">
                 <div class="quote__content">
                     <p class="quote__text">“Vestibulum quis porttitor dui! Quisque viverra nunc mi,
                         a pulvinar purus condimentum a. Aliquam condimentum mattis neque sed pretium”</p>
@@ -92,7 +90,7 @@
         <div class="footer_content container">
             <div class="description">
                 <a href="/home" class="logo">
-                    <img class="logo__img" src="/style/img/logo.png" alt="logo"> <span
+                    <img class="logo__img" src="/dist/static/logo.png" alt="logo"> <span
                             class="logo__bran">BRAN</span><span
                             class="logo__bran-d">D</span>
                 </a>
@@ -139,15 +137,18 @@
         </div>
         <div class="bottom">
             <div class="bottom__content container">
-                <p class="copyright">&copy;&nbsp;2017 Brand All Rights Reserved.</p>
+                <p class="copyright">&copy;&nbsp;2025 Brand All Rights Reserved.</p>
                 <div class="share">
-                    <a class="share__none" href="https://www.facebook.com"><img src="/style/img/facebook.png"
+                    <a class="share__none" href="https://www.facebook.com"><img src="/dist/static/facebook.png"
                                                                                 alt="facebook"></a>
-                    <a class="share__confirm" href="https://www.x.com"><img src="/style/img/twitter.png" alt="twitter"></a>
-                    <a class="share__none" href="https://www.instagram.com"><img src="/style/img/in.png" alt="in"></a>
-                    <a class="share__none" href="https://www.pinterest.com"><img src="/style/img/pint.png"
+                    <a class="share__confirm" href="https://www.x.com"><img src="/dist/static/twitter.png"
+                                                                            alt="twitter"></a>
+                    <a class="share__none" href="https://www.instagram.com"><img src="/dist/static/in.png"
+                                                                                 alt="in"></a>
+                    <a class="share__none" href="https://www.pinterest.com"><img src="/dist/static/pint.png"
                                                                                  alt="pint"></a>
-                    <a class="share__none" href="https://www.google.com"><img src="/style/img/google.png" alt="google"></a>
+                    <a class="share__none" href="https://www.google.com"><img src="/dist/static/google.png"
+                                                                              alt="google"></a>
                 </div>
             </div>
         </div>
@@ -156,9 +157,9 @@
 </body>
 </html>
 {# Подключаем основной JS #}
-{% if assets['index.js'] is defined and assets['index.js'] %}
-    <script src="{{ assets['index.js'] }}" defer></script>
-{% endif %}
+<script src="{{ asset('index.js') }}" defer></script>
+{# Подключаем дополнительные скрипты #}
+
 
 
 

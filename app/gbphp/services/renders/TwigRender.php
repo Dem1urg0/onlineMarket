@@ -1,13 +1,15 @@
 <?php
 
-namespace App\services\renders;
+namespace App\Services\renders;
 
 use App\main\App;
+use App\Services\webpack\ManifestService;
 use Twig\Environment;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
 use Twig\Loader\FilesystemLoader;
+use Twig\TwigFunction;
 
 /**
  * Класс рендера шаблонов Twig
@@ -18,19 +20,35 @@ class TwigRender implements IRender
      * Экземпляр Twig
      * @var Environment Twig
      */
-    protected $twig;
+    protected Environment $twig;
+    /**
+     * @var ManifestService
+     * Сервис для работы с манифестом
+     */
+    protected ManifestService $manifestService;
 
     /**
      * Конструктор
      */
     public function __construct()
     {
-        $loader = new FilesystemLoader([
-            dirname(dirname(__DIR__)) . '/views/layouts',
-            dirname(dirname(__DIR__)) . '/views/',
-        ]);
-        $this->twig = new Environment($loader);
+        $projectRoot = dirname(__DIR__, 2);
 
+        $loader = new FilesystemLoader([
+            $projectRoot . '/views/layouts',
+            $projectRoot . '/views/',
+        ]);
+
+        $isDevMode = (getenv('APP_ENV') ?: 'production') === 'development';
+        $this->twig = new Environment($loader, [
+            'debug' => $isDevMode,
+            'auto_reload' => $isDevMode,
+        ]);
+        if ($isDevMode) {
+            $this->twig->addExtension(new \Twig\Extension\DebugExtension());
+        }
+
+        $this->manifestService = App::call()->ManifestService;
         $this->initGlobal();
     }
 
@@ -40,7 +58,7 @@ class TwigRender implements IRender
      * @param $params - параметры для шаблона
      * @return string
      */
-    public function render($template, $params = [])
+    public function render($template, $params = []) : string
     {
         $template .= '.twig';
         try {
@@ -60,40 +78,28 @@ class TwigRender implements IRender
         }
     }
 
-    protected function addAssetPathsToGlobal()
-    {
-        $environment = getenv('APP_ENV') ?: 'production';
-        $assets = [];
-        if ($environment === 'development') {
-            $devServerBaseUrl = 'http://localhost:8081/dist/';
-            $assets['index.js'] = $devServerBaseUrl . 'index.js';
-            $assets['admin.js'] = $devServerBaseUrl . 'admin.js';
-            $assets['index.css'] = $devServerBaseUrl . 'index.css';
-        } else {
-            try {
-                $manifest = App::call()->ManifestService->getManifest();
-                $assets = $manifest;
-            } catch (\Exception $e) {
-                error_log("Asset Manifest Error: " . $e->getMessage());
-                $assets['index.js'] = '';
-                $assets['admin.js'] = '';
-                $assets['index.css'] = '';
-            }
-        }
-        $this->twig->addGlobal('assets', $assets);
-    }
-
     /**
      * Инициализация глобальных переменных
      */
-    protected function initGlobal()
+    protected function initGlobal(): void
     {
         $this->addUserToGlobal();
         $this->addGoodCategoriesToGlobal();
         $this->addGoodDesignersToGlobal();
         $this->addGoodBrandsToGlobal();
         $this->addCountriesToGlobal();
-        $this->addAssetPathsToGlobal();
+        $this->addAssetFunction();
+    }
+
+    /**
+     * Добавление функции asset в Twig
+     * @return void
+     */
+    protected function addAssetFunction(): void
+    {
+        $assetFunction = new TwigFunction('asset', [$this->manifestService, 'getAssetPath']);
+
+        $this->twig->addFunction($assetFunction);
     }
 
     /**

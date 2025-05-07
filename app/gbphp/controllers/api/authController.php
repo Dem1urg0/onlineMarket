@@ -1,10 +1,10 @@
 <?php
 
-namespace App\controllers\api;
+namespace App\Controllers\api;
 
 use App\main\App;
-use App\services\AuthService;
-use App\services\UserService;
+use App\Services\AuthService;
+use App\Services\UserService;
 
 /**
  * Контроллер api для авторизации

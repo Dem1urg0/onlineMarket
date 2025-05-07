@@ -1,6 +1,6 @@
 <?php
 
-namespace App\controllers;
+namespace App\Controllers;
 
 use App\main\App;
 use App\Repositories\Good\GoodBrandRepository;
@@ -9,7 +9,7 @@ use App\Repositories\Good\GoodDesignerRepository;
 use App\Repositories\Good\GoodRepository;
 use App\Repositories\Good\GoodSizeRepository;
 use App\Repositories\Good\StorageRepository;
-use App\services\GoodService;
+use App\Services\GoodService;
 use App\validators\GoodValidator;
 
 
@@ -95,7 +95,7 @@ class goodController extends Controller
     public function allAction()
     {
         $renderCount = 6;
-        $manyItemsThreshold = 400;
+        $manyItemsThreshold = 1;
 
         $maxPrice = $this->goodRepository->getMaxPrice();
         $goodsCount = $this->goodRepository->getCountOfAll();
@@ -146,8 +146,9 @@ class goodController extends Controller
             }
         }
 
-        $goods = $this->goodRepository->getWithFilter($params, $data);
+        $goodsOriginal = $this->goodRepository->getWithFilter($params, $data);
 
+        $goods = $this->goodService->getGoodsWithImages($goodsOriginal);
 
         $storage = $this->goodService->getStorageForGoods($goods);
 

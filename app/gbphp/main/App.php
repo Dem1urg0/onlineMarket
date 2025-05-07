@@ -49,7 +49,7 @@ class App
      */
     protected function runController()
     {
-        $request = new \App\services\Request();
+        $request = new \App\Services\Request();
 
         $controllerName = $request->getControllerName();
         $actionName = $request->getActionName();
@@ -69,10 +69,10 @@ class App
 
         $fullControllerName = $namespacePrefix . ($controllerName ? strtolower($controllerName) : '');
 
-        $controllerClass = 'App\\controllers\\' . $fullControllerName . 'Controller';
+        $controllerClass = 'App\\Controllers\\' . $fullControllerName . 'Controller';
 
-        if ($controllerClass === 'App\\controllers\\Controller'){
-            $controllerClass = 'App\\controllers\\homeController';
+        if ($controllerClass === 'App\\Controllers\\Controller'){
+            $controllerClass = 'App\\Controllers\\homeController';
         }
 
         try {
@@ -80,13 +80,13 @@ class App
                 throw new \Exception("$controllerClass not found", 404);
             }
             $controller = new $controllerClass(
-                new \App\services\renders\TwigRender(),
+                new \App\Services\renders\TwigRender(),
                 $request
             );
             echo $controller->run($actionName);
         } catch (\Exception $e) {
-            $controller = new \App\controllers\errorController(
-                new \App\services\renders\TwigRender(),
+            $controller = new \App\Controllers\errorController(
+                new \App\Services\renders\TwigRender(),
                 $request
             );
             $actionName = 'error';

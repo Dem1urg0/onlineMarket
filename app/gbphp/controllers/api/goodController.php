@@ -1,17 +1,17 @@
 <?php
 
-namespace App\controllers\api;
+namespace App\Controllers\api;
 
 use App\main\App;
 use App\Repositories\Good\StorageRepository;
-use App\services\GoodService;
+use App\Services\GoodService;
 use App\validators\GoodValidator;
 
 /**
  * Класс контроллера api для работы с товарами
  * @package App\controllers\api
  */
-class goodController extends Controller
+class goodController extends controller
 {
     /**
      * Сервис для работы с товарами

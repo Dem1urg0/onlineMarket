@@ -1,13 +1,13 @@
 <?php
 
-namespace App\controllers;
+namespace App\Controllers;
 
 use App\main\App;
 use App\Repositories\CountryRepository;
 use App\Repositories\Order\OrderRepository;
-use App\services\OrderService;
-use App\services\renders\IRender;
-use App\services\Request;
+use App\Services\OrderService;
+use App\Services\renders\IRender;
+use App\Services\Request;
 
 /**
  * Контроллер заказов

@@ -17,9 +17,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700&display=swap" rel="stylesheet">
-    {% if assets['index.css'] is defined and assets['index.css'] %}
-        <link rel="stylesheet" href="{{ assets['index.css'] }}">
-    {% endif %}
+    <link rel="stylesheet" href="{{ asset('index.css') }}">
 </head>
 <body>
 <div id="app">
@@ -28,7 +26,7 @@
         <div class="container header__content">
             <div class="header__left">
                 <a href="/home" class="logo">
-                    <img class="logo__img" src="/style/img/logo.png" alt="logo"> <span
+                    <img class="logo__img" src="/dist/static/logo.png" alt="logo"> <span
                             class="logo__bran">BRAN</span><span
                             class="logo__bran-d">D</span>
                 </a>
@@ -56,11 +54,9 @@
 </body>
 </html>
 {# Подключаем основной JS #}
-{% if assets['index.js'] is defined and assets['index.js'] %}
-    <script src="{{ assets['index.js'] }}" defer></script>
-{% endif %}
+<script src="{{ asset('index.js') }}" defer></script>
 
 {# Подключаем админский JS #}
-{% if currentUser.role == 1 and assets['admin.js'] is defined and assets['admin.js'] %}
-    <script src="{{ assets['admin.js'] }}" defer></script>
+{% if currentUser.role == 1 %}
+    <script src="{{ asset('admin.js') }}" defer></script>
 {% endif %}

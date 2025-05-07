@@ -1,12 +1,12 @@
 <?php
 
-namespace App\controllers\admin;
+namespace App\Controllers\admin;
 
 use App\main\App;
 use App\Repositories\Order\OrderRepository;
 use App\Repositories\UserRepository;
-use App\services\renders\IRender;
-use App\services\Request;
+use App\Services\renders\IRender;
+use App\Services\Request;
 
 /**
  * Класс контроллера работы с пользователями для администратора

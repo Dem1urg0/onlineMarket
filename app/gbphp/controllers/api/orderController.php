@@ -1,9 +1,9 @@
 <?php
 
-namespace App\controllers\api;
+namespace App\Controllers\api;
 
 use App\main\App;
-use App\services\OrderService;
+use App\Services\OrderService;
 
 /**
  * Класс контроллера api для работы с заказами

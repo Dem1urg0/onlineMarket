@@ -1,14 +1,14 @@
 <?php
 
-namespace App\controllers\admin;
+namespace App\Controllers\admin;
 
-use App\controllers\Controller as mainController;
+use App\Controllers\Controller as mainController;
 use App\main\App;
 
 /**
  * Базовый контроллер административной части приложения
  */
-class Controller extends mainController
+class controller extends mainController
 {
     /**
      * Действие по умолчанию

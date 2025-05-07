@@ -1,11 +1,11 @@
 <?php
 
-namespace App\controllers\api\admin;
+namespace App\Controllers\api\admin;
 
 use App\main\App;
-use App\services\renders\IRender;
-use App\services\Request;
-use App\services\UserService;
+use App\Services\renders\IRender;
+use App\Services\Request;
+use App\Services\UserService;
 
 /**
  * Класс контроллера api работы с пользователями для администратора

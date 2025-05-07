@@ -4,7 +4,7 @@ namespace App\Repositories;
 
 use App\Entities\Entity;
 use App\main\App;
-use App\services\db;
+use App\Services\db;
 
 /**
  * Основной абстрактный класс репозитория

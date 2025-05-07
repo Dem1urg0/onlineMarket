@@ -3,3 +3,5 @@
 /databases/mariadb/mysql/
 /databases/mariadb/performance_schema/
 /app/vendor/
+/.idea/
+.idea

@@ -1,20 +1,20 @@
 <?php
 
-namespace App\controllers\api;
+namespace App\Controllers\api;
 
-use App\controllers\Controller as mainController;
+use App\Controllers\Controller as mainController;
 use App\Exceptions\ApiException;
 use App\main\App;
-use App\services\renders\IRender;
-use App\services\Request;
-use App\services\Response;
+use App\Services\renders\IRender;
+use App\Services\Request;
+use App\Services\Response;
 use App\validators\Validator;
 use Exception;
 
 /**
  * Базовый абстрактный контроллер API
  */
-abstract class Controller extends mainController
+abstract class controller extends mainController
 {
     /**
      * Валидатор

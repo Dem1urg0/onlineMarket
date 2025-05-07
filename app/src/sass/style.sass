@@ -1,0 +1,2226 @@
+@import "vars"
+@import "mixins"
+*
+  margin: 0
+  padding: 0
+
+html, body
+  height: 100%
+
+body
+  font-family: 'Lato', sans-serif
+
+.juctcont
+  display: flex
+  justify-content: space-between
+  width: 547px
+
+.header
+  height: 100px
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.17)
+  border: 1px solid #ececec
+  background-color: #ffffff
+  min-width: $site-width
+
+  &__content
+    display: flex
+    justify-content: space-between
+    align-items: center
+    height: 100%
+
+  &__left
+    display: flex
+    align-items: center
+
+  &__right
+    display: flex
+    align-items: center
+
+.container
+  max-width: 1140px
+  min-width: 570px
+  margin: 0 auto
+/*min-height: 100%*/
+
+.logo
+  display: flex
+  align-items: center
+  text-decoration: none
+
+  &__img
+    margin-right: 13px
+
+  &__bran
+    height: 19px
+    object-fit: contain
+    font-size: 27px
+    font-weight: 400
+    line-height: 1.19
+    letter-spacing: 0.68px
+    color: #222
+
+    &-d
+      height: 19px
+      font-size: 27px
+      font-weight: 900
+      line-height: 1.19
+      letter-spacing: 0.68px
+      color: $color-pink
+
+
+.form
+  display: flex
+  align-items: center
+  margin-left: 37px
+
+.cart_menu
+  position: relative
+
+.cart
+  margin-right: 26px
+
+  &__line
+    width: 229px
+    height: 1px
+    background-color: rgba(237, 237, 237, 0.74)
+
+.menu
+  display: flex
+  justify-content: center
+  list-style: none
+
+  &__list
+    padding: 20px
+    display: block
+    position: relative
+
+    &:hover .drop
+      display: flex
+
+  &__link
+    font-size: 14px
+    font-weight: 700
+    color: #222
+    text-decoration: none
+    text-transform: uppercase
+
+    &:hover
+      color: $color-pink
+
+.drop
+  border-radius: 5px
+  background-color: #ffffff
+  border: 1px solid #ececec
+  padding: 20px
+  display: none
+  position: absolute
+  top: 50px
+  z-index: 1
+
+  &_acc
+    position: absolute
+    z-index: 1
+    left: 0
+    right: auto
+    background-color: #ffffff
+    border: 1px solid #ececec
+    width: 130px
+    box-sizing: border-box
+    border-top: none
+
+    li
+      list-style-type: none
+
+    a
+      text-decoration: none
+      color: $color-pink
+
+    &:before
+      right: 450px
+      left: auto !important
+
+  &_middle
+    left: -73px
+    right: auto
+
+    &:before
+      right: 450px
+      left: auto !important
+
+  &_right
+    right: 0
+    left: auto
+
+    &:before
+      left: auto !important
+      right: 50px
+
+  &:before
+    content: ''
+    display: block
+    width: 10px
+    height: 10px
+    background-color: #ffffff
+    position: absolute
+    top: -6px
+    right: 156px
+    transform: rotate(45deg)
+    border-top: 1px solid #e8e8e8
+    border-left: 1px solid #e8e8e8
+
+  &__menu
+    list-style-type: none
+
+  &__link
+    font-size: 14px
+    line-height: 28px
+    font-weight: 400
+    letter-spacing: 0.025em
+    color: #646464
+    text-decoration: none
+
+    &:hover
+      color: $color-pink
+
+  &__flex
+    width: 235px
+    margin-right: 46px
+
+    &:last-of-type
+      margin-right: 0
+
+  &__h3
+    font-size: 14px
+    font-weight: 700
+    text-transform: uppercase
+    color: #232323
+    border-bottom: 1px solid #e8e8e8
+    padding: 8px 0
+
+  &__browse
+    text-align: left
+    z-index: 3
+    padding: 10px !important
+    top: 35px
+    display: block
+
+    &__h3
+      margin-left: 10px
+
+    &__flex
+      width: 235px
+
+    &:before
+      content: ''
+      display: block
+      width: 10px
+      height: 10px
+      background-color: #ffffff
+      position: absolute
+      top: -6px
+      right: 200px
+      transform: rotate(45deg)
+      border-top: 1px solid #e8e8e8
+      border-left: 1px solid #e8e8e8
+
+  &__cart
+    text-align: left
+    z-index: 3
+    padding: 10px !important
+    padding-top: 0 !important
+    top: 35px
+    display: block
+
+    &__button1, &__button2
+      width: 235px
+      height: 50px
+      background-color: #ffffff
+      font-size: 14px
+      font-weight: 700
+      text-transform: uppercase
+
+    &__button1
+      color: $color-pink
+      border: 1px solid $color-pink
+      margin-bottom: 10px
+      margin-top: 20px
+
+    &__button2
+      background-color: #ffffff
+      border: 1px solid #eaeaea
+      color: #4a4a4a
+      margin-bottom: 10px
+
+    &__price
+      display: flex
+      justify-content: space-between
+      margin-top: 10px
+
+      h3
+        font-size: 16px
+        font-weight: 700
+        text-transform: uppercase
+        color: #222222
+
+    &__flex
+      width: 262px
+
+    &:before
+      content: ''
+      display: block
+      width: 10px
+      height: 10px
+      background-color: #ffffff
+      position: absolute
+      top: -6px
+      right: 232px
+      transform: rotate(45deg)
+      border-top: 1px solid #e8e8e8
+      border-left: 1px solid #e8e8e8
+
+    &__items
+      display: flex
+      justify-content: space-between
+      padding-bottom: 10px
+      border-bottom: #e2e2e2 1px solid
+      margin-top: 13px
+      box-sizing: border-box
+
+      &:first-child
+        margin-top: 10px
+
+      &__info
+        display: flex
+
+        &__img
+          height: 85px
+          width: 72px
+
+        &__text
+          margin-left: 15px
+
+          h3:hover
+            color: $color-pink
+
+          a
+            text-decoration: none
+
+          h3
+            font-size: 12px
+            font-weight: 700
+            text-transform: uppercase
+            color: #222222
+            margin-bottom: 8px
+
+          p
+            font-size: 12px
+            font-weight: 400
+            text-transform: uppercase
+            color: $color-pink
+            margin-top: 8px
+
+.close
+  width: 15px
+  height: 15px
+  margin-top: 37px
+
+.promo
+  height: 614px
+  background-color: #e8e8e8
+
+  &__content
+    height: 100%
+    background-image: url("../assets/img/promo.jpg")
+    background-position: 0 -51px
+
+  &__text
+    font-size: 40px
+    font-weight: 900
+    color: #222
+    border-left: 12px solid $color-pink
+    padding-left: 12px
+    line-height: 30px
+    margin-top: 224px
+    float: left
+
+.offer1
+  background-image: url("../assets/img/offer1.jpg")
+
+.offer2
+  background-image: url("../assets/img/offer2.jpg")
+  background-repeat: no-repeat
+  background-position-x: 165px
+
+.offer3
+  background-image: url("../assets/img/offer3.jpg")
+
+.offer4
+  background-image: url("../assets/img/offer4.jpg")
+
+.offer
+  padding-top: 100px
+  padding-bottom: 100px
+  display: flex
+  justify-content: space-between
+
+  &__content
+    div:first-child
+      margin-bottom: 20px
+
+    &__big
+      width: 560px
+      height: 542px
+      background-color: #ccc
+
+    &__mini
+      width: 560px
+      height: 261px
+      background-color: #dadad2
+
+  &__text
+    background-color: #fff
+    padding: 16px 20px
+    float: left
+    text-transform: uppercase
+    margin-top: 26px
+    font-weight: 900
+    font-size: 18px
+
+  &__text1
+    color: #222222
+
+  &__text2
+    font-size: 30px
+    color: $color-pink
+
+
+.form__search
+  width: 38px
+  height: 38px
+  background-color: #fff
+  border: solid 1px #e6e6e6
+  border-top-right-radius: 3px
+  border-bottom-right-radius: 3px
+  border-left-width: 0
+
+.form__search:hover
+  box-shadow: inset 0 1px 8px 0 rgba(0, 0, 0, 0.16)
+
+.form__browse
+  width: 87px
+  height: 38px
+  object-fit: contain
+  border: solid 1px #e6e6e6
+  background-image: linear-gradient(to top, #f9f9f9, #f5f5f5)
+  border-bottom-left-radius: 3px
+  border-top-left-radius: 3px
+  border-right-width: 0
+  position: relative
+
+.form__browse ul
+  margin-left: 25px
+  margin-top: 15px
+
+.form__browse summary
+  display: block
+  font-size: 14px
+  font-weight: 500
+  margin-left: 15px
+  margin-top: 10px
+
+.button summary
+  display: block
+  font-size: 14px
+  font-weight: 500
+
+.Account
+  position: relative
+
+  li
+    color: #222224
+
+.form__browse summary::-webkit-details-marker, .button summary::-webkit-details-marker
+  display: none
+
+
+.form__browse summary::after
+  content: '\25B6'
+  padding-left: 0.5em
+  font-size: 11px
+  color: #838383
+
+.button summary::after
+  content: '\25B6'
+  padding-left: 0.5em
+  font-size: 11px
+  color: #ffffff
+
+details[open] > summary::after
+  content: '\25BC'
+
+
+.form input
+  width: 269px
+  height: 38px
+  border: solid 1px #e6e6e6
+  padding-left: 10px
+  box-sizing: border-box
+
+.form input:focus
+  outline: none
+
+.button
+  width: 130px
+  height: 38px
+  background-color: $color-pink
+  object-fit: contain
+  font-size: 15px
+  font-weight: normal
+  font-stretch: normal
+  font-style: normal
+  letter-spacing: 0.38px
+  text-align: center
+  color: #fff
+  text-decoration: none
+  line-height: 250%
+  border: none
+
+.header__right img[alt="arrow-white"]
+  margin-bottom: 4px
+  margin-left: 6px
+
+.promo__text_big
+  font-size: 60px
+  line-height: 0.75
+
+.promo__text_mini
+  margin-top: 15px
+
+.promo__text_mini span
+  color: $color-pink
+
+.fetured
+  &__header
+    text-align: center
+    margin-bottom: 60px
+
+    p
+      margin-top: 16px
+      color: #9f9f9f
+
+  &__list
+    display: flex
+    flex-wrap: wrap
+    justify-content: space-around
+
+    &__product
+      width: 261px
+      height: 364px
+      margin-left: 32px
+      margin-bottom: 40px
+      text-decoration: none
+      position: relative
+
+      &__flex
+        display: flex
+        justify-content: center
+        background-color: #f7f7f8
+
+      &:hover &__flex
+        filter: brightness(50%)
+
+      &:hover &_img
+        filter: brightness(50%)
+
+      &:hover
+        box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.16)
+        height: 364px
+
+      &:hover &__add
+        display: flex
+
+      &:hover &__text__price img[alt="stars"]
+        display: block
+
+
+      &:first-child, &:nth-child(5)
+        margin-left: 0
+
+      &_img
+        width: 100%
+        height: 280px
+
+      &__add
+        display: none
+        position: absolute
+        top: 27px
+        left: 33px
+        width: 194px
+        flex-wrap: wrap
+        justify-content: center
+
+        button
+          color: #ffffff
+          font-size: 13px
+          font-weight: 700
+          width: 123px
+          height: 39px
+          border: 1px solid #ffffff
+          text-align: center
+          text-decoration: none
+          line-height: 39px
+          background-color: $color-pink
+
+          &:active
+            border-color: #bc5563
+
+      &__text
+        padding: 20px 14px
+
+        &__name
+          font-size: 14px
+          color: #222
+          text-transform: uppercase
+          font-weight: 600
+          text-decoration: none
+
+        &__price
+          margin-top: 17px
+          font-size: 16px
+          font-weight: bold
+          color: $color-pink
+          display: flex
+          justify-content: space-between
+          text-decoration: none
+
+
+img[alt="stars"]
+  display: none
+  height: 16px
+
+.browse__all
+  width: 212px
+  height: 52px
+  background-color: $color-pink
+  text-align: center
+  line-height: 3.38
+  margin-left: 462px
+  margin-top: 40px
+  margin-bottom: 113px
+
+  a
+    font-size: 16px
+    font-weight: bold
+    line-height: 3.38
+    letter-spacing: 0.4px
+    text-align: center
+    color: #fff
+    text-decoration: none
+    display: block
+    height: 100%
+
+    img
+      margin-left: 5px
+      margin-bottom: 2px
+
+.offer_sale
+  display: flex
+  margin-bottom: 97px
+
+  &_box
+    width: 767px
+    height: 529px
+    object-fit: contain
+    background-image: url("../assets/img/image.jpg")
+
+  &__h1
+    font-size: 32px
+    font-weight: bold
+    letter-spacing: 0.8px
+    text-align: left
+    color: #fff
+    margin-left: 39px
+    margin-top: 146px
+
+  &_30
+    font-size: 53.5px
+    letter-spacing: 1.34px
+
+  &__span
+    color: $color-pink
+
+  &__info
+    width: 373px
+    height: 529px
+    background-color: #222224
+    padding-left: 35px
+
+    figure
+      margin-top: 50px
+      display: flex
+
+    &__text
+      margin-left: 35px
+
+      h1
+        font-size: 20px
+        font-weight: bold
+        letter-spacing: 0.5px
+        color: #fbfbfb
+        margin-bottom: 17px
+
+      p
+        width: 220px
+        height: 58px
+        display: block
+        font-size: 14px
+        font-weight: 300
+        line-height: 1.71
+        letter-spacing: 0.35px
+        color: #fbfbfb
+
+img[alt="sale"]
+  width: 40px
+  height: 40px
+
+img[alt="crown"]
+  width: 49px
+  height: 35px
+
+img[alt="cur"]
+  width: 45px
+  height: 32px
+
+.subscribe__block
+  background-image: url("../assets/img/sub_back.jpg")
+  max-width: $site-width
+  height: 438px
+  background-color: #f7f7f8
+  background-blend-mode: color-burn
+  margin: 0 auto 109px
+
+.subscribe__content
+  display: flex
+  padding-top: 111px
+
+.quote
+  display: flex
+
+  img
+    border-radius: 50%
+    width: 83px
+    height: 83px
+
+  &__content
+    margin-left: 28px
+
+  &__text
+    width: 415px
+    height: 68px
+    font-size: 16px
+    font-style: italic
+    line-height: 1.63
+    letter-spacing: 0.4px
+    margin-top: 12px
+
+  &__name
+    font-size: 16px
+    color: $color-pink
+    letter-spacing: 0.4px
+    margin-top: 19px
+
+    span
+      font-size: 14px
+      color: #222224
+      line-height: 1.63
+
+.subscribe
+  margin-left: 165px
+  margin-top: 37px
+
+  &__h1, &__h2
+    font-size: 24px
+    line-height: 1.71
+    letter-spacing: 0.35px
+    text-align: center
+    color: #222224
+    text-transform: uppercase
+
+  &__h2
+    font-size: 14px
+    margin-bottom: 35px
+
+  &__button
+    height: 46px
+    width: 104px
+    background-color: $color-pink
+    border: none
+    border-bottom-right-radius: 46px
+    border-top-right-radius: 46px
+    margin-left: -3px
+    font-size: 14px
+    letter-spacing: 0.35px
+    color: #fff
+    font-family: "Lato", sans-serif
+
+
+    &:hover
+      box-shadow: inset 0 1px 8px 0 rgba(0, 0, 0, 0.16)
+
+  &__input
+    border-top-left-radius: 46px
+    border-bottom-left-radius: 46px
+    width: 230px
+    height: 46px
+    border: none
+    background-color: #e1e1e1
+    font-size: 14px
+    line-height: 3.86
+    letter-spacing: 0.35px
+    color: rgba(34, 34, 36, 0.67)
+    padding-right: 90px
+    box-sizing: border-box
+    padding-left: 28px
+
+    &:focus
+      outline: none
+
+.clr
+  height: 428px
+
+.footer
+  margin-top: -428px
+
+  &_content
+    height: 349px
+    display: flex
+
+  &_lu
+    list-style-type: none
+
+    a
+      text-decoration: none
+      font-size: 16px
+      letter-spacing: 0.4px
+      color: #898989
+
+    li
+      margin-bottom: 25px
+
+.description__text
+  width: 430px
+  height: 188px
+  font-size: 14px
+  font-weight: 300
+  line-height: 1.71
+  letter-spacing: 0.35px
+  color: #898989
+  margin-top: 29px
+
+
+.company
+  margin-left: 63px
+  margin-right: 129px
+
+.information
+  margin-right: 79px
+
+.company_h3, .information_h3, .shop_category_h3
+  font-size: 18px
+  font-weight: bold
+  letter-spacing: 0.45px
+  text-align: right
+  color: $color-pink
+  margin-bottom: 45px
+
+.bottom
+  height: 79px
+  width: 100%
+  margin: 0 auto
+  background-color: #e6e6e6
+
+  &__content
+    display: flex
+    justify-content: space-between
+    padding-top: 24px
+
+.copyright
+  font-size: 16px
+  line-height: 2.63
+  letter-spacing: 0.4px
+  color: #7a7a7a
+  display: flex
+
+.share
+  display: flex
+  margin-top: 3px
+
+  a
+    display: block
+    width: 32px
+    height: 32px
+    margin-right: 8px
+
+.share__confirm
+  background-color: $color-pink
+  position: relative
+
+  &:hover
+    background-color: rgb(217, 100, 114)
+
+  img[alt="twitter"]
+    left: 8px
+    top: 9px
+    position: absolute
+
+.share__none
+  background-color: #ffffff
+  position: relative
+
+  &:hover
+    background-color: #e6e6e6
+
+  img[alt="facebook"]
+    left: 11px
+    top: 8px
+    position: absolute
+
+  img[alt="in"]
+    left: 9px
+    top: 9px
+    position: absolute
+
+  img[alt="pint"]
+    left: 10px
+    top: 8px
+    position: absolute
+
+  img[alt="google"]
+    left: 8px
+    top: 9px
+    position: absolute
+
+.order_info
+  margin-top: 31px
+
+  h2
+    text-transform: uppercase
+    font-size: 16px
+    font-weight: bold
+    color: #222
+    margin-bottom: 31px
+
+.fa-solid
+  color: #9f9f9f
+  font-size: 13px
+
+.address
+  margin-top: 89px
+
+  &_content
+    margin-bottom: 18px
+
+
+.lastCheck
+
+  &__button
+    width: 180px
+    height: 50px
+    object-fit: contain
+    border: solid 1px #eaeaea
+    background-color: #fff
+    font-size: 14px
+    font-weight: bold
+
+  h2
+    font-size: 13px
+    color: #222
+    margin-bottom: 15px
+
+  p
+    font-size: 13px
+    color: #b3b2b2
+
+  h4
+    font-size: 12px
+    color: #222
+    margin-bottom: 16px
+
+    span
+      color: #ff0d0d
+      font-size: 17px
+
+  &__data
+    display: flex
+    justify-content: space-around
+
+  &__order
+    display: flex
+    justify-content: space-between
+
+.email, .pass
+  width: 370px
+  height: 45px
+  object-fit: contain
+  border: solid 1px #eaeaea
+  background-color: #fff
+  margin-bottom: 23px
+  padding-left: 20px
+
+.required
+  color: #ff0d0d !important
+  margin-bottom: 32px !important
+
+.line
+  width: 1140px
+  height: 1px
+  object-fit: contain
+  background-color: #e8e8e8
+
+.prod
+
+  &__error
+    font-size: 14px
+    color: #ff0d0d
+    margin-top: 10px
+
+  &_price
+    font-size: 24px !important
+    font-weight: bold !important
+    color: $color-pink !important
+    margin: 37px 306px 43px 282px !important
+
+  &_info
+    width: 1141px
+    height: 730px
+    background-color: #ffffff
+    margin: auto
+    border: solid 1px #eaeaea
+    position: absolute
+    bottom: -691px
+    left: 219px
+
+
+    &_block
+      display: flex
+
+      h4
+        font-size: 14px
+        font-weight: bold
+        color: #b9b9b9
+
+        span
+          color: #2f2f2f
+
+        &:first-child
+          margin-left: 404px
+
+        &:nth-child(2)
+          margin-left: 44px
+
+    &_line
+      border: solid 1px #eaeaea
+      width: 147px
+      margin-left: 495px
+
+
+    h3
+      font-size: 14px
+      font-weight: bold
+      line-height: 1.71
+      text-align: center
+      color: #f16d7f
+      margin: 73px 248px 14px 247px
+
+    h2
+      margin: 17px 194px 67px
+      font-size: 18px
+      font-weight: 900
+      text-align: center
+      color: #4d4d4d
+      text-transform: uppercase
+
+    p
+      margin: 67px 262px 28px
+      object-fit: contain
+      font-size: 14px
+      font-weight: 300
+      line-height: 1.71
+      text-align: center
+      color: #5e5e5e
+      width: 619px
+      height: 70px
+
+  &_slider
+    background-color: #f7f7f7
+    height: 777px
+    width: 1600px
+    margin: auto
+    position: relative
+
+    &__img
+      margin-top: 11px
+      margin-left: 514px
+
+    &__left, &__right
+      width: 47px
+      height: 47px
+      bottom: 365px
+      object-fit: contain
+      background-color: rgb(204, 204, 204)
+      position: absolute
+
+      &__arrow
+        font-size: 27px
+        color: #eeee
+        margin-left: 15px
+        margin-top: 11px
+
+    &__right
+      left: 1506px +47px
+
+  &_line_long
+    width: 642px
+    height: 1px
+    object-fit: contain
+    background-color: #eaeaea
+    margin-left: 250px
+
+  &_characteristic
+    display: flex
+    width: 534px
+    flex-wrap: wrap
+    margin-left: 303px
+    margin-top: 63px
+
+    &_color
+      margin-right: 47px
+
+      h4
+        display: flex
+        justify-content: center
+
+      &_menu
+        width: 144px
+        height: 35px
+        margin: 16px 0 0
+        object-fit: contain
+        border: solid 1px #eaeaea
+        background-color: #fff
+        color: #bcbcbc
+        text-indent: 2px
+
+    &_size
+      margin-right: 47px
+
+      h4
+        display: flex
+        justify-content: center
+
+      &_menu
+        width: 144px
+        height: 35px
+        margin: 16px 0 0
+        object-fit: contain
+        border: solid 1px #eaeaea
+        background-color: #fff
+        color: #bcbcbc
+        text-indent: 2px
+
+
+    &_quanity
+      &_input
+        width: 144px
+        height: 35px
+        margin: 16px 0 0
+        object-fit: contain
+        border: solid 1px #eaeaea
+        background-color: #fff
+        text-indent: 2px
+        box-sizing: border-box
+
+      h4
+        display: flex
+        justify-content: center
+
+.recomend
+  position: relative
+  margin-top: 763px
+
+  h1
+    font-size: 24px
+    font-weight: 900
+    text-align: center
+    color: #4d4d4d
+    text-transform: uppercase
+    margin-bottom: 72px
+
+  &_items
+    display: flex
+
+.to_cart
+  width: 537px
+  height: 55px
+  object-fit: contain
+  border: solid 1px #ef5b70
+  background-color: #fff
+  font-size: 16px
+  font-weight: bold
+  color: #ef5b70
+  margin-top: 28px
+
+img[alt="prod_item1"], img[alt="prod_item2"], img[alt="prod_item3"]
+  width: auto
+  background-color: #f7f7f7
+  padding: 0 86px 0 82px
+
+.products
+  display: flex
+  flex-wrap: wrap
+
+  &__detail
+    display: flex
+    margin-top: 90px
+
+    p
+      font-size: 14px
+      color: #222
+      text-transform: uppercase
+      font-weight: bold
+
+      &:first-child
+        margin-right: 380px
+
+      &:nth-child(2)
+        margin-right: 80px
+
+      &:nth-child(3)
+        margin-right: 70px
+
+      &:nth-child(4)
+        margin-right: 90px
+
+      &:nth-child(5)
+        margin-right: 50px
+
+  &__item
+    margin-top: 3px
+    display: flex
+
+    &__line
+      margin: 20px 0
+
+    &__button
+      &__box
+        margin-top: 50px
+        display: flex
+        justify-content: center
+        margin-left: 46px
+        width: 58px
+
+
+    &__name
+      margin-left: 21px
+      width: 380px
+
+      h2
+        font-size: 13px
+        color: #222
+        text-transform: uppercase
+        margin-top: 12px
+        margin-bottom: 38px
+
+      p
+        color: #575757
+        font-size: 13px
+        margin-bottom: 0
+
+    &__uprice
+      font-size: 13px
+      color: #656565
+      font-weight: bold
+      margin-top: 50px
+      width: 90px
+      text-align: center
+
+    &__input
+      width: 54px
+      height: 30px
+      border: solid 1px #eaeaea
+      text-align: center
+
+      &__box
+        margin-top: 41px
+        margin-left: 74px
+        display: flex
+        justify-content: center
+        width: 79px
+
+    &__shipping
+      font-size: 13px
+      color: #656565
+      font-weight: bold
+      margin-left: 64px
+      margin-top: 50px
+      width: 70px
+      text-align: center
+
+    &__sprice
+      font-size: 13px
+      color: #656565
+      font-weight: bold
+      margin-left: 86px
+      margin-top: 50px
+      text-align: center
+      width: 73px
+
+    &__action
+      background: none
+      border: none
+      padding: 0
+      cursor: pointer
+      height: 10px
+
+    &__quantity
+      margin-left: 76px
+      width: 75px
+      font-size: 13px
+      color: #656565
+      font-weight: bold
+      margin-top: 50px
+      text-align: center
+
+      &__button
+        background: none
+        border: none
+        padding: 0
+        cursor: pointer
+        height: 10px
+
+
+    a
+      width: 15px
+      height: 15px
+
+      img[alt="close"]
+
+        margin-left: 87px
+        margin-top: 49px
+
+  &__buttons
+    display: flex
+    justify-content: space-between
+
+    button
+      width: 235px
+      height: 50px
+      border: solid 1px #eaeaea
+      background-color: #fff
+      font-size: 14px
+      font-weight: bold
+      color: #4a4a4a
+
+.info
+  margin-top: 63px
+  display: flex
+  margin-bottom: 80px
+
+  h2
+    font-size: 16px
+    color: #222
+    font-weight: bold
+    text-transform: uppercase
+
+  &__shipping-address
+    display: inline-grid
+
+    &__block
+      height: 67px
+
+      p
+        font-size: 14px
+        color: red
+        margin-left: 10px
+
+
+    input, select
+      border: solid 1px #eaeaea
+      width: 355px
+      height: 45px
+      box-sizing: border-box
+      font-size: 13px
+      font-weight: 300
+      color: #b1b1b1
+      background-color: white
+      padding-left: 18px
+
+    button
+      width: 100px
+      height: 35px
+      font-size: 11px
+      text-transform: uppercase
+      font-weight: bold
+      background-color: white
+      border: solid 1px #eaeaea
+      margin-top: 22px
+
+  &__discount
+    margin-left: 35px
+
+    p
+      font-size: 14px
+      color: #000
+      margin-top: 28px
+
+    input
+      margin-top: 24px
+      border: solid 1px #eaeaea
+      width: 355px
+      height: 45px
+      box-sizing: border-box
+      font-size: 13px
+      font-weight: 300
+      color: #b1b1b1
+      background-color: white
+      padding-left: 18px
+
+    button
+      margin-top: 25px
+      display: block
+      width: 100px
+      height: 35px
+      font-size: 11px
+      text-transform: uppercase
+      font-weight: bold
+      background-color: white
+      border: solid 1px #eaeaea
+
+    &__button-block
+      display: flex
+
+      p
+        margin-top: 34px
+        margin-left: 20px
+        text-transform: uppercase
+
+  &__total-price
+    background-color: #f5f5f5
+    width: 360px
+    height: 214px
+    margin-left: 35px
+    box-sizing: border-box
+
+    &__block
+      &__sub
+        font-size: 11px
+        color: #4a4a4a
+        margin-top: 40px
+        display: flex
+        justify-content: space-between
+
+        p:first-child
+          margin-right: 20px
+
+      &__grand
+        font-size: 16px
+        display: flex
+        margin-top: 14px
+
+        p
+          font-weight: bold
+
+          &:nth-child(2)
+            margin-left: 20px
+            color: $color-pink
+
+    &__prices
+      display: flex
+      justify-content: space-around
+
+      &__sale
+        margin-top: 67px
+
+
+    &__line
+      width: 275px
+      height: 1px
+      object-fit: contain
+      background-color: #e2e2e2
+      margin: 22px 42px 17px
+
+    button
+      background-color: $color-pink
+      border: none
+      width: 273px
+      height: 50px
+      font-size: 16px
+      font-weight: bold
+      color: #fff
+      text-transform: uppercase
+      margin-left: 44px
+
+
+.products
+  &__type
+    &__category
+      h2
+        font-size: 14px
+        font-weight: bold
+        color: $color-pink
+        width: 232px
+        height: 37px
+        border-bottom: #ebebeb 1px solid
+        border-left: $color-pink 5px solid
+        padding-left: 11px
+        line-height: 38px
+
+      &__list
+        width: 232px
+        display: none
+
+      p
+        font-size: 14px
+        line-height: 2.36
+        margin-left: 12px
+        color: #6f6e6e
+
+.products
+  display: flex
+  margin-top: 59px
+
+  &__container
+    margin-left: 49px
+
+    &__filter
+      &__types
+        display: flex
+
+        &__trending
+          width: 290px
+
+          h2
+            font-size: 14px
+            color: #6f6e6e
+            font-weight: bold
+
+          &__list
+            display: flex
+            flex-wrap: wrap
+            width: 295px
+            margin-top: 18px
+            justify-content: space-evenly
+
+            p
+              font-size: 14px
+              line-height: 1.86
+              color: #6f6e6e
+              white-space: nowrap
+
+        &__size
+
+          &__inputs
+            margin-top: 24px
+            width: 237px
+            display: grid
+            grid-template-columns: repeat(5, auto)
+            grid-row-gap: 10px
+
+            &__div
+              display: flex
+
+              input
+                margin-left: 9px
+
+
+          h2
+            font-size: 14px
+            color: #6f6e6e
+            font-weight: bold
+
+          p
+            font-size: 14px
+            color: #6f6e6e
+            margin-left: 9px
+
+            &:nth-of-type(n+5)
+              margin-top: 13px
+
+          input
+            &:nth-of-type(n+2)
+              margin-left: 13px
+
+            &:nth-of-type(3), &:nth-of-type(7), &:nth-of-type(6)
+              margin-left: 31px
+
+            &:nth-of-type(4)
+              margin-left: 33px
+
+            &:nth-of-type(5)
+              margin-left: 0
+
+            &:nth-of-type(n+5)
+              margin-top: 13px
+
+
+        &__price
+          width: 183px
+
+          p, h2
+            font-size: 14px
+            color: #6f6e6e
+          h2
+            font-weight: bold
+          p
+            margin-left: 9px
+
+          input
+            margin-left: 10px
+
+          &__numbers
+            display: flex
+            justify-content: space-between
+            width: 188px
+
+            p
+              margin-right: 31px
+
+        &__gender
+          p, h2
+            font-size: 14px
+            color: #6f6e6e
+          h2
+            font-weight: bold
+          p
+            margin-left: 9px
+
+          &__inputs
+            width: auto
+            margin-top: 24px
+
+      &__sort
+        width: 866px
+        height: 50px
+        background-color: #f3f3f3
+        display: flex
+        margin-top: 25px
+        justify-content: space-between
+
+        p, select
+          font-size: 14px
+          color: #6f6e6e
+          background-color: #ffffff
+          border: solid 1px #eaeaea
+          box-sizing: border-box
+          height: 30px
+          margin-top: 10px
+
+        p
+          &:first-of-type
+            width: 66px
+            padding-left: 10px
+            padding-top: 5px
+            margin-left: 6px
+
+          &:nth-of-type(2)
+            width: 55px
+            padding-left: 12px
+            padding-top: 5px
+            margin-left: 12px
+
+        select
+          padding-left: 11px
+
+          &:first-of-type
+            width: 86px
+
+          &:nth-of-type(2)
+            width: 63px
+
+        &__search
+          font-size: 30px
+          background-color: #ffff
+          margin-right: 10px
+          border: #f3f3f3 3px solid
+          padding: 0 10px
+
+        &__sittings
+          display: flex
+
+    &__content
+      margin-top: 48px
+      display: flex
+      flex-wrap: wrap
+
+      &__item
+        margin-left: 30px
+        margin-bottom: 36px
+
+        &:nth-of-type(4)
+          margin-left: 0
+
+        &:nth-of-type(5)
+          margin-left: 30px
+
+    &__footer
+      display: flex
+      justify-content: center
+      margin-top: 7px
+      margin-bottom: 110px
+      width: 846px
+
+      &__page
+        width: auto
+        min-width: 205px
+        height: 44px
+        background-color: #fff
+        display: flex
+        align-items: center
+        justify-content: center
+
+        div
+          display: flex
+          gap: 8px
+
+
+        button
+          min-width: 36px
+          height: 36px
+          border: 1px solid #ebebeb
+          background-color: #fff
+          color: #333
+          font-size: 14px
+          cursor: pointer
+          display: flex
+          align-items: center
+          justify-content: center
+          transition: all 0.2s ease
+          border-radius: 4px
+          padding: 0 12px
+
+          &:hover:not(:disabled)
+            background-color: #f5f5f5
+            border-color: #ddd
+
+
+          &:disabled
+            cursor: default
+
+
+          &.active
+            background-color: #333
+            color: #fff
+            border-color: #333
+
+          &:first-child,
+          &:last-child
+            font-size: 16px
+
+      &__view
+        padding-left: 43px
+        padding-top: 10px
+        box-sizing: border-box
+        display: block
+        width: 150px
+        height: 44px
+        border: solid 1px #ef5b70
+        background-color: #fff
+        text-decoration: none
+        color: #ef5b70
+        border-radius: 3px
+
+.goods
+  &__offer
+    margin: 0 auto
+    display: flex
+    width: 1600px
+    height: 341px
+    background-color: #222224
+
+    &__text
+      color: #fbfbfb
+
+      h1
+        color: #fbfbfb
+        text-align: center
+
+      p
+        width: 310px
+        height: 37px
+        font-size: 14px
+        font-weight: 300
+        line-height: 1.71
+        letter-spacing: 0.35px
+        margin-top: 17px
+
+    figure
+      height: 138px
+      width: 309px
+      margin-top: 89px
+
+      &:nth-of-type(1)
+        margin-left: 256px
+
+        h1
+          margin-top: 32px
+
+        img
+          width: 46px
+          height: 32px
+          margin-left: 132px
+
+      &:nth-of-type(2)
+        margin-left: 81px
+
+        h1
+          margin-top: 23px
+
+        img
+          margin-left: 132px
+
+      &:nth-of-type(3)
+        margin-left: 81px
+
+        img
+          margin-left: 130px
+
+        h1
+          margin-top: 29px
+
+.products-page__list
+  display: grid
+  grid-template-columns: repeat(3, 1fr)
+  column-gap: 31px
+  row-gap: 15px
+
+  &__product
+    width: 261px
+    height: 364px
+    margin: 0 !important
+    text-decoration: none
+    position: relative
+
+.form__block
+  padding: 2rem 0
+
+  .container
+    max-width: 500px
+    margin: 0 auto
+    background-color: #f9f9f9
+    padding: 2rem
+    border-radius: 8px
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1)
+
+    .form__title
+      font-size: 24px
+      margin-bottom: 1rem
+      text-align: center
+
+    .form__field
+      margin-bottom: 1rem
+      height: 93px
+
+      .form__label
+        display: block
+        font-weight: bold
+        margin-bottom: 0.5rem
+
+      .form__input
+        width: 100%
+        padding: 0.8rem
+        border: 1px solid #ddd
+        border-radius: 4px
+        font-size: 16px
+        box-sizing: border-box
+
+    .form__button
+      width: 100%
+      padding: 0.8rem
+      border: none
+      background-color: #f16d7f
+      color: white
+      font-size: 16px
+      border-radius: 4px
+      cursor: pointer
+      transition: background-color 0.3s ease
+
+      &:hover
+        background-color: #da6373
+
+.user-page
+  &__center
+    display: flex
+    justify-content: center
+    align-items: center
+    height: 50vh
+
+  .user-card
+    background: #f7f7f8
+    border-radius: 10px
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1)
+    padding: 20px
+    max-width: 400px
+    text-align: center
+
+  .user-title
+    font-size: 24px
+    font-weight: bold
+    margin-bottom: 20px
+    color: #333
+
+  .user-info
+    p
+      font-size: 16px
+      margin: 10px 0
+      color: #555
+
+    strong
+      color: #222
+
+  .user-actions
+    margin-top: 20px
+
+    .btn
+      display: inline-block
+      margin: 5px
+      padding: 10px 20px
+      border: none
+      border-radius: 5px
+      cursor: pointer
+      transition: background-color 0.3s ease
+
+      &-logout
+        background-color: #ff4d4d
+        color: #fff
+
+        &:hover
+          background-color: #da6373
+
+      &:not(.btn-logout)
+        background-color: #4caf50
+        color: #fff
+
+        &:hover
+          background-color: #45a049
+
+.order-container
+  display: flex
+  flex-direction: column
+  margin: 20px auto
+  padding: 20px
+  min-width: 100px
+  max-width: 600px
+  border: 1px solid #ddd
+  border-radius: 5px
+  background-color: #fafafa
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1)
+
+  span
+    color: #9f9f9f
+
+  select
+    padding: 8px 10px
+    border-radius: 5px
+    border: 1px solid #ddd
+    font-size: 0.9em
+
+  &__header
+    font-weight: bold
+    font-size: 1.5em
+    margin-bottom: 15px
+    text-align: center
+
+  &__details
+    p
+      margin: 5px 0
+      line-height: 1.4
+
+  &__actions
+    display: flex
+    justify-content: space-between
+    gap: 10px
+    margin-top: 20px
+
+  &__products
+    display: flex
+    flex-wrap: wrap
+    gap: 10px
+
+  &__line
+    height: 2px
+    object-fit: contain
+    background-color: #e8e8e8
+
+  &__info
+    display: flex
+    justify-content: space-between
+    margin-top: 20px
+
+  &__price
+    display: flex
+    flex-wrap: wrap
+    justify-content: center
+    width: 200px
+
+  &__logout-btn
+    padding: 10px
+    font-size: 1em
+    color: white
+    background-color: #4CAF50
+    border: none
+    border-radius: 5px
+    cursor: pointer
+    transition: background-color 0.3s ease
+
+    &:hover
+      background-color: #45a049
+
+  &__cancel-btn
+    background-color: #f44336
+
+    &:hover
+      background-color: #e53935
+
+.users
+  width: 100%
+  display: flex
+  flex-direction: column
+  align-items: center
+  padding: 20px
+  background-color: #f9f9f9
+
+  &__container
+    border: 1px solid #ececec
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1)
+    border-radius: 10px
+    background-color: #fff
+    padding: 20px
+    max-width: 900px
+    width: 100%
+
+  &__title
+    font-size: 24px
+    font-weight: bold
+    color: #333
+    margin-bottom: 20px
+    text-align: center
+
+  &__nav
+    display: flex
+    flex-wrap: wrap
+    gap: 20px
+    justify-content: space-between
+    padding: 15px
+    margin-bottom: 20px
+    background-color: #fefefe
+    border: 1px solid #ececec
+    border-radius: 8px
+
+    &__search
+      font-size: 30px
+      background-color: #fff
+      border: none
+      margin-right: 26px
+
+    &__count-render
+      flex: 1 1 calc(50% - 10px)
+      display: flex
+      flex-direction: column
+
+      p
+        font-weight: bold
+        margin-bottom: 8px
+        color: #333
+
+      .buttons
+        display: flex
+        gap: 10px
+
+        button
+          padding: 8px 12px
+          border: 1px solid #dcdcdc
+          border-radius: 5px
+          font-size: 14px
+          background-color: #fff
+          cursor: pointer
+          transition: all 0.3s ease
+
+          &:hover
+            background-color: #f0f0f0
+
+    &__orders-count
+      flex: 1 1 calc(50% - 10px)
+      display: flex
+      flex-direction: column
+
+      p
+        font-weight: bold
+        margin-bottom: 8px
+        color: #333
+
+      div
+        display: flex
+        align-items: center
+        gap: 10px
+        margin-bottom: 10px
+
+        input[type="range"],
+        input[type="number"]
+          width: 100%
+          padding: 8px
+          border: 1px solid #dcdcdc
+          border-radius: 5px
+          font-size: 14px
+
+    &__params
+      flex: 1 1 100%
+      border-top: 1px solid #ececec
+      padding-top: 10px
+      margin-top: 10px
+
+      p
+        font-weight: bold
+        margin-bottom: 8px
+        color: #333
+
+      select,
+      input
+        width: 100%
+        padding: 8px
+        border: 1px solid #dcdcdc
+        border-radius: 5px
+        font-size: 14px
+
+  &__render
+    display: grid
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr))
+    gap: 20px
+
+    .user
+      text-align: center
+      border: 1px solid #ececec
+      border-radius: 8px
+      padding: 15px
+      background-color: #fff
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1)
+
+      h2
+        font-size: 18px
+        margin-bottom: 10px
+
+        a
+          text-decoration: none
+          color: #007bff
+          transition: color 0.3s ease
+
+          &:hover
+            color: #0056b3
+
+      p
+        font-size: 14px
+        color: #666
+
+.separator
+  width: 1px
+  height: 62px
+  background-color: #ddd
+  margin: 0 10px
+  align-self: stretch
+  border-radius: 1px
+
+.pagination
+  display: flex
+  justify-content: center
+  align-items: center
+  gap: 8px
+  padding: 10px 15px
+  background-color: #fff
+  border-radius: 8px
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1)
+  width: fit-content
+  margin: 20px auto
+
+  &__button
+    background-color: #f9f9f9
+    color: #333
+    border: 1px solid #ddd
+    border-radius: 4px
+    padding: 5px 10px
+    font-size: 14px
+    cursor: pointer
+    transition: all 0.2s ease
+
+    &:hover:not(.active):not(:disabled)
+      background-color: #f0f0f0
+      border-color: #bbb
+
+
+    &:active
+      transform: scale(0.95)
+
+
+    &:disabled
+      color: #aaa
+      cursor: not-allowed
+      background-color: #eee
+
+
+    &.active
+      background-color: #007bff
+      color: #fff
+      border-color: #007bff
+      font-weight: bold
+      pointer-events: none
+
+.active
+  color: $color-pink !important
+
+.adminPage
+  &__welcome
+    font-size: 35px
+    display: flex
+    justify-content: center
+    margin-top: 100px
+
+.error-container
+  display: flex
+  justify-content: center
+  align-items: center
+  min-height: 80vh
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif
+
+.error-box
+  background: white
+  padding: 40px
+  border-radius: 12px
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12)
+  text-align: center
+  width: 400px
+
+.error-code
+  font-size: 72px
+  font-weight: 700
+  color: #e74c3c
+  margin-bottom: 8px
+
+.error-message
+  font-size: 24px
+  color: #2c3e50
+  margin-bottom: 24px
+
+.error-time
+  font-size: 14px
+  color: #7f8c8d
+  margin-bottom: 32px
+
+.home-button
+  display: inline-block
+  padding: 12px 32px
+  background: #3498db
+  color: white
+  text-decoration: none
+  border-radius: 6px
+  font-weight: 500
+  transition: background-color 0.3s ease
+
+  &:hover
+    background: #2980b9

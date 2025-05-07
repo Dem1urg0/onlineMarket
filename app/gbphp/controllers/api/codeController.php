@@ -1,16 +1,16 @@
 <?php
 
-namespace App\controllers\api;
+namespace App\Controllers\api;
 
 use App\main\App;
-use App\services\renders\IRender;
-use App\services\Request;
+use App\Services\renders\IRender;
+use App\Services\Request;
 use App\validators\CodeValidator;
 
 /**
  * Контроллер api промокодов
  */
-class codeController extends Controller
+class codeController extends controller
 {
     /**
      * Валидатор кодов

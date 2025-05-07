@@ -1,6 +1,7 @@
 <?php
 
-namespace App\services;
+namespace App\Services;
+
 use App\main\App;
 use App\validators\GoodValidator;
 use App\validators\PaginationValidator;
@@ -42,7 +43,9 @@ class GoodService
 
         $this->goodValidator->checkNumeric($id);
 
-        $item = $this->goodValidator->validateGood($id);
+        $itemOrigin = $this->goodValidator->validateGood($id);
+
+        $item = $this->getGoodsWithImages([$itemOrigin])[0];
 
         $storage = $this->goodValidator->checkGoodInStorage($id);
 
@@ -157,15 +160,17 @@ class GoodService
             $params['sort'] = $sort;
         }
 
-        $goods = $this->getWithFilter($params, $data);
+        $goodsOrigin = $this->getWithFilter($params, $data);
 
-        if (empty($goods)) {
+        if (empty($goodsOrigin)) {
             return [
                 'msg' => 'Товары не найдены',
                 'success' => false,
                 'code' => 404
             ];
         }
+
+        $goods = $this->getGoodsWithImages($goodsOrigin, true);
 
         $countOfGoods = $this->getCountOfFilter($data);
 
@@ -179,6 +184,26 @@ class GoodService
             'pagesCount' => ceil($countOfGoods / $params['count']),
             'code' => 200
         ];
+    }
+
+
+    /**
+     * Метод для получения товаров с подставленными путями к изображениям из манифеста
+     * @param $goods - массив товаров
+     * @param $isApi - флаг для проверки, является ли запрос из API
+     * @return mixed - массив товаров с измененными путями к изображениям
+     * @throws \App\Exceptions\apiException
+     */
+    public function getGoodsWithImages($goods, $isApi = false)
+    {
+        foreach ($goods as $good) {
+            $this->goodValidator->checkEmpty($good, $isApi);
+            $goodId = is_array($good) ? $good['id'] : $good->id;
+            $this->goodValidator->validateGood($goodId, $isApi);
+
+            $good->img = $this->getAssetPath('images/' .$good->img);
+        }
+        return $goods;
     }
 
     /**
@@ -210,5 +235,15 @@ class GoodService
     protected function getCountOfFilter($data)
     {
         return App::call()->GoodRepository->getCountOfFilter($data);
+    }
+
+    /**
+     * Метод прослойка для получения пути к ассету из манифеста
+     * @param $key - ключ ассета
+     * @return string - путь к ассету
+     */
+    protected function getAssetPath($key): string
+    {
+        return App::call()->ManifestService->getAssetPath($key);
     }
 }

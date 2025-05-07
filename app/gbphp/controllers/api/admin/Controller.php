@@ -1,14 +1,14 @@
 <?php
 
-namespace App\controllers\api\admin;
+namespace App\Controllers\api\admin;
 
-use App\controllers\api\Controller as apiController;
+use App\Controllers\api\controller as apiController;
 use App\main\App;
 
 /**
  * Базовый абстрактный контроллер api административной части приложения
  */
-abstract class Controller extends apiController
+abstract class controller extends apiController
 {
     /**
      * Предварительная проверка авторизации и прав доступа, а также запуск действия

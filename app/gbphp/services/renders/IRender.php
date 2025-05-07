@@ -1,6 +1,6 @@
 <?php
 
-namespace App\services\renders;
+namespace App\Services\renders;
 
 /**
  * Интерфейс для рендеринга шаблонов

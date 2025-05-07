@@ -1,6 +1,6 @@
 <?php
 
-namespace App\services;
+namespace App\Services;
 
 use App\main\App;
 use App\validators\OrderValidator;
@@ -136,7 +136,7 @@ class UserService
         ];
 
         if (!empty($type)) {
-            $data['value'] = !empty($value) ? '%' . $value . '%' : null;
+            $data['value'] = isset($value) && $value !== '' ? '%' . $value . '%' : null;
         }
 
         $paramsForDB = [
